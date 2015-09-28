@@ -1,2 +1,2 @@
 # blockchain-derivatives
-Platform creating, managing, and injecting derivatives smart contracts onto blockchains.  
+A platform for creating and managing derivatives smart contracts, as well as injecting them onto blockchains.  
