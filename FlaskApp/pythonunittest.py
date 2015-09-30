@@ -1,12 +1,8 @@
 import os
-import app 
-#from app import app
 import app
 import unittest 
 from unittest import TestCase
 import tempfile
-#from flask import Flask
-#from flask.ext.testing import TestCase
 
 class AppTestCase(unittest.TestCase):
 
