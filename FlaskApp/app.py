@@ -127,11 +127,17 @@ def main_option():
 def main_swap():
     return render_template('swapethereum.html')
 
+@app.route('/user/<username>')
+def show_user_profile(username):
+    # show the user profile for that user
+    return 'User %s' % username
+
 #we will use this to add the info of a new user to the DB:
 #new_user = User('admin', 'admin@example.com')
 #db.session.add(new_user)
 #db.session.commit()
 
 if __name__ == '__main__':
-    app.debug = True
-    app.run(port=5001)
+    #app.debug = True
+    app.run(debug=True, port=5001)
+    #app.run(host='0.0.0.0')   #turn this on later when you go to another server
