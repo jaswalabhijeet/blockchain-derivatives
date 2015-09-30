@@ -4,6 +4,7 @@ from app import app
 import unittest 
 #from unittest import TestCase
 import tempfile
+from flask import jsonify
 
 class AppTestCase(unittest.TestCase):
 
@@ -46,7 +47,12 @@ class AppTestCase(unittest.TestCase):
     def logout(self):
         return self.app.get('/logout', follow_redirects=True)
 
-    #def test_login_logout(self):
+    def test_login_logout(self):
+        result = self.login('username', 'password')
+        #print jsonify(result.headers)
+        #self.assertEqual(result.data, index.html)
+        self.assertEqual(result.status_code, 200)
+        #session['logged_in']
         #rv = self.login('username', 'password')
         #assert 'You were logged in' in rv.data
         #rv = self.logout()
