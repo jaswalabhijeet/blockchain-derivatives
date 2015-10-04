@@ -1,8 +1,8 @@
 #imports
 import os
 from flask import Flask, render_template, request, session, g, redirect, url_for, abort, flash
-from sqlite3 import dbapi2 as sqlite3
-from contextlib import closing
+#from sqlite3 import dbapi2 as sqlite3
+#from contextlib import closing
 #from flask.ext.sqlalchemy import SQLAlchemy
 
 #set up our app
