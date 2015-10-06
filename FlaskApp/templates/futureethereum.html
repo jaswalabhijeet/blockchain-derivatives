@@ -191,7 +191,7 @@
         var assetString = unitsString+measurement2+commodity2;
         var deliverydateTimestamp2 = document.getElementById('deliverydateTimestamp').value;
         var margin2 = document.getElementById('margin').value;
-        document.getElementById("contractfield").value = "contract MyFuture{\n\naddress buyer = msg.sender;\naddress seller = "+buyerAddress+";\nvar contractvalue = "+contractValue+";\nasset= "+assetString+";\nuint deliverydate ="+deliverydateTimestamp2+";\nbool cancelled = false;\n"+sellerAddress+".send("+margin2+");\n\nfunction myDeliveryDate(transactionId, spotPrice){\nif((msg.value>= contractvalue) && (now => deliverydate) && cancelled == false) {\n"+sellerAddress+".send(msg.value);\nsendareceiptofthetransactiontotheprimisee;}\n\nfunction myCancel(){\n"+sellerAddress+".send("+margin2+");suicide(buyerAddress);}\n\n}";
+        document.getElementById("contractfield").value = "contract MyFuture{\n\naddress buyer = msg.sender;\naddress seller = "+buyerAddress+";\nvar contractvalue = "+contractValue+";\nasset= "+assetString+";\nuint constant deliverydate ="+deliverydateTimestamp2+";\nbool cancelled = false;\n"+sellerAddress+".send("+margin2+");\n\nfunction myDeliveryDate(transactionId, spotPrice){\nif((msg.value>= contractvalue) && (now => deliverydate) && cancelled == false) {\n"+sellerAddress+".send(msg.value);\nsendareceiptofthetransactiontotheprimisee;}\n\nfunction myCancel(){\n"+sellerAddress+".send("+margin2+");suicide(buyerAddress);}\n\n}";
         }
         </script>
 
