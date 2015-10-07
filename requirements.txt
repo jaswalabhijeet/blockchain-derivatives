@@ -2,7 +2,7 @@ altgraph==0.10.2
 bdist-mpkg==0.5.0
 #bonjour-py==0.3
 #Flask==0.9
-Jinja2==2.6
+#Jinja2==2.6
 Werkzeug==0.8.3
 gunicorn==19.3.0
 macholib==1.5.1
