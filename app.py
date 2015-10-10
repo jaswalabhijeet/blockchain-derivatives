@@ -1,16 +1,20 @@
 #imports
 import os
 from flask import Flask, render_template, request, session, g, redirect, url_for, abort, flash
-#from sqlite3 import dbapi2 as sqlite3
+from sqlite3 import dbapi2 as sqlite3
 #from contextlib import closing
 #from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.sqlalchemy import SQLAlchemy
 
 #set up our app
 app = Flask(__name__)
 #app.config.from_envvar('APP_SETTINGS', silent=True)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+db = SQLAlchemy(app)
 
 # configuration
 app.config.update(dict(
+    #DATABASE=os.path.join(app.root_path, 'app.db'),
     DEBUG=True,
     SECRET_KEY = 'secretkey',
     USERNAME='username',
@@ -19,15 +23,17 @@ app.config.update(dict(
 #app.config.from_envvar('FLASKR_SETTINGS', silent=True)
 
 
-# configuration of database for our blog
-#app.config.update(dict(
-    #DATABASE = os.path.join(app.root_path, 'app.db'),
-    #DEBUG = True,
-    #SECRET_KEY = 'password',
-    #USERNAME = 'admin',
-    #PASSWORD = 'default'
-#))
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80))
+    email = db.Column(db.String(120), unique=True)
 
+    def __init__(self, name, email):
+        self.name = name
+        self.email = email
+
+    def __repr__(self):
+        return '<Name %r>' % self.name
 
 #def connect_db():                 #connects to the database we specified above
     #rv = sqlite3.connect(app.config['DATABASE'])
@@ -142,5 +148,5 @@ if __name__ == '__main__':
     #app.run(debug=True)
     #app.run(debug=True, port=5001)
     #app.run(host='0.0.0.0')   #turn this on later when you go to another server
-    port = int(os.environ.get('PORT', 5000))
+    port = int(os.environ.get('PORT', 5001))
     app.run(host='0.0.0.0', port=port)
