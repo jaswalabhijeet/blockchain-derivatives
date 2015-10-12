@@ -1,39 +1,34 @@
-#imports
 import os
 from flask import Flask, render_template, request, session, g, redirect, url_for, abort, flash
 from sqlite3 import dbapi2 as sqlite3
-#from contextlib import closing
-#from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.sqlalchemy import SQLAlchemy
 
-#set up our app
 app = Flask(__name__)
 #app.config.from_envvar('APP_SETTINGS', silent=True)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 db = SQLAlchemy(app)
 
-# configuration
 app.config.update(dict(
     #DATABASE=os.path.join(app.root_path, 'app.db'),
     DEBUG=True,
     SECRET_KEY = 'secretkey',
     USERNAME='username',
     PASSWORD='password'
+    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
 ))
 #app.config.from_envvar('FLASKR_SETTINGS', silent=True)
 
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80))
-    email = db.Column(db.String(120), unique=True)
+#class User(db.Model):
+    #id = db.Column(db.Integer, primary_key=True)
+    #name = db.Column(db.String(80))
+    #email = db.Column(db.String(120), unique=True)
 
-    def __init__(self, name, email):
-        self.name = name
-        self.email = email
+    #def __init__(self, name, email):
+        #self.name = name
+        #self.email = email
 
-    def __repr__(self):
-        return '<Name %r>' % self.name
+    #def __repr__(self):
+        #return '<Name %r>' % self.name
 
 #def connect_db():                 #connects to the database we specified above
     #rv = sqlite3.connect(app.config['DATABASE'])
