@@ -19,16 +19,3 @@ Ideally, I’ll also be giving you a way to directly injection your contracts on
 
 ### This Project’s Background
 This project was produced in connection with Startup Systems, an excellent engineering class I am taking at Cornell Tech. Be sure to check out the class’ [GitHub](https://github.com/Cornell-CS5356-Fall2015/cs5356).
-
-
-
-
-
-
-
-
-
-
-
-
-
