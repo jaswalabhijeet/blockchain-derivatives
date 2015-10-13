@@ -2,23 +2,24 @@ import os
 from flask import Flask, render_template, request, session, g, redirect, url_for, abort, flash
 from sqlite3 import dbapi2 as sqlite3
 from flask.ext.sqlalchemy import SQLAlchemy
+import psycopg2
+import urlparse
+#import db
 
 app = Flask(__name__)
-#app.config.from_envvar('APP_SETTINGS', silent=True)
+
 db = SQLAlchemy(app)
 
 app.config.update(dict(
-    #DATABASE=os.path.join(app.root_path, 'app.db'),
     DEBUG=True,
     SECRET_KEY = 'secretkey',
     USERNAME='username',
     PASSWORD='password',
     SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
 ))
-#app.config.from_envvar('FLASKR_SETTINGS', silent=True)
-
 
 #class User(db.Model):
+    #__tablename__ = "FuturesContractsCreated"
     #id = db.Column(db.Integer, primary_key=True)
     #name = db.Column(db.String(80))
     #email = db.Column(db.String(120), unique=True)
@@ -111,14 +112,49 @@ def logout():
     flash('You were logged out')
     return redirect(url_for('main'))
 
-#when the user comes to the main page, send them to the index template
 @app.route('/')
 def main():
-    return render_template('index.html')
+    return render_template('index.html')   
 
 @app.route('/futureethereum')
 def main_future():
-    return render_template('futureethereum.html')
+    #return render_template('futureethereum.html')  #this was only thing here initially
+    error = None
+    if request.method == 'POST':
+        if request.form['buyerethereumaddress'] == null:
+            error = 'Invalid buyer ethereum address'
+        elif request.form['seller ethereum address'] == null:
+            error = 'Invalid seller ethereum address'
+        elif request.form['deliverydate'] == null:
+            error = 'Invalid delivery date'
+        elif request.form['numberofunits'] == null:
+            error = 'Invalid number of units'
+        elif request.form['commodityname'] == null:
+            error = 'Invalid commodity name'
+        elif request.form['price'] == null:
+            error = 'Invalid price'
+        elif request.form['margin'] == null:
+            error = 'Invalid margin'
+        elif request.form['soliditycodeinitial'] == null:
+            error = 'Invalid solidity code initial'
+        else:
+            #session['logged_in'] = True
+            flash('Great')
+            #__tablename__ = "FuturesContractsCreated"
+            urlparse.uses_netloc.append("postgres")
+            url = urlparse.urlparse(os.environ["DATABASE_URL"])
+            con = psycopg2.connect(database=url.path[1:],user=url.username,password=url.password,host=url.hostname,port=url.port)
+            #con = psycopg2.connect("dbname=test user=postgres") 	
+            cur = con.cursor()
+            cur.execute("INSERT INTO "FuturesContractsCreated" (blockchainderivativesid,buyerethereumaddress,sellerethereumaddress, deliverydate, numberofunits, commodityname, price, margin, soliditycodeinitial)) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)",[app.config['USERNAME'],request.form['buyerethereumaddress'],request.form['sellerethereumaddress'], request.form['deliverydate'], request.form['numberofunits'], request.form['commodityname'], request.form['price'], request.form['margin'], request.form['soliditycodeinitial']])
+            con.commit()
+            cur.close()
+            con.close()
+            #return render_template('futureethereum.html')
+            return redirect(url_for('main_future'))
+    return render_template('futureethereum', error=error)
+
+#check out this page if necessary for better forms: http://stackoverflow.com/questions/20837209/flask-wtform-save-form-to-db
 
 @app.route('/optionethereum')
 def main_option():

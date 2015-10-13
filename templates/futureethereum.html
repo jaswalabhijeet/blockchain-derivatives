@@ -3,6 +3,8 @@
  
 <head>
     <title>Blockchain Derivatives Builder</title>
+
+{% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}  #take out?
  
  
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -228,6 +230,34 @@
         <p><b>Lastly, if you wish to cancel your futures contract, send a transaction, addressed to the transaction ID and with this code in the data field:</b></p><br> 
         <textarea rows="10" cols="80" type="text" id="contractfield3">
         </textarea>
+
+
+
+
+  <form action="{{ url_for('main_future') }}" method=post>
+    <dl>
+      <dt>buyer ethereum address:
+      <dd><input type=text name=buyerethereumaddress>
+      <dt>seller ethereum address:
+      <dd><input type=text name=sellerethereumaddress>
+      <dt>deliverydate:
+      <dd><input type=number name=deliverydate>
+      <dt>numberofunits:
+      <dd><input type=number name=numberofunits>
+      <dt>commodityname:
+      <dd><input type=text name=commodityname>
+      <dt>price:
+      <dd><input type=number name=price>
+      <dt>margin:
+      <dd><input type=number name=margin>
+      <dt>soliditycodeinitial:
+      <dd><input type=text name=soliditycodeinitial>
+      <dd><input type=submit value=Post>
+    </dl>
+  </form>
+
+
+
         
         <br><br>
         <footer class="footer">
