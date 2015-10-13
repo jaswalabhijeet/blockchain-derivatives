@@ -37,4 +37,4 @@ SQLAlchemy==0.7.7
 Flask-SQLAlchemy==1.0
 argparse==1.2.1
 psycopg2==2.5.1
-wsgiref==0.1.2
+#wsgiref==0.1.2
