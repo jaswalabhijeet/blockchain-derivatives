@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, session, g, redirect, url_for
 from sqlite3 import dbapi2 as sqlite3
 from flask.ext.sqlalchemy import SQLAlchemy
 import psycopg2
-import urlparse
+#import urlparse
 #import db
 
 app = Flask(__name__)
@@ -141,8 +141,8 @@ def main_future():
             #session['logged_in'] = True
             flash('Great')
             #__tablename__ = "FuturesContractsCreated"
-            urlparse.uses_netloc.append("postgres")
-            url = urlparse.urlparse(os.environ["DATABASE_URL"])
+            urllib.uses_netloc.append("postgres")
+            url = urllib.parse(os.environ["DATABASE_URL"])
             con = psycopg2.connect(database=url.path[1:],user=url.username,password=url.password,host=url.hostname,port=url.port)
             #con = psycopg2.connect("dbname=test user=postgres") 	
             cur = con.cursor()
@@ -175,9 +175,7 @@ def show_user_profile(username):
 #db.session.commit()
 
 if __name__ == '__main__':
-    #app.debug = True
     app.run(debug=True)
-    #app.run(debug=True, port=5001)
-    #app.run(host='0.0.0.0')   #turn this on later when you go to another server
-    port = int(os.environ.get('PORT', 5001))
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0')   #turn this on later when you go to another server
+    #port = int(os.environ.get('PORT', 5001))
+    #app.run(host='0.0.0.0', port=port)
