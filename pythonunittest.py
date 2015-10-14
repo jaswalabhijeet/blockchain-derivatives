@@ -29,8 +29,14 @@ class AppTestCase(unittest.TestCase):
         self.assertEqual(result.status_code, 200)
 
     def test_option_ethereum_status_code(self):
-        # sends HTTP GET request to the application, on the Ethereum option page
-        result = self.app.get('/optionethereum') 
+        # sends HTTP GET request to the application, on the Ethereum call option page
+        result = self.app.get('/calloptionethereum') 
+        # assert the status code of the response
+        self.assertEqual(result.status_code, 200)
+
+    def test_option_ethereum_status_code(self):
+        # sends HTTP GET request to the application, on the Ethereum put option page
+        result = self.app.get('/putoptionethereum') 
         # assert the status code of the response
         self.assertEqual(result.status_code, 200)
 

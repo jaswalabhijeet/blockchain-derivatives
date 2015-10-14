@@ -80,13 +80,17 @@ def main_future():
             #return render_template('futureethereum.html')
             #return redirect(url_for('main_future'))
     #return render_template('futureethereum', error=error)
-    return render_template('futureethereum', error=error)
+    return render_template('futureethereum.html')
 
 #check out this page if necessary for better forms: http://stackoverflow.com/questions/20837209/flask-wtform-save-form-to-db
 
-@app.route('/optionethereum')
-def main_option():
-    return render_template('optionethereum.html')
+@app.route('/calloptionethereum')
+def main_call_option():
+    return render_template('calloptionethereum.html')
+
+@app.route('/putoptionethereum')
+def main_put_option():
+    return render_template('putoptionethereum.html')
 
 @app.route('/swapethereum')
 def main_swap():

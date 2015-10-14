@@ -31,21 +31,23 @@
             <h3 class="text-muted">Blockchain Derivatives Builder</h3>
         </div>
 
-
         <h1>
-        <span>Future Contract</span> 
+        <span>Put Option Contract</span> 
         </h1>
 
 	<form><br><br>
 
-        <p><b>The Buyer and Futures Holder, whose Ethereum address is:</b></p>
+         <p><b>The Option Holder and Buyer, whose Ethereum address is:</b></p>
         <input type="text" name="buyeraddress"  id="buyeraddress">   (A 40 character string. E.g., d6aaae06717f25095eab8250369a437e549160a4)<br><br><br>
 
-        <p><b>Agrees to buy from the Seller, whose Ethereum address is:</b></p>
+        <p><b>Agrees to buys from the Seller, whose Ethereum address is:</b></p>
         <input type="text" name="selleraddress" id="selleraddress">  (A 40 character string. E.g., d6aaae06717f25095eab8250369a437e549160a4)<br><br><br>
 
-        <p><b>The right to purchase from Seller:</b></p>
-  	<input type="number" name="units" id="units">   (enter number of units)<br><br><br>
+        <p><b>For the price of:</b></p>
+  	<input type="number" name="margin" id="margin" step="any"><br><br><br>
+
+        <p><b>The right to sell to the Seller:</b></p>
+  	<input type="number" name="numberofshares" id="numberofshares">   (enter number of shares)<br><br><br>
         </form>
 
         	<form id="measurementslist" name="measurementslist">
@@ -148,8 +150,9 @@
         </form>   (select commodity or asset)
         <br/><br><br>
 
-        <p><b>At the predetermined price (i.e., the </i>futures</i> price) of:</b></p>
-  	<input type="number" name="price" id="price" step="any"> per <input type="text" value="" id="measurementText" /> <br><br><br>
+
+        <p><b>At the predetermined strike price of:</b></p>
+  	<input type="number" name="price" id="price" step="any"> per share<br><br><br>
 
         <script type="text/javascript">
         function updateText(type) { 
@@ -158,7 +161,7 @@
         }
         </script>
 
-        <p><b>On or before the delivery date that is this many days in the future:</b></p>
+        <p><b>On or before the expiration date that is this many days in the future:</b></p>
         <input type="number" name="deliverydate" id="deliverydate" onchange="createTimestamp('deliverydate')">
 
         <p><b>Which is represented by the Unix timestamp: </b></p>
@@ -173,10 +176,6 @@
         document.getElementById(id).value = deliveryUnix;
         }
         </script>
-
-        <br><br><br>
-        <p><b>And the margin for this contract is:</b></p>
-  	<input type="number" name="margin" id="margin" step="any"><br><br><br>
 
         <input type="button" value="You're Done With The First Part! Click Here to Compile Your Contract into Ethereum’s Solidity Language" onclick="add()"/><br>
 
@@ -252,7 +251,7 @@
       <dd><input type=number name=margin>
       <dt>soliditycodeinitial:
       <dd><input type=text name=soliditycodeinitial>
-      <dd><input type=submit value=Save>
+      <dd><input type=submit value=Post>
     </dl>
   </form>
 
