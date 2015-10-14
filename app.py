@@ -142,7 +142,7 @@ def login():
 @app.route('/')
 #def main():
 #def index():
-#def home():
+def home():
     return render_template('index.html')   
 
 @app.route('/robots.txt')
