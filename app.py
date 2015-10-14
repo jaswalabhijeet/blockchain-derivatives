@@ -63,10 +63,10 @@ class User(db.Model):
 #def init_request():
     #db.create_all()
 
-@app.route('/secret')
-@login_required
-def secret():
-    return render_template('secret.html')
+#@app.route('/secret')
+#@login_required
+#def secret():
+    #return render_template('secret.html')
 
 @app.route('/logout')
 def logout():
