@@ -1,6 +1,6 @@
 import os
 from flask import Flask, render_template, request, session, g, redirect, url_for, abort, flash
-from sqlite3 import dbapi2 as sqlite3
+#from sqlite3 import dbapi2 as sqlite3
 from flask.ext.sqlalchemy import SQLAlchemy
 import psycopg2
 #import urlparse
@@ -9,14 +9,14 @@ import psycopg2
 
 app = Flask(__name__)
 
-db = SQLAlchemy(app)
+#db = SQLAlchemy(app)
 
 app.config.update(dict(
     DEBUG=True,
     SECRET_KEY = 'secretkey',
     USERNAME='username',
     PASSWORD='password',
-    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+    #SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
 ))
 
 @app.route('/login', methods=['GET', 'POST'])
