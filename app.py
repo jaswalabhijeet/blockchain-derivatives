@@ -94,5 +94,7 @@ def main_swap():
 if __name__ == '__main__':
     app.run(debug=True)
     #app.run(host='0.0.0.0')   #turn this on later when you go to another server
-    #port = int(os.environ.get('PORT', 5001))
+    #port = int(os.environ.get('PORT', 5000))
     #app.run(host='0.0.0.0', port=port)
+    port = int(os.environ.get("PORT", 33507))
+    app.run(host='0.0.0.0', port=port)
