@@ -37,4 +37,4 @@ Werkzeug==0.10.4
 SQLAlchemy==0.9.6
 #argparse==1.2.1
 psycopg2==2.5.1
-wsgiref==0.1.2
+#wsgiref==0.1.2
