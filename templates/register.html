@@ -2,11 +2,10 @@
 
 {% block content %}
 
+{% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}  
+
 <head>
     <title>Blockchain Derivatives Builder</title>
-
-{% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}  
- 
  
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
  
