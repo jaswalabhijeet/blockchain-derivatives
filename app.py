@@ -52,16 +52,16 @@ class User(db.Model):
         return '<Name %r>' % self.name
 
 
-@login_manager.user_loader
-def user_loader(user_id):
-    user = User.query.filter_by(id=user_id)
-    if user.count() == 1:
-        return user.one()
-    return None
+#@login_manager.user_loader
+#def user_loader(user_id):
+    #user = User.query.filter_by(id=user_id)
+    #if user.count() == 1:
+        #return user.one()
+    #return None
 
-@app.before_first_request
-def init_request():
-    db.create_all()
+#@app.before_first_request
+#def init_request():
+    #db.create_all()
 
 @app.route('/secret')
 @login_required
