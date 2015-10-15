@@ -1,7 +1,6 @@
 import os
 from flask import Flask, render_template, request, session, g, redirect, url_for, abort, flash, Blueprint, send_from_directory, current_app
 #from sqlite3 import dbapi2 as sqlite3
-#from flask.ext.login import LoginManager, UserMixin, login_user, logout_user, login_required
 from flask.ext.sqlalchemy import SQLAlchemy
 #import psycopg2
 #import urlparse
@@ -11,22 +10,20 @@ import logging
 import sys
 import uuid
 from collections import defaultdict
-from flask.ext.login import LoginManager, login_required, login_user, logout_user, current_user
+from flask.ext.login import LoginManager, login_required, login_user, logout_user, current_user, UserMixin
 from flask_wtf import Form
 from wtforms import TextField, PasswordField
 from wtforms.validators import DataRequired
 
-from .models import User, db   #maybe get rid of db?
+from models import User, db   #maybe get rid of db?
 
 logger = logging.getLogger(__name__)
 app = Blueprint('app', __name__)
 login_manager = LoginManager()
 
-#DEBUG=True,
-#SECRET_KEY = 'secretkey',
-#USERNAME='username',
-#PASSWORD='password',
-#SQLALCHEMY_DATABASE_URI = 'sqlite:///db/sql.db'
+SECRET_KEY = 'secretkey',
+USERNAME='username',
+PASSWORD='password',
 
 app = Flask(__name__)
 #app.config.from_object(__name__)
@@ -79,8 +76,6 @@ def logout():
     logout_user()
     return render_template("logout.html")
 
-
-
 #app.config.update(dict(
     #DEBUG=True,
     #SECRET_KEY = 'secretkey',
@@ -96,7 +91,6 @@ def logout():
     #password = db.Column(db.String)
 
 #class User(db.Model):
-    #id = db.Column(db.Integer, primary_key=True)
     #name = db.Column(db.String(80))
     #email = db.Column(db.String(120), unique=True)
 
