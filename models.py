@@ -1,7 +1,3 @@
-"""Database models for the Bull application."""
-
-import datetime
-
 from flask.ext.sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
