@@ -2,6 +2,8 @@
 
 {% block content %}
 
+{% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}  
+
 <head>
     <title>Blockchain Derivative Builder</title>
  
@@ -33,6 +35,7 @@
         <div class="jumbotron">
             <h1>Blockchain Derivative Builder</h1>
             <p class="lead"></p>
+
             <p><a class="btn btn-lg btn-success" href="/register" role="button">Register to Create An Account</a>
             </p><br> 
 <p><a class="btn btn-lg btn-success" href="/login" role="button">Already Registered? Log In</a>
