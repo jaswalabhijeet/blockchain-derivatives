@@ -1,6 +1,5 @@
 import os
 from flask import Flask, render_template, request, session, g, redirect, url_for, abort, flash, Blueprint, send_from_directory, current_app
-#from sqlite3 import dbapi2 as sqlite3
 from flask.ext.sqlalchemy import SQLAlchemy
 #import psycopg2
 #import urlparse
@@ -12,8 +11,10 @@ import uuid
 from collections import defaultdict
 from flask.ext.login import LoginManager, login_required, login_user, logout_user, current_user, UserMixin
 from flask_wtf import Form
-from wtforms import TextField, PasswordField
+from wtforms import TextField, PasswordField, Form, BooleanField, validators
 from wtforms.validators import DataRequired
+
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 
 from models import User, db   #maybe get rid of db?
 
@@ -32,15 +33,32 @@ app = Flask(__name__)
 #login_manager.init_app(app)
 #login_manager.login_view = 'login'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
-
-db = SQLAlchemy(app)  #remove because redundant? 
-
+#db = SQLAlchemy(app)  #removed because redundant? 
 
 class LoginForm(Form):
     """Form class for user login."""
     email = TextField('email', validators=[DataRequired()])
     password = PasswordField('password', validators=[DataRequired()])
+
+class RegistrationForm(Form):
+    email = TextField('Email', [validators.Length(min=6, max=35)])
+    password = PasswordField('Password', [
+        validators.Required(),
+        validators.EqualTo('confirm', message='Passwords must match')
+    ])
+    confirm = PasswordField('Repeat Password')
+    accept_tos = BooleanField('I accept the TOS', [validators.Required()])
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm(request.form)
+    if request.method == 'POST' and form.validate():
+        user = User(form.email.data,
+                    form.password.data)
+        db_session.add(user)
+        flash('Thanks for registering')
+        return redirect(url_for('login'))
+    return render_template('register.html', form=form)
 
 @login_manager.user_loader
 def user_loader(user_id):
@@ -86,20 +104,16 @@ def logout():
 #))
 
 #class User(db.Model, UserMixin):
-    #id = db.Column(db.Integer, primary_key=True)
-    #username = db.Column(db.String)
+    #email = db.Column(db.String)
     #password = db.Column(db.String)
 
 #class User(db.Model):
-    #name = db.Column(db.String(80))
     #email = db.Column(db.String(120), unique=True)
+    #password = db.Column(db.String(80))
 
-    #def __init__(self, name, email):
-        #self.name = name
+    #def __init__(self, email, password):
         #self.email = email
-
-    #def __repr__(self):
-        #return '<Name %r>' % self.name
+        #self.password = password
 
 #@app.route('/users')
 #def users():
@@ -134,40 +148,40 @@ def logout():
     #logout_user()
     #return redirect(url_for('index'))
 
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    if request.method == 'GET':
-        return render_template('register.html')
-    elif request.method == 'POST':
-        username = request.form['txtUsername']
-        password = request.form['txtPassword']
+#@app.route('/register', methods=['GET', 'POST'])
+#def register():
+    #if request.method == 'GET':
+        #return render_template('register.html')
+    #elif request.method == 'POST':
+        #email = request.form['email']
+        #password = request.form['password']
 
-        user = User.query.filter_by(username=username)
-        if user.count() == 0:
-            user = User(username=username, password=password)
-            db.session.add(user)
-            db.session.commit()
+        #user = User.query.filter_by(email=email)
+        #if user.count() == 0:
+            #user = User(email=email, password=password)
+            #db.session.add(user)
+            #db.session.commit()
 
-            flash('You have registered the username {0}. Please login'.format(username))
-            return redirect(url_for('login'))
-        else:
-            flash('The username {0} is already in use.  Please try a new username.'.format(username))
-            return redirect(url_for('register'))
-    else:
-        abort(405)
+            #flash('You have registered the email {0}. Please login'.format(email))
+            #return redirect(url_for('login'))
+        #else:
+            #flash('The email {0} is already in use.  Please try a new email.’.format(email))
+            #return redirect(url_for('register'))
+    #else:
+        #abort(405)
 
 #@app.route('/login', methods=['GET', 'POST'])
 #def login():
     #if request.method == 'GET':
         #return render_template('login.html', next=request.args.get('next'))
     #elif request.method == 'POST':
-        #username = request.form['txtUsername']
-        #password = request.form['txtPassword']
+        #email = request.form['email']
+        #password = request.form['password']
 
-        #user = User.query.filter_by(username=username).filter_by(password=password)
+        #user = User.query.filter_by(email=email).filter_by(password=password)
         #if user.count() == 1:
             #login_user(user.one())
-            #flash('Welcome back {0}'.format(username))
+            #flash('Welcome back {0}'.format(email))
             #try:
                 #next = request.form['next']
                 #return redirect(next)
@@ -184,7 +198,7 @@ def register():
 #def login():
     #error = None
     #if request.method == 'POST':
-        #if request.form['username'] != app.config['USERNAME']:
+        #if request.form['email'] != app.config['USERNAME']:
             #error = 'Invalid username'
         #elif request.form['password'] != app.config['PASSWORD']:
             #error = 'Invalid password'

@@ -1,74 +1,11 @@
-{% extends 'base.html' %}
-
-{% block content %}
-
-{% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}  
-
-<head>
-    <title>Blockchain Derivatives Builder</title>
- 
-    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
- 
-    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
- 
- 
-</head>
- 
-<body>
- 
-    <div class="container">
-        <div class="header">
-            <nav>
-                <ul class="nav nav-pills pull-right">
-                    <li role="presentation" class="active"><a href="/">Home</a>
-                    </li>
-                    <li role="presentation"><a href="/login">Log In</a>
-                    </li>
-                    <li role="presentation"><a href="/logout">Log Out</a>
-                    </li>
-<li role="presentation"><a href="/register">Register</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-
- <br><br> 
-        <div class="jumbotron">
-            <h1>Blockchain Derivative Builder</h1>
-            <p class="lead"></p>
-
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <center>
-        <h1>Register</h1>
-      </center>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-8 col-md-offset-2">
-      <form action="/register" method="post">
-        <div class="form-group">
-          <label for="txtUsername">Username</label>
-          <input type="text" class="form-control" id="txtUsername" name="txtUsername"/>
-        </div>
-        <div class="form-group">
-          <label for="txtPassword">Password</label>
-          <input type="password" class="form-control" id="txtPassword" name="txtPassword"/>
-        </div>
-        <button type="submit" class="btn btn-primary">Register</button>
-      </form>
-    </div>
-  </div>
-  {% with messages = get_flashed_messages() %}
-    {% if messages %}
-      {% for message in messages %}
-      <div class="row">
-        <div class="alert alert-info" role="alert">{{ message }}</div>
-      </div>
-      {% endfor %}
-    {% endif %}
-  {% endwith %}
-</div>
-
-{% endblock %}
+{% from "_formhelpers.html" import render_field %}
+<form method=post action="/register">
+  <dl>
+    {{ render_field(form.username) }}
+    {{ render_field(form.email) }}
+    {{ render_field(form.password) }}
+    {{ render_field(form.confirm) }}
+    {{ render_field(form.accept_tos) }}
+  </dl>
+  <p><input type=submit value=Register>
+</form>

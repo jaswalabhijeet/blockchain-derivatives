@@ -1,5 +1,42 @@
 {% extends 'base.html' %}
+
 {% block content %}
+
+{% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}  
+
+<head>
+    <title>Blockchain Derivatives Builder</title>
+ 
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+ 
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+ 
+ 
+</head>
+ 
+<body>
+ 
+    <div class="container">
+        <div class="header">
+            <nav>
+                <ul class="nav nav-pills pull-right">
+                    <li role="presentation" class="active"><a href="/">Home</a>
+                    </li>
+                    <li role="presentation"><a href="/login">Log In</a>
+                    </li>
+                    <li role="presentation"><a href="/logout">Log Out</a>
+                    </li>
+<li role="presentation"><a href="/register">Register</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+ <br><br> 
+        <div class="jumbotron">
+            <h1>Blockchain Derivative Builder</h1>
+            <p class="lead"></p>
+
 <div class="container">
   <div class="row">
     <div class="col-md-12">
@@ -33,4 +70,5 @@
     {% endif %}
   {% endwith %}
 </div>
+
 {% endblock %}
