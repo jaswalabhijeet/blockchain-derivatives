@@ -11,7 +11,7 @@ import logging
 import sys
 import uuid
 from collections import defaultdict
-from flask.ext.bcrypt import Bcrypt
+from flaskext.bcrypt import Bcrypt
 from flask.ext.login import LoginManager, login_required, login_user, logout_user, current_user
 from flask.ext.mail import Mail, Message
 from flask_wtf import Form
@@ -20,6 +20,14 @@ from wtforms.validators import DataRequired
 import stripe
 
 from .models import User, db   #maybe get rid of db?
+
+logger = logging.getLogger(__name__)
+app = Blueprint('app', __name__)
+mail = Mail()
+login_manager = LoginManager()
+bcrypt = Bcrypt()
+
+
 
 #DEBUG=True,
 #SECRET_KEY = 'secretkey',
@@ -38,6 +46,48 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 
 db = SQLAlchemy(app)
 
+
+class LoginForm(Form):
+    """Form class for user login."""
+    email = TextField('email', validators=[DataRequired()])
+    password = PasswordField('password', validators=[DataRequired()])
+
+@login_manager.user_loader
+def user_loader(user_id):
+    """Given *user_id*, return the associated User object.
+
+    :param unicode user_id: user_id (email) user to retrieve
+    """
+    return User.query.get(user_id)
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    """For GET requests, display the login form. For POSTS, login the current user
+    by processing the form."""
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.get(form.email.data)
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+                user.authenticated = True
+                db.session.add(user)
+                db.session.commit()
+                login_user(user, remember=True)
+                return redirect(url_for("bull.reports"))
+    return render_template("login.html", form=form)
+
+@app.route("/logout", methods=["GET"])
+@login_required
+def logout():
+    """Logout the current user."""
+    user = current_user
+    user.authenticated = False
+    db.session.add(user)
+    db.session.commit()
+    logout_user()
+    return render_template("logout.html")
+
+
+
 #app.config.update(dict(
     #DEBUG=True,
     #SECRET_KEY = 'secretkey',
@@ -52,14 +102,14 @@ db = SQLAlchemy(app)
     #username = db.Column(db.String)
     #password = db.Column(db.String)
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80))
-    email = db.Column(db.String(120), unique=True)
+#class User(db.Model):
+    #id = db.Column(db.Integer, primary_key=True)
+    #name = db.Column(db.String(80))
+    #email = db.Column(db.String(120), unique=True)
 
-    def __init__(self, name, email):
-        self.name = name
-        self.email = email
+    #def __init__(self, name, email):
+        #self.name = name
+        #self.email = email
 
     #def __repr__(self):
         #return '<Name %r>' % self.name
@@ -92,10 +142,10 @@ class User(db.Model):
 #def secret():
     #return render_template('secret.html')
 
-@app.route('/logout')
-def logout():
-    logout_user()
-    return redirect(url_for('index'))
+#@app.route('/logout')
+#def logout():
+    #logout_user()
+    #return redirect(url_for('index'))
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -119,28 +169,28 @@ def register():
     else:
         abort(405)
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'GET':
-        return render_template('login.html', next=request.args.get('next'))
-    elif request.method == 'POST':
-        username = request.form['txtUsername']
-        password = request.form['txtPassword']
+#@app.route('/login', methods=['GET', 'POST'])
+#def login():
+    #if request.method == 'GET':
+        #return render_template('login.html', next=request.args.get('next'))
+    #elif request.method == 'POST':
+        #username = request.form['txtUsername']
+        #password = request.form['txtPassword']
 
-        user = User.query.filter_by(username=username).filter_by(password=password)
-        if user.count() == 1:
-            login_user(user.one())
-            flash('Welcome back {0}'.format(username))
-            try:
-                next = request.form['next']
-                return redirect(next)
-            except:
-                return redirect(url_for('index'))
-        else:
-            flash('Invalid login')
-            return redirect(url_for('login'))
-    else:
-        return abort(405)
+        #user = User.query.filter_by(username=username).filter_by(password=password)
+        #if user.count() == 1:
+            #login_user(user.one())
+            #flash('Welcome back {0}'.format(username))
+            #try:
+                #next = request.form['next']
+                #return redirect(next)
+            #except:
+                #return redirect(url_for('index'))
+        #else:
+            #flash('Invalid login')
+            #return redirect(url_for('login'))
+    #else:
+        #return abort(405)
 
 
 #@app.route('/login', methods=['GET', 'POST'])
@@ -168,12 +218,6 @@ def login():
 #def index():
 def home():
     return render_template('index.html')   
-
-#@app.route('/robots.txt')
-#def robots():
-    #res = app.make_response('User-agent: *\nAllow: /')
-    #res.mimetype = 'text/plain'
-    #return res
 
 @app.route('/futureethereum')
 def main_future():
