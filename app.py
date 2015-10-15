@@ -15,7 +15,6 @@ from flask.ext.login import LoginManager, login_required, login_user, logout_use
 from flask_wtf import Form
 from wtforms import TextField, PasswordField
 from wtforms.validators import DataRequired
-import stripe
 
 from .models import User, db   #maybe get rid of db?
 
