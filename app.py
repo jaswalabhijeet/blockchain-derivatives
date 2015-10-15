@@ -48,8 +48,8 @@ class User(db.Model):
         self.name = name
         self.email = email
 
-    def __repr__(self):
-        return '<Name %r>' % self.name
+    #def __repr__(self):
+        #return '<Name %r>' % self.name
 
 
 #@login_manager.user_loader
