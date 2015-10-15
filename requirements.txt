@@ -38,3 +38,5 @@ SQLAlchemy==0.9.6
 #argparse==1.2.1
 psycopg2==2.5.1
 #wsgiref==0.1.2
+wtforms==1.0.5
+flask-wtf==0.9.3
