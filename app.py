@@ -11,7 +11,6 @@ import logging
 import sys
 import uuid
 from collections import defaultdict
-from flaskext.bcrypt import Bcrypt
 from flask.ext.login import LoginManager, login_required, login_user, logout_user, current_user
 from flask.ext.mail import Mail, Message
 from flask_wtf import Form
@@ -25,9 +24,6 @@ logger = logging.getLogger(__name__)
 app = Blueprint('app', __name__)
 mail = Mail()
 login_manager = LoginManager()
-bcrypt = Bcrypt()
-
-
 
 #DEBUG=True,
 #SECRET_KEY = 'secretkey',
@@ -44,7 +40,7 @@ app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 
-db = SQLAlchemy(app)
+db = SQLAlchemy(app)  #remove because redundant? 
 
 
 class LoginForm(Form):
@@ -67,12 +63,12 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.get(form.email.data)
-        if user and bcrypt.check_password_hash(user.password, form.password.data):
-                user.authenticated = True
-                db.session.add(user)
-                db.session.commit()
-                login_user(user, remember=True)
-                return redirect(url_for("bull.reports"))
+        if user:
+            user.authenticated = True
+            db.session.add(user)
+            db.session.commit()
+            login_user(user, remember=True)
+            return redirect(url_for("app.reports"))
     return render_template("login.html", form=form)
 
 @app.route("/logout", methods=["GET"])
