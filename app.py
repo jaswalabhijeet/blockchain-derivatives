@@ -12,7 +12,6 @@ import sys
 import uuid
 from collections import defaultdict
 from flask.ext.login import LoginManager, login_required, login_user, logout_user, current_user
-from flask.ext.mail import Mail, Message
 from flask_wtf import Form
 from wtforms import TextField, PasswordField
 from wtforms.validators import DataRequired
@@ -22,7 +21,6 @@ from .models import User, db   #maybe get rid of db?
 
 logger = logging.getLogger(__name__)
 app = Blueprint('app', __name__)
-mail = Mail()
 login_manager = LoginManager()
 
 #DEBUG=True,
