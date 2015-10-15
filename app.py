@@ -51,6 +51,18 @@ class User(db.Model):
     #def __repr__(self):
         #return '<Name %r>' % self.name
 
+@app.route('/users')
+def main_users():
+  return render_template('users.html', users = User.query.all())
+
+@app.route('/user', methods=['POST'])
+def user():
+  if request.method == 'POST':
+    u = User(request.form['name'], request.form['email'])
+    db.session.add(u)
+    db.session.commit()
+  return redirect(url_for('main_users'))
+
 
 #@login_manager.user_loader
 #def user_loader(user_id):
@@ -214,3 +226,4 @@ if __name__ == '__main__':
     port = int(os.getenv('PORT', 8080))
     host = os.getenv('IP', '0.0.0.0')
     app.run(port=port, host=host)
+    db.create_all()
