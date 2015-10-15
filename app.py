@@ -14,20 +14,20 @@ from flask_wtf import Form
 from wtforms import TextField, PasswordField, Form, BooleanField, validators
 from wtforms.validators import DataRequired
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
-
 from models import User, db   #maybe get rid of db?
 
+app = Flask(__name__)
+#app.config.from_object(__name__)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+
 logger = logging.getLogger(__name__)
-app = Blueprint('app', __name__)
+#app = Blueprint('app', __name__)    #turn back on?
 login_manager = LoginManager()
 
 SECRET_KEY = 'secretkey',
 USERNAME='username',
 PASSWORD='password',
-
-app = Flask(__name__)
-#app.config.from_object(__name__)
 
 #login_manager = LoginManager(app)
 #login_manager.init_app(app)
