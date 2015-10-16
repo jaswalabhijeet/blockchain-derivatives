@@ -2,16 +2,18 @@
 
 {% block content %}
 
-{% from "_formhelpers.html" import render_field %}
-<form method=post action="/register">
-  <dl>
-    {{ render_field(form.username) }}
-    {{ render_field(form.email) }}
-    {{ render_field(form.password) }}
-    {{ render_field(form.confirm) }}
-    {{ render_field(form.accept_tos) }}
-  </dl>
-  <p><input type=submit value=Register>
-</form>
+
+  <h1>Register</h1>
+
+  <form action="" method="post" name="register">
+      <p>
+          Please Enter Your Email:<br>
+          {{ form.email }}<br>
+          Please Enter Your Password:<br>
+          {{ form.password }}<br>
+      </p>
+      <p><input type="submit" value="Sign In"></p>
+  </form>
 
 {% endblock %}
+

@@ -29,11 +29,11 @@ PASSWORD='password',
 #db = SQLAlchemy(app)  #removed because redundant? 
 
 class LoginForm(Form):
-    email = TextField('Email', validators=[validators.Length(min=6, max=35)])     #Try ,.Email()] validator later
+    email = TextField('Email Address', validators=[validators.Length(min=6, max=35)])     #Try ,.Email()] validator later
     password = PasswordField('Password', validators=[validators.Length(min=6, max=35)])
 
 class RegistrationForm(Form):
-    email = TextField('Email', [validators.Length(min=6, max=35)])
+    email = TextField('Email Address', [validators.Length(min=6, max=35)])
     password = PasswordField('Password', [validators.Length(min=6, max=35)])
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -43,6 +43,7 @@ def register():
     #if request.method == 'GET':
         #return render_template('register.html')
 
+    if request.method == 'POST' and form.validate():
     #elif request.method == 'POST' and form.validate():
         #user = User(form.email.data, form.password.data)
         #db_session.add(user)
@@ -69,18 +70,21 @@ def register():
     #else:
         #abort(405)
 
-@login_manager.user_loader
-def user_loader(user_id):
+#@login_manager.user_loader
+#def user_loader(user_id):
     """Given *user_id*, return the associated User object.
 
     :param unicode user_id: user_id (email) user to retrieve
     """
-    return User.query.get(user_id)
+    #return User.query.get(user_id)
+
+    #user = User.query.filter_by(id=user_id)
+    #if user.count() == 1:
+        #return user.one()
+    #return None
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    #”””For GET requests, display the login form. For POSTS, login the current user
-    #by processing the form."""
     form = LoginForm()
     #if form.validate_on_submit():
         #user = User.query.get(form.email.data)
@@ -128,21 +132,14 @@ def login():
 
 
 @app.route("/logout", methods=["GET"])
-@login_required
+#@app.route('/logout')
+@login_required  #take out?
 def logout():
-    """Logout the current user."""
     user = current_user
     user.authenticated = False
     db.session.add(user)
     db.session.commit()
     logout_user()
-    return render_template("logout.html")
-
-#@app.route('/logout')
-#def logout():
-    #logout_user()
-    #return redirect(url_for('index'))
-
     #session.pop('logged_in', None)
     #flash('You were logged out')
     #return redirect(url_for('index'))
@@ -179,13 +176,6 @@ def logout():
     #db.session.add(u)
     #db.session.commit()
   #return redirect(url_for('users'))
-
-#@login_manager.user_loader
-#def user_loader(user_id):
-    #user = User.query.filter_by(id=user_id)
-    #if user.count() == 1:
-        #return user.one()
-    #return None
 
 #@app.before_first_request
 #def init_request():
