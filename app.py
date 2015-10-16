@@ -68,7 +68,8 @@ def login():
             #db.session.commit()
             #login_user(user, remember=True)
             #return redirect(url_for("app.reports"))
-    return render_template("login.html", form=form)
+    #return render_template("login.html", form=form)
+    return render_template("login.html")
 
 @app.route("/logout", methods=["GET"])
 @login_required
@@ -98,7 +99,7 @@ def logout():
     #email = db.Column(db.String(120), unique=True)
     #password = db.Column(db.String(80))
 
-    #def __init__(self, email, password):
+    #def __init__(self, email, password):        #maybe axe all of this second chunk? 
         #self.email = email
         #self.password = password
 
