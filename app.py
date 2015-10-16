@@ -28,10 +28,6 @@ PASSWORD='password',
 
 #db = SQLAlchemy(app)  #removed because redundant? 
 
-class LoginForm(Form):
-    email = TextField('Email Address', validators=[validators.Length(min=6, max=35)])     #Try ,.Email()] validator later
-    password = PasswordField('Password', validators=[validators.Length(min=6, max=35)])
-
 class RegistrationForm(Form):
     email = TextField('Email Address', [validators.Length(min=6, max=35)])
     password = PasswordField('Password', [validators.Length(min=6, max=35)])
@@ -39,18 +35,12 @@ class RegistrationForm(Form):
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm(request.form)
-
-    #if request.method == 'GET':
-        #return render_template('register.html')
-
     if request.method == 'POST' and form.validate():
-    #elif request.method == 'POST' and form.validate():
-        #user = User(form.email.data, form.password.data)
-        #db_session.add(user)
-        #flash('Thanks for registering')
-        #return redirect(url_for('login'))
+        user = User(form.email.data, form.password.data)
+        db_session.add(user)
+        flash('Thanks for registering')
+        return redirect(url_for('login'))
     return render_template('register.html', form=form)
-    #return render_template('register.html')
 
     #elif request.method == 'POST':
         #email = request.form['email']
@@ -82,6 +72,10 @@ def register():
     #if user.count() == 1:
         #return user.one()
     #return None
+
+class LoginForm(Form):
+    email = TextField('Email Address', validators=[validators.Length(min=6, max=35)])     #Try ,.Email()] validator later
+    password = PasswordField('Password', validators=[validators.Length(min=6, max=35)])
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
