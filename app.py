@@ -11,7 +11,7 @@ import uuid
 from collections import defaultdict
 from flask.ext.login import LoginManager, login_required, login_user, logout_user, current_user, UserMixin
 from flask_wtf import Form
-from wtforms import TextField, PasswordField, Form, BooleanField, validators, Email, Required
+from wtforms import TextField, PasswordField, Form, BooleanField, validators, Required
 from wtforms.validators import DataRequired
 
 from models import User, db   #maybe get rid of db?
@@ -39,13 +39,35 @@ class RegistrationForm(Form):
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm(request.form)
-    #if request.method == 'POST' and form.validate():
+
+    #if request.method == 'GET':
+        #return render_template('register.html')
+
+    #elif request.method == 'POST' and form.validate():
         #user = User(form.email.data, form.password.data)
         #db_session.add(user)
         #flash('Thanks for registering')
         #return redirect(url_for('login'))
     return render_template('register.html', form=form)
     #return render_template('register.html')
+
+    #elif request.method == 'POST':
+        #email = request.form['email']
+        #password = request.form['password']
+
+        #user = User.query.filter_by(email=email)
+        #if user.count() == 0:
+            #user = User(email=email, password=password)
+            #db.session.add(user)
+            #db.session.commit()
+
+            #flash('You have registered the email {0}. Please login'.format(email))
+            #return redirect(url_for('login'))
+        #else:
+            #flash('The email {0} is already in use.  Please try a new email.’.format(email))
+            #return redirect(url_for('register'))
+    #else:
+        #abort(405)
 
 @login_manager.user_loader
 def user_loader(user_id):
@@ -70,6 +92,42 @@ def login():
             #return redirect(url_for("index"))
     return render_template("login.html", form=form)
     #return render_template("login.html")
+
+    #if request.method == 'GET':
+        #return render_template('login.html', next=request.args.get('next'))
+    #elif request.method == 'POST':
+        #email = request.form['email']
+        #password = request.form['password']
+
+        #user = User.query.filter_by(email=email).filter_by(password=password)
+        #if user.count() == 1:
+            #login_user(user.one())
+            #flash('Welcome back {0}'.format(email))
+            #try:
+                #next = request.form['next']
+                #return redirect(next)
+            #except:
+                #return redirect(url_for('index'))
+        #else:
+            #flash('Invalid login')
+            #return redirect(url_for('login'))
+    #else:
+        #return abort(405)
+
+    #error = None
+    #if request.method == 'POST':
+        #if request.form['email'] != app.config['USERNAME']:
+            #error = 'Invalid username'
+        #elif request.form['password'] != app.config['PASSWORD']:
+            #error = 'Invalid password'
+        #else:
+            #session['logged_in'] = True
+            #flash('You were logged in')
+            #return redirect(url_for('main'))
+    #return render_template('login.html', error=error)
+
+
+
 
 @app.route("/logout", methods=["GET"])
 @login_required
@@ -136,65 +194,9 @@ def logout():
     #logout_user()
     #return redirect(url_for('index'))
 
-#@app.route('/register', methods=['GET', 'POST'])
-#def register():
-    #if request.method == 'GET':
-        #return render_template('register.html')
-    #elif request.method == 'POST':
-        #email = request.form['email']
-        #password = request.form['password']
-
-        #user = User.query.filter_by(email=email)
-        #if user.count() == 0:
-            #user = User(email=email, password=password)
-            #db.session.add(user)
-            #db.session.commit()
-
-            #flash('You have registered the email {0}. Please login'.format(email))
-            #return redirect(url_for('login'))
-        #else:
-            #flash('The email {0} is already in use.  Please try a new email.’.format(email))
-            #return redirect(url_for('register'))
-    #else:
-        #abort(405)
-
-#@app.route('/login', methods=['GET', 'POST'])
-#def login():
-    #if request.method == 'GET':
-        #return render_template('login.html', next=request.args.get('next'))
-    #elif request.method == 'POST':
-        #email = request.form['email']
-        #password = request.form['password']
-
-        #user = User.query.filter_by(email=email).filter_by(password=password)
-        #if user.count() == 1:
-            #login_user(user.one())
-            #flash('Welcome back {0}'.format(email))
-            #try:
-                #next = request.form['next']
-                #return redirect(next)
-            #except:
-                #return redirect(url_for('index'))
-        #else:
-            #flash('Invalid login')
-            #return redirect(url_for('login'))
-    #else:
-        #return abort(405)
 
 
-#@app.route('/login', methods=['GET', 'POST'])
-#def login():
-    #error = None
-    #if request.method == 'POST':
-        #if request.form['email'] != app.config['USERNAME']:
-            #error = 'Invalid username'
-        #elif request.form['password'] != app.config['PASSWORD']:
-            #error = 'Invalid password'
-        #else:
-            #session['logged_in'] = True
-            #flash('You were logged in')
-            #return redirect(url_for('main'))
-    #return render_template('login.html', error=error)
+
 
 #@app.route('/logout')
 #def logout():
