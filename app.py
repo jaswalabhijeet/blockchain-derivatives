@@ -38,14 +38,14 @@ class RegistrationForm(Form):
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    #form = RegistrationForm(request.form)
+    form = RegistrationForm(request.form)
     #if request.method == 'POST' and form.validate():
         #user = User(form.email.data, form.password.data)
         #db_session.add(user)
         #flash('Thanks for registering')
         #return redirect(url_for('login'))
-    #return render_template('register.html', form=form)
-    return render_template('register.html')
+    return render_template('register.html', form=form)
+    #return render_template('register.html')
 
 @login_manager.user_loader
 def user_loader(user_id):
@@ -59,7 +59,7 @@ def user_loader(user_id):
 def login():
     #”””For GET requests, display the login form. For POSTS, login the current user
     #by processing the form."""
-    #form = LoginForm()
+    form = LoginForm()
     #if form.validate_on_submit():
         #user = User.query.get(form.email.data)
         #if user:
@@ -68,8 +68,8 @@ def login():
             #db.session.commit()
             #login_user(user, remember=True)
             #return redirect(url_for("app.reports"))
-    #return render_template("login.html", form=form)
-    return render_template("login.html")
+    return render_template("login.html", form=form)
+    #return render_template("login.html")
 
 @app.route("/logout", methods=["GET"])
 @login_required

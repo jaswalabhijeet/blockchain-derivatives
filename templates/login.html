@@ -3,9 +3,14 @@
 
 {% block content %}
 
-<form method="POST" action="/login">
-    <div>{{ form.email.label }}: {{ form.email(class="css_class") }}</div>
-    <div>{{ form.password.label }}: {{ form.password() }}</div>
-</form>
+  <h1>Sign In</h1>
+  <form action="" method="post" name="login">
+      <p>
+          Please enter your password:<br>
+          {{ form.email }}<br>
+          {{ form.password }}<br>
+      </p>
+      <p><input type="submit" value="Sign In"></p>
+  </form>
 
 {% endblock %}
