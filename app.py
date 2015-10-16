@@ -38,14 +38,14 @@ class RegistrationForm(Form):
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    form = RegistrationForm(request.form)
-    if request.method == 'POST' and form.validate():
-        user = User(form.email.data,
-                    form.password.data)
-        db_session.add(user)
-        flash('Thanks for registering')
-        return redirect(url_for('login'))
-    return render_template('register.html', form=form)
+    #form = RegistrationForm(request.form)
+    #if request.method == 'POST' and form.validate():
+        #user = User(form.email.data, form.password.data)
+        #db_session.add(user)
+        #flash('Thanks for registering')
+        #return redirect(url_for('login'))
+    #return render_template('register.html', form=form)
+    return render_template('register.html')
 
 @login_manager.user_loader
 def user_loader(user_id):
@@ -55,19 +55,19 @@ def user_loader(user_id):
     """
     return User.query.get(user_id)
 
-@app.route("/login", methods=["GET", "POST"])
+#@app.route("/login", methods=["GET", "POST"])
 def login():
-    """For GET requests, display the login form. For POSTS, login the current user
-    by processing the form."""
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.get(form.email.data)
-        if user:
-            user.authenticated = True
-            db.session.add(user)
-            db.session.commit()
-            login_user(user, remember=True)
-            return redirect(url_for("app.reports"))
+    #”””For GET requests, display the login form. For POSTS, login the current user
+    #by processing the form."""
+    #form = LoginForm()
+    #if form.validate_on_submit():
+        #user = User.query.get(form.email.data)
+        #if user:
+            #user.authenticated = True
+            #db.session.add(user)
+            #db.session.commit()
+            #login_user(user, remember=True)
+            #return redirect(url_for("app.reports"))
     return render_template("login.html", form=form)
 
 @app.route("/logout", methods=["GET"])
