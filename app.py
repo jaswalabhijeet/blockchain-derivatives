@@ -17,37 +17,24 @@ from wtforms.validators import DataRequired
 from models import User, db   #maybe get rid of db?
 
 app = Flask(__name__)
-#app.config.from_object(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 
-logger = logging.getLogger(__name__)
-#app = Blueprint('app', __name__)    #turn back on?
 login_manager = LoginManager()
 
 SECRET_KEY = 'secretkey',
 USERNAME='username',
 PASSWORD='password',
 
-#login_manager = LoginManager(app)
-#login_manager.init_app(app)
-#login_manager.login_view = 'login'
-
 #db = SQLAlchemy(app)  #removed because redundant? 
 
 class LoginForm(Form):
-    """Form class for user login."""
-    email = TextField('email', validators=[DataRequired()])
-    password = PasswordField('password', validators=[DataRequired()])
+    email = TextField('Email Address', validators=[validators.Length(min=6, max=35)])     #Try .Email() validator later
+    password = PasswordField('Password', validators=[validators.Length(min=6, max=35)])
 
 class RegistrationForm(Form):
-    email = TextField('Email', [validators.Length(min=6, max=35)])
-    password = PasswordField('Password', [
-        validators.Required(),
-        validators.EqualTo('confirm', message='Passwords must match')
-    ])
-    confirm = PasswordField('Repeat Password')
-    accept_tos = BooleanField('I accept the TOS', [validators.Required()])
+    email = TextField('Email Address', [validators.Length(min=6, max=35)])
+    password = PasswordField('Password', [validators.Length(min=6, max=35)])
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
