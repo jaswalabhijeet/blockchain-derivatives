@@ -11,7 +11,7 @@ import uuid
 from collections import defaultdict
 from flask.ext.login import LoginManager, login_required, login_user, logout_user, current_user, UserMixin
 from flask_wtf import Form
-from wtforms import TextField, PasswordField, Form, BooleanField, validators
+from wtforms import TextField, PasswordField, Form, BooleanField, validators, Email, Required
 from wtforms.validators import DataRequired
 
 from models import User, db   #maybe get rid of db?
@@ -29,11 +29,11 @@ PASSWORD='password',
 #db = SQLAlchemy(app)  #removed because redundant? 
 
 class LoginForm(Form):
-    email = TextField('Email Address', validators=[validators.Length(min=6, max=35)])     #Try .Email() validator later
+    email = TextField('Email', validators=[validators.Length(min=6, max=35)])     #Try ,.Email()] validator later
     password = PasswordField('Password', validators=[validators.Length(min=6, max=35)])
 
 class RegistrationForm(Form):
-    email = TextField('Email Address', [validators.Length(min=6, max=35)])
+    email = TextField('Email', [validators.Length(min=6, max=35)])
     password = PasswordField('Password', [validators.Length(min=6, max=35)])
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -55,7 +55,7 @@ def user_loader(user_id):
     """
     return User.query.get(user_id)
 
-#@app.route("/login", methods=["GET", "POST"])
+@app.route("/login", methods=["GET", "POST"])
 def login():
     #”””For GET requests, display the login form. For POSTS, login the current user
     #by processing the form."""
@@ -67,7 +67,7 @@ def login():
             #db.session.add(user)
             #db.session.commit()
             #login_user(user, remember=True)
-            #return redirect(url_for("app.reports"))
+            #return redirect(url_for("index"))
     return render_template("login.html", form=form)
     #return render_template("login.html")
 
@@ -204,8 +204,8 @@ def logout():
 
 @app.route('/')
 #def main():
-#def index():
-def home():
+def index():
+#def home():
     return render_template('index.html')   
 
 @app.route('/futureethereum')
