@@ -11,7 +11,7 @@ import uuid
 from collections import defaultdict
 from flask.ext.login import LoginManager, login_required, login_user, logout_user, current_user, UserMixin
 from flask_wtf import Form
-from wtforms import TextField, PasswordField, Form, BooleanField, validators, Required
+from wtforms import TextField, PasswordField, Form, BooleanField, validators
 from wtforms.validators import DataRequired
 
 from models import User, db   #maybe get rid of db?
@@ -123,10 +123,8 @@ def login():
         #else:
             #session['logged_in'] = True
             #flash('You were logged in')
-            #return redirect(url_for('main'))
+            #return redirect(url_for('index'))
     #return render_template('login.html', error=error)
-
-
 
 
 @app.route("/logout", methods=["GET"])
@@ -139,6 +137,15 @@ def logout():
     db.session.commit()
     logout_user()
     return render_template("logout.html")
+
+#@app.route('/logout')
+#def logout():
+    #logout_user()
+    #return redirect(url_for('index'))
+
+    #session.pop('logged_in', None)
+    #flash('You were logged out')
+    #return redirect(url_for('index'))
 
 #app.config.update(dict(
     #DEBUG=True,
@@ -189,25 +196,8 @@ def logout():
 #def secret():
     #return render_template('secret.html')
 
-#@app.route('/logout')
-#def logout():
-    #logout_user()
-    #return redirect(url_for('index'))
-
-
-
-
-
-#@app.route('/logout')
-#def logout():
-    #session.pop('logged_in', None)
-    #flash('You were logged out')
-    #return redirect(url_for('main'))
-
 @app.route('/')
-#def main():
 def index():
-#def home():
     return render_template('index.html')   
 
 @app.route('/futureethereum')
