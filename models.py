@@ -1,32 +1,19 @@
-from flask.ext.sqlalchemy import SQLAlchemy
+from app import db
+from sqlalchemy.dialects.postgresql import JSON
 
-db = SQLAlchemy()
 
-class User(db.Model):
-    """An admin user capable of viewing reports.
+class Result(db.Model):
+    __tablename__ = 'results'
 
-    :param str email: email address of user
-    :param str password: encrypted password for the user
+    id = db.Column(db.Integer, primary_key=True)
+    url = db.Column(db.String())
+    result_all = db.Column(JSON)
+    result_no_stop_words = db.Column(JSON)
 
-    """
-    __tablename__ = 'user'
+    def __init__(self, url, result_all, result_no_stop_words):
+        self.url = url
+        self.result_all = result_all
+        self.result_no_stop_words = result_no_stop_words
 
-    email = db.Column(db.String, primary_key=True)
-    password = db.Column(db.String)
-    authenticated = db.Column(db.Boolean, default=False)
-
-    def is_active(self):
-        """True, as all users are active."""
-        return True
-
-    def get_id(self):
-        """Return the email address to satisfy Flask-Login's requirements."""
-        return self.email
-
-    def is_authenticated(self):
-        """Return True if the user is authenticated."""
-        return self.authenticated
-
-    def is_anonymous(self):
-        """False, as anonymous users aren't supported."""
-        return False
+    def __repr__(self):
+        return '<id {}>'.format(self.id)

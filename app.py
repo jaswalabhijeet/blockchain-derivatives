@@ -9,16 +9,54 @@ import logging
 import sys
 import uuid
 from collections import defaultdict
-from flask.ext.login import LoginManager, login_required, login_user, logout_user, current_user, UserMixin
+from flask.ext.login import LoginManager, login_required, login_user, logout_user, current_user
 from flask_wtf import Form
 from wtforms import TextField, PasswordField, Form, BooleanField, validators
 from wtforms.validators import DataRequired
 
-from models import User, db   #maybe get rid of db?
-
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL", "postgresql://williammarino@localhost/blockchainderivatives")
+
+#SQLALCHEMY_DATABASE_URI = "postgresql://williammarino@localhost/blockchainderivatives"
+#SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']   #may need to flip this on for heroku
+
+#the missing ingredient may be this: We then boot up Heroku’s python terminal using Heroku 'run python' and run 'from file_containing_db import db', followed by 'db.create_all()' to create all the tables that we have defined in our models. To exit the python terminal use, 'exit()'. 
+
+db = SQLAlchemy(app)  
+#db.create_all()
+#print db.get_tables_for_bind()
+
+class User2(db.Model):
+    __tablename__ = "users2"
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(120), unique=True)
+
+    def __init__(self, email):
+        self.email = email
+
+    def __repr__(self):
+        return '<E-mail %r>' % self.email
+
+#class User(db.Model):
+    #email = db.Column(db.String(120), unique=True)
+    #password = db.Column(db.String(80))
+
+    #def __init__(self, email, password):        #maybe axe all of this second chunk? 
+        #self.email = email
+        #self.password = password
+
+#if not db.session.query(User).filter(User.email == email).count():
+    #reg = User(email)
+    #db.session.add(reg)
+    #db.session.commit()
+
+#YOU HAVE TO USE models.Result
+
+#from models import User, db   #maybe get rid of db?
+
+#flip some switch 
+
 
 login_manager = LoginManager()
 
@@ -26,7 +64,9 @@ SECRET_KEY = 'secretkey',
 USERNAME='username',
 PASSWORD='password',
 
-#db = SQLAlchemy(app)  #removed because redundant? 
+#me = User('admin', 'admin@example.com')
+#db.session.add(me)
+#db.session.commit()
 
 class RegistrationForm(Form):
     email = TextField('Email Address', [validators.Length(min=6, max=35)])
@@ -36,29 +76,17 @@ class RegistrationForm(Form):
 def register():
     form = RegistrationForm(request.form)
     if request.method == 'POST' and form.validate():
+        #registered_users = User.query.filter_by(email=form.email.data)
+            #if user.count() == 0:
         user = User(form.email.data, form.password.data)
-        db_session.add(user)
-        flash('Thanks for registering')
+        db.session.add(user)
+        db.session.commit()
+        flash('Thanks for registering the email {0}, please log in'.format(email))
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
-
-    #elif request.method == 'POST':
-        #email = request.form['email']
-        #password = request.form['password']
-
-        #user = User.query.filter_by(email=email)
-        #if user.count() == 0:
-            #user = User(email=email, password=password)
-            #db.session.add(user)
-            #db.session.commit()
-
-            #flash('You have registered the email {0}. Please login'.format(email))
-            #return redirect(url_for('login'))
         #else:
-            #flash('The email {0} is already in use.  Please try a new email.’.format(email))
+            #flash('The email {0} is already in use.  Please try a new email'.format(email))
             #return redirect(url_for('register'))
-    #else:
-        #abort(405)
 
 #@login_manager.user_loader
 #def user_loader(user_id):
@@ -79,23 +107,25 @@ class LoginForm(Form):
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    form = LoginForm()
+    form = LoginForm(request.form)   
+    if request.method == 'POST' and form.validate():
     #if form.validate_on_submit():
-        #user = User.query.get(form.email.data)
-        #if user:
-            #user.authenticated = True
-            #db.session.add(user)
-            #db.session.commit()
-            #login_user(user, remember=True)
-            #return redirect(url_for("index"))
+
+        #user = User.query.filter_by(email=email).filter_by(password=password)
+        #if user.count() == 1:
+
+        #registered_users = User.query.filter_by(email=form.email.data)
+            #if user.count() == 0:
+
+        user = User(form.email.data, form.password.data)
+        #user = User.query.get(form.email.data, form.password.data) #this slightly different than registration has .query.get
+        #user.authenticated = True
+        #db.session.add(user)  #don not need, right? 
+        #db.session.commit()   #don not need, right? 
+        #login_user(user, remember=True)
+        #return redirect(url_for("index"))
     return render_template("login.html", form=form)
     #return render_template("login.html")
-
-    #if request.method == 'GET':
-        #return render_template('login.html', next=request.args.get('next'))
-    #elif request.method == 'POST':
-        #email = request.form['email']
-        #password = request.form['password']
 
         #user = User.query.filter_by(email=email).filter_by(password=password)
         #if user.count() == 1:
@@ -147,17 +177,7 @@ def logout():
     #SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
 #))
 
-#class User(db.Model, UserMixin):
-    #email = db.Column(db.String)
-    #password = db.Column(db.String)
 
-#class User(db.Model):
-    #email = db.Column(db.String(120), unique=True)
-    #password = db.Column(db.String(80))
-
-    #def __init__(self, email, password):        #maybe axe all of this second chunk? 
-        #self.email = email
-        #self.password = password
 
 #@app.route('/users')
 #def users():
@@ -166,19 +186,10 @@ def logout():
 #@app.route('/user', methods=['POST'])
 #def user():
   #if request.method == 'POST':
-    #u = User(request.form['name'], request.form['email'])
-    #db.session.add(u)
+    #user = User(request.form['email'], request.form['password'])
+    #db.session.add(user)
     #db.session.commit()
   #return redirect(url_for('users'))
-
-#@app.before_first_request
-#def init_request():
-    #db.create_all()
-
-#@app.route('/secret')
-#@login_required
-#def secret():
-    #return render_template('secret.html')
 
 @app.route('/')
 def index():
@@ -191,7 +202,7 @@ def main_future():
     #if request.method == 'POST':
         #if request.form['buyerethereumaddress'] == null:
             #error = 'Invalid buyer ethereum address'
-        #elif request.form['seller ethereum address'] == null:
+        #elif request.form['sellerethereumaddress'] == null:
             #error = 'Invalid seller ethereum address'
         #elif request.form['deliverydate'] == null:
             #error = 'Invalid delivery date'
