@@ -1,7 +1,7 @@
 import os
 from flask import Flask, render_template, request, session, g, redirect, url_for, abort, flash, Blueprint, send_from_directory, current_app
 from flask.ext.sqlalchemy import SQLAlchemy
-#import psycopg2
+import psycopg2
 #import urlparse
 #import db
 #import urllib
@@ -21,30 +21,83 @@ SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL", "postgresql://williamma
 #SQLALCHEMY_DATABASE_URI = "postgresql://williammarino@localhost/blockchainderivatives"
 #SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']   #may need to flip this on for heroku
 
-#the missing ingredient may be this: We then boot up Heroku’s python terminal using Heroku 'run python' and run 'from file_containing_db import db', followed by 'db.create_all()' to create all the tables that we have defined in our models. To exit the python terminal use, 'exit()'. 
+#the missing ingredient may be this: in the command line, do: 'run python' and then 'from app import db' and then 'db.create_all()' and to leave: 'exit()'
 
 db = SQLAlchemy(app)  
-#db.create_all()
-#print db.get_tables_for_bind()
 
-class User2(db.Model):
-    __tablename__ = "users2"
+class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80))
     email = db.Column(db.String(120), unique=True)
 
-    def __init__(self, email):
+    def __init__(self, name, email):
+        self.name = name
         self.email = email
 
     def __repr__(self):
-        return '<E-mail %r>' % self.email
+        #return '<Name %r>' % self.name
+        #return self.name
+        return '%s  %s' % (self.name, self.email)
 
-#class User(db.Model):
-    #email = db.Column(db.String(120), unique=True)
-    #password = db.Column(db.String(80))
+class Contract(db.Model):
 
-    #def __init__(self, email, password):        #maybe axe all of this second chunk? 
-        #self.email = email
-        #self.password = password
+    id = db.Column(db.Integer, primary_key=True)
+    blockchainderivativesid = db.Column(db.String(64))
+    buyerethereumaddress = db.Column(db.String(64))
+    sellerethereumaddress = db.Column(db.String(64))
+    deliverydate = db.Column(db.Integer)
+    numberofunits = db.Column(db.Integer)
+    commodityname = db.Column(db.String(64))
+    price = db.Column(db.Integer)
+    margin = db.Column(db.Integer)
+    soliditycodeinitial = db.Column(db.String(64))
+
+    def __repr__(self):
+        return '<Price %r>' % self.price
+        return '<Margin %r>' % self.margin
+
+    def __init__(self, blockchainderivativesid, buyerethereumaddress, sellerethereumaddress, deliverydate, numberofunits, commodityname, price, margin, soliditycodeinitial):
+        self.blockchainderivativesid = blockchainderivativesid
+        self.buyerethereumaddress = buyerethereumaddress
+        self.sellerethereumaddress = sellerethereumaddress
+        self.deliverydate = deliverydate
+        self.numberofunits = numberofunits
+        self.commodityname = commodityname
+        self.price = price
+        self.margin = margin
+        self.soliditycodeinitial = soliditycodeinitial
+
+db.create_all()
+
+user = User('John Doe', 'john.doe@example.com')
+db.session.add(user)
+db.session.commit()
+user2 = User('Jane Doe', 'jane.doe@example.com')
+db.session.add(user2)
+db.session.commit()
+all_users = User.query.all()
+print all_users
+
+contract = Contract('blockchainderivativesid00', 'buyerethereumaddress00', 'sellerethereumaddress00', '1', '1', 'commodityname00', '1', '1', 'soliditycodeinitial00')
+db.session.add(contract)
+db.session.commit()
+contract2 = Contract('blockchainderivativesid10', 'buyerethereumaddress10', 'sellerethereumaddress10', '1', '1', 'commodityname10', '1', '1', 'soliditycodeinitial10')
+db.session.add(contract2)
+db.session.commit()
+all_contracts = Contract.query.all()
+print all_contracts
+
+
+#user = User('John Doe', 'john.doe@example.com')
+#db.session.add(user)
+#db.session.commit()
+
+#db.session.add(User2(email="ad@min.com", password="admin")
+#db.session.commit()
+#user = User2.query.filter_by(email=email).first_or_404()
+
+
+
 
 #if not db.session.query(User).filter(User.email == email).count():
     #reg = User(email)
@@ -55,14 +108,12 @@ class User2(db.Model):
 
 #from models import User, db   #maybe get rid of db?
 
-#flip some switch 
-
-
 login_manager = LoginManager()
 
-SECRET_KEY = 'secretkey',
-USERNAME='username',
-PASSWORD='password',
+SECRET_KEY = 'secretkey'
+USERNAME='username'
+PASSWORD='password'
+#DEBUG=True
 
 #me = User('admin', 'admin@example.com')
 #db.session.add(me)
@@ -75,15 +126,17 @@ class RegistrationForm(Form):
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm(request.form)
-    if request.method == 'POST' and form.validate():
+    #if request.method == 'POST' and form.validate():
         #registered_users = User.query.filter_by(email=form.email.data)
             #if user.count() == 0:
-        user = User(form.email.data, form.password.data)
-        db.session.add(user)
-        db.session.commit()
-        flash('Thanks for registering the email {0}, please log in'.format(email))
-        return redirect(url_for('login'))
-    return render_template('register.html', form=form)
+    user = User(form.email.data, form.password.data)
+    db.session.add(user)
+    db.session.commit()
+    all_users2 = User.query.all()
+    print all_users2
+    #flash('Thanks for registering the email {0}, please log in'.format(email))
+    return redirect(url_for('login'))
+    #return render_template('register.html', form=form)
         #else:
             #flash('The email {0} is already in use.  Please try a new email'.format(email))
             #return redirect(url_for('register'))
@@ -168,14 +221,7 @@ def logout():
     #flash('You were logged out')
     #return redirect(url_for('index'))
 
-#app.config.update(dict(
-    #DEBUG=True,
-    #SECRET_KEY = 'secretkey',
-    #USERNAME='username',
-    #PASSWORD='password',
-    #SQLALCHEMY_DATABASE_URI = 'sqlite:///db/sql.db'
-    #SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
-#))
+
 
 
 

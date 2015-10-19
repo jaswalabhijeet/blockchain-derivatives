@@ -1,19 +1,24 @@
 from app import db
-from sqlalchemy.dialects.postgresql import JSON
 
+class User2(db.Model):
 
-class Result(db.Model):
-    __tablename__ = 'results'
+    __tablename__ = "users2"
 
     id = db.Column(db.Integer, primary_key=True)
-    url = db.Column(db.String())
-    result_all = db.Column(JSON)
-    result_no_stop_words = db.Column(JSON)
+    email = db.Column(db.String(120), unique=True)
+    password = db.Column(db.String(120))
 
-    def __init__(self, url, result_all, result_no_stop_words):
-        self.url = url
-        self.result_all = result_all
-        self.result_no_stop_words = result_no_stop_words
+class Contracts2(db.Model):
 
-    def __repr__(self):
-        return '<id {}>'.format(self.id)
+    __tablename__ = "contracts2"
+
+    id = db.Column(db.Integer, primary_key=True)
+    blockchainderivativesid = db.Column(db.String(64))
+    buyerethereumaddress = db.Column(db.String(64))
+    sellerethereumaddress = db.Column(db.String(64))
+    deliverydate = db.Column(db.Integer)
+    numberofunits = db.Column(db.Integer)
+    commodityname = db.Column(db.String(64))
+    price = db.Column(db.Integer)
+    margin = db.Column(db.Integer)
+    soliditycodeinitial = db.Column(db.String(64))
