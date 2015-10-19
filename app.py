@@ -87,25 +87,6 @@ db.session.commit()
 all_contracts = Contract.query.all()
 print all_contracts
 
-
-#user = User('John Doe', 'john.doe@example.com')
-#db.session.add(user)
-#db.session.commit()
-
-#db.session.add(User2(email="ad@min.com", password="admin")
-#db.session.commit()
-#user = User2.query.filter_by(email=email).first_or_404()
-
-
-
-
-#if not db.session.query(User).filter(User.email == email).count():
-    #reg = User(email)
-    #db.session.add(reg)
-    #db.session.commit()
-
-#YOU HAVE TO USE models.Result
-
 #from models import User, db   #maybe get rid of db?
 
 login_manager = LoginManager()
@@ -126,21 +107,23 @@ class RegistrationForm(Form):
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm(request.form)
-    if request.method == 'POST':
-    #if request.method == 'POST' and form.validate():
-        #registered_users = User.query.filter_by(email=form.email.data)
-            #if user.count() == 0:
-        user = User(form.email.data, form.password.data)
-        db.session.add(user)
-        db.session.commit()
-        all_users2 = User.query.all()
-        print all_users2
+    if request.method == 'POST':                                       #try to add this to the if clause later: and form.validate():
+        registered_users = User.query.filter_by(email=form.email.data)
+        if registered_users.count() == 0:
+            print 'No user with that name'
+            user = User(form.email.data, form.password.data)
+            db.session.add(user)
+            db.session.commit()
+            all_users2 = User.query.all()
+            print all_users2
+        else:
+            print 'Sorry! User with that name'
+            #flash('The email is already in use.  Please try a new email')    #you have to implement flashes. See: http://flask.pocoo.org/docs/0.10/patterns/flashing/
+            return redirect(url_for('index'))         #send to login instead…seemed to be a problem with it before
     #flash('Thanks for registering the email {0}, please log in'.format(email))
     #return redirect(url_for('login'))
     return render_template('register.html', form=form)
-        #else:
-            #flash('The email {0} is already in use.  Please try a new email'.format(email))
-            #return redirect(url_for('register'))
+
 
 #@login_manager.user_loader
 #def user_loader(user_id):
