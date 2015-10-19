@@ -126,17 +126,18 @@ class RegistrationForm(Form):
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm(request.form)
+    if request.method == 'POST':
     #if request.method == 'POST' and form.validate():
         #registered_users = User.query.filter_by(email=form.email.data)
             #if user.count() == 0:
-    user = User(form.email.data, form.password.data)
-    db.session.add(user)
-    db.session.commit()
-    all_users2 = User.query.all()
-    print all_users2
+        user = User(form.email.data, form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        all_users2 = User.query.all()
+        print all_users2
     #flash('Thanks for registering the email {0}, please log in'.format(email))
-    return redirect(url_for('login'))
-    #return render_template('register.html', form=form)
+    #return redirect(url_for('login'))
+    return render_template('register.html', form=form)
         #else:
             #flash('The email {0} is already in use.  Please try a new email'.format(email))
             #return redirect(url_for('register'))
@@ -161,7 +162,8 @@ class LoginForm(Form):
 @app.route("/login", methods=["GET", "POST"])
 def login():
     form = LoginForm(request.form)   
-    if request.method == 'POST' and form.validate():
+    if request.method == 'POST':
+    #if request.method == 'POST' and form.validate():
     #if form.validate_on_submit():
 
         #user = User.query.filter_by(email=email).filter_by(password=password)
@@ -173,8 +175,8 @@ def login():
         user = User(form.email.data, form.password.data)
         #user = User.query.get(form.email.data, form.password.data) #this slightly different than registration has .query.get
         #user.authenticated = True
-        #db.session.add(user)  #don not need, right? 
-        #db.session.commit()   #don not need, right? 
+        db.session.add(user)  #don not need, right? 
+        db.session.commit()   #don not need, right? 
         #login_user(user, remember=True)
         #return redirect(url_for("index"))
     return render_template("login.html", form=form)
