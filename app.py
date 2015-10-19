@@ -118,10 +118,9 @@ def register():
             print all_users2
         else:
             print 'Sorry! User with that name'
-            #flash('The email is already in use.  Please try a new email')    #you have to implement flashes. See: http://flask.pocoo.org/docs/0.10/patterns/flashing/
-            return redirect(url_for('index'))         #send to login instead…seemed to be a problem with it before
+            #flash('The email is already in use.  Please try a new email')    #implement flashes: http://flask.pocoo.org/docs/0.10/patterns/flashing/
+            return redirect(url_for('login'))         #send to login instead seemed to be a problem with it before
     #flash('Thanks for registering the email {0}, please log in'.format(email))
-    #return redirect(url_for('login'))
     return render_template('register.html', form=form)
 
 
@@ -145,21 +144,32 @@ class LoginForm(Form):
 @app.route("/login", methods=["GET", "POST"])
 def login():
     form = LoginForm(request.form)   
-    if request.method == 'POST':
-    #if request.method == 'POST' and form.validate():
+    if request.method == 'POST':                   #try to add this to the if clause later: and form.validate():
     #if form.validate_on_submit():
+
+        registered_users = User.query.filter_by(email=form.email.data)
+        #registered_users = User.query.filter_by(email=form.email.data).filter_by(password=password)
+        if registered_users.count() == 1:
+            print 'there is a user with that name!!!!'
+            #return redirect(url_for('login'))
+        else: 
+            print 'No user with that name'
 
         #user = User.query.filter_by(email=email).filter_by(password=password)
         #if user.count() == 1:
+        #print "there is a user with that name!" 
+
 
         #registered_users = User.query.filter_by(email=form.email.data)
             #if user.count() == 0:
 
-        user = User(form.email.data, form.password.data)
+        #user = User(form.email.data, form.password.data)
         #user = User.query.get(form.email.data, form.password.data) #this slightly different than registration has .query.get
         #user.authenticated = True
-        db.session.add(user)  #don not need, right? 
-        db.session.commit()   #don not need, right? 
+
+        #db.session.add(user)  #turn back on if need be
+        #db.session.commit()   #turn back on if need be
+
         #login_user(user, remember=True)
         #return redirect(url_for("index"))
     return render_template("login.html", form=form)
