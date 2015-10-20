@@ -69,23 +69,17 @@ class Contract(db.Model):
 
 db.create_all()
 
-user = User('John Doe', 'john.doe@example.com')
-db.session.add(user)
-db.session.commit()
-user2 = User('Jane Doe', 'jane.doe@example.com')
-db.session.add(user2)
-db.session.commit()
-all_users = User.query.all()
-print all_users
+#user = User('John Doe', 'john.doe@example.com')
+#db.session.add(user)
+#db.session.commit()
+#all_users = User.query.all()
+#print all_users
 
-contract = Contract('blockchainderivativesid00', 'buyerethereumaddress00', 'sellerethereumaddress00', '1', '1', 'commodityname00', '1', '1', 'soliditycodeinitial00')
-db.session.add(contract)
-db.session.commit()
-contract2 = Contract('blockchainderivativesid10', 'buyerethereumaddress10', 'sellerethereumaddress10', '1', '1', 'commodityname10', '1', '1', 'soliditycodeinitial10')
-db.session.add(contract2)
-db.session.commit()
-all_contracts = Contract.query.all()
-print all_contracts
+#contract = Contract('blockchainderivativesid00', 'buyerethereumaddress00', 'sellerethereumaddress00', '1', '1', 'commodityname00', '1', '1', 'soliditycodeinitial00')
+#db.session.add(contract)
+#db.session.commit()
+#all_contracts = Contract.query.all()
+#print all_contracts
 
 #from models import User, db   #maybe get rid of db?
 
@@ -96,10 +90,6 @@ USERNAME='username'
 PASSWORD='password'
 #DEBUG=True
 
-#me = User('admin', 'admin@example.com')
-#db.session.add(me)
-#db.session.commit()
-
 class RegistrationForm(Form):
     email = TextField('Email Address', [validators.Length(min=6, max=35)])
     password = PasswordField('Password', [validators.Length(min=6, max=35)])
@@ -107,7 +97,7 @@ class RegistrationForm(Form):
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm(request.form)
-    if request.method == 'POST':                                       #try to add this to the if clause later: and form.validate():
+    if request.method == 'POST':                              #try to add this to the if clause later: and form.validate():
         registered_users = User.query.filter_by(email=form.email.data)
         if registered_users.count() == 0:
             print 'No user with that name'
@@ -118,11 +108,10 @@ def register():
             print all_users2
         else:
             print 'Sorry! User with that name'
-            #flash('The email is already in use.  Please try a new email')    #implement flashes: http://flask.pocoo.org/docs/0.10/patterns/flashing/
+            flash('The email is already in use.  Please try a new email')    
             return redirect(url_for('login'))         #send to login instead seemed to be a problem with it before
     #flash('Thanks for registering the email {0}, please log in'.format(email))
     return render_template('register.html', form=form)
-
 
 #@login_manager.user_loader
 #def user_loader(user_id):
@@ -137,71 +126,48 @@ def register():
         #return user.one()
     #return None
 
+def flash_errors(form):
+    for field, errors in form.errors.items():
+        for error in errors:
+            flash(u"Error in the %s field - %s" % (
+                getattr(form, field).label.text,
+                error
+            ))
+
 class LoginForm(Form):
     email = TextField('Email Address', validators=[validators.Length(min=6, max=35)])     #Try ,.Email()] validator later
     password = PasswordField('Password', validators=[validators.Length(min=6, max=35)])
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    #error = None
     form = LoginForm(request.form)   
-    if request.method == 'POST':                   #try to add this to the if clause later: and form.validate():
-    #if form.validate_on_submit():
+    if request.method == 'POST':                   #try to add this to the if clause later: and form.validate(): or if form.validate_on_submit():
 
-        registered_users = User.query.filter_by(email=form.email.data)
-        #registered_users = User.query.filter_by(email=form.email.data).filter_by(password=password)
+        registered_users = User.query.filter_by(email=form.email.data) #add something like this: .filter_by(password=password)
         if registered_users.count() == 1:
             print 'there is a user with that name!!!!'
-            #return redirect(url_for('login'))
+            #login_user(user, remember=True)       #does not work
+            #login_user(user.one())
+            #session['logged_in'] = True
+            flash_errors(form)
+            #flash('Welcome back')
+            #flash('Welcome back {0}'.format(email))
+            #flash(u'Successfully logged in as %s' % form.user.username)
+            #user = User(form.email.data, form.password.data)
+            #user = User.query.get(form.email.data, form.password.data) #this slightly different than registration has .query.get
+            #user.authenticated = True
+            return redirect(url_for("index"))
         else: 
             print 'No user with that name'
-
-        #user = User.query.filter_by(email=email).filter_by(password=password)
-        #if user.count() == 1:
-        #print "there is a user with that name!" 
-
-
-        #registered_users = User.query.filter_by(email=form.email.data)
-            #if user.count() == 0:
-
-        #user = User(form.email.data, form.password.data)
-        #user = User.query.get(form.email.data, form.password.data) #this slightly different than registration has .query.get
-        #user.authenticated = True
-
-        #db.session.add(user)  #turn back on if need be
-        #db.session.commit()   #turn back on if need be
-
-        #login_user(user, remember=True)
-        #return redirect(url_for("index"))
-    return render_template("login.html", form=form)
-    #return render_template("login.html")
-
-        #user = User.query.filter_by(email=email).filter_by(password=password)
-        #if user.count() == 1:
-            #login_user(user.one())
-            #flash('Welcome back {0}'.format(email))
-            #try:
-                #next = request.form['next']
-                #return redirect(next)
-            #except:
-                #return redirect(url_for('index'))
-        #else:
+            #might be a good idea to do an if statement: if password does not line up, do this and if name does not line up, do that
+            #error = 'Invalid password'
+            #error = 'Invalid username'
             #flash('Invalid login')
             #return redirect(url_for('login'))
-    #else:
-        #return abort(405)
-
-    #error = None
-    #if request.method == 'POST':
-        #if request.form['email'] != app.config['USERNAME']:
-            #error = 'Invalid username'
-        #elif request.form['password'] != app.config['PASSWORD']:
-            #error = 'Invalid password'
-        #else:
-            #session['logged_in'] = True
-            #flash('You were logged in')
-            #return redirect(url_for('index'))
-    #return render_template('login.html', error=error)
-
+            return redirect(url_for("register"))
+            #return render_template('login.html', error=error)
+    return render_template("login.html", form=form)
 
 @app.route("/logout", methods=["GET"])
 #@app.route('/logout')
@@ -216,31 +182,22 @@ def logout():
     #flash('You were logged out')
     #return redirect(url_for('index'))
 
-
-
-
-
-#@app.route('/users')
-#def users():
-  #return render_template('users.html', users = User.query.all())
-
-#@app.route('/user', methods=['POST'])
-#def user():
-  #if request.method == 'POST':
-    #user = User(request.form['email'], request.form['password'])
-    #db.session.add(user)
-    #db.session.commit()
-  #return redirect(url_for('users'))
+@app.route('/users')
+def users():
+  return render_template('users.html', users = User.query.all())
 
 @app.route('/')
 def index():
     return render_template('index.html')   
 
-@app.route('/futureethereum')
+@app.route('/futureethereum', methods=["GET", "POST"])
 def main_future():
-    #return render_template('futureethereum.html')  #this was only thing here initially
-    #error = None
-    #if request.method == 'POST':
+    error = None
+    if request.method == 'POST':
+        print request.form['buyerethereumaddress']
+        contract = Contract('blockchainderivativesid', request.form['buyerethereumaddress'], request.form['sellerethereumaddress'], request.form['deliverydate'], request.form['numberofunits'], request.form['commodityname'], request.form['1'], request.form['1'], request.form['soliditycodeinitial00')
+        #g.db.execute('insert into entries (title, text) values (?, ?)', [request.form['title'], request.form['text']])
+    #g.db.commit()
         #if request.form['buyerethereumaddress'] == null:
             #error = 'Invalid buyer ethereum address'
         #elif request.form['sellerethereumaddress'] == null:

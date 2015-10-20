@@ -2,6 +2,32 @@
 
 {% block content %}
 
+<head>
+    <title>Blockchain Derivatives Builder</title>
+ 
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+ 
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+ 
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="header">
+            <nav>
+                <ul class="nav nav-pills pull-right">
+                    <li role="presentation" class="active"><a href="/">Home</a>
+                    </li>
+                    <li role="presentation"><a href="/login">Log In</a>
+                    </li>
+                    <li role="presentation"><a href="/logout">Log Out</a>
+                    </li>
+<li role="presentation"><a href="/register">Register</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
 
   <h1>Register</h1>
 
@@ -12,8 +38,10 @@
           Please Enter Your Password:<br>
           {{ form.password }}<br>
       </p>
-      <p><input type="submit" value="Sign In"></p>
+      <p><input type="submit" value="Register"></p>
   </form>
+
+</body>
 
 {% endblock %}
 
