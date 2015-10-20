@@ -53,8 +53,8 @@ class Contract(db.Model):
     soliditycodeinitial = db.Column(db.String(64))
 
     def __repr__(self):
-        return '<Price %r>' % self.price
-        return '<Margin %r>' % self.margin
+        return '%s  %s  %s  %s  %s  %s  %s  %s  %s' % (self.blockchainderivativesid, self.buyerethereumaddress, self.sellerethereumaddress, self.deliverydate, self.numberofunits, self.commodityname, self.price, self.margin, self.soliditycodeinitial)
+
 
     def __init__(self, blockchainderivativesid, buyerethereumaddress, sellerethereumaddress, deliverydate, numberofunits, commodityname, price, margin, soliditycodeinitial):
         self.blockchainderivativesid = blockchainderivativesid
@@ -84,6 +84,7 @@ db.create_all()
 #from models import User, db   #maybe get rid of db?
 
 login_manager = LoginManager()
+login_manager.init_app(app)
 
 SECRET_KEY = 'secretkey'
 USERNAME='username'
@@ -104,14 +105,19 @@ def register():
             user = User(form.email.data, form.password.data)
             db.session.add(user)
             db.session.commit()
-            all_users2 = User.query.all()
-            print all_users2
+            login_user(user)
+            #all_users2 = User.query.all()
+            #print all_users2
         else:
             print 'Sorry! User with that name'
             flash('The email is already in use.  Please try a new email')    
             return redirect(url_for('login'))         #send to login instead seemed to be a problem with it before
     #flash('Thanks for registering the email {0}, please log in'.format(email))
     return render_template('register.html', form=form)
+
+@login_manager.user_loader
+def load_user(id):
+    return User.query.get(int(id))
 
 #@login_manager.user_loader
 #def user_loader(user_id):
@@ -139,6 +145,7 @@ class LoginForm(Form):
     password = PasswordField('Password', validators=[validators.Length(min=6, max=35)])
 
 @app.route("/login", methods=["GET", "POST"])
+@oid.loginhandler  #take out if malfunction 
 def login():
     #error = None
     form = LoginForm(request.form)   
@@ -154,7 +161,9 @@ def login():
             #flash('Welcome back')
             #flash('Welcome back {0}'.format(email))
             #flash(u'Successfully logged in as %s' % form.user.username)
-            #user = User(form.email.data, form.password.data)
+            user = User(form.email.data, form.password.data)
+            login_user(user)
+            #flask.flash('Logged in successfully.')
             #user = User.query.get(form.email.data, form.password.data) #this slightly different than registration has .query.get
             #user.authenticated = True
             return redirect(url_for("index"))
@@ -171,7 +180,7 @@ def login():
 
 @app.route("/logout", methods=["GET"])
 #@app.route('/logout')
-@login_required  #take out?
+#@login_required  #take out?
 def logout():
     user = current_user
     user.authenticated = False
@@ -182,57 +191,31 @@ def logout():
     #flash('You were logged out')
     #return redirect(url_for('index'))
 
-@app.route('/users')
-def users():
-  return render_template('users.html', users = User.query.all())
+@app.route('/mycontracts')
+#@login_required
+def mycontracts():
+  return render_template('mycontracts.html', contracts = Contract.query.all())
 
 @app.route('/')
 def index():
-    return render_template('index.html')   
+    return render_template('index.html')   #may want to add user=current_user
 
 @app.route('/futureethereum', methods=["GET", "POST"])
 def main_future():
     error = None
     if request.method == 'POST':
         print request.form['buyerethereumaddress']
-        contract = Contract('blockchainderivativesid', request.form['buyerethereumaddress'], request.form['sellerethereumaddress'], request.form['deliverydate'], request.form['numberofunits'], request.form['commodityname'], request.form['1'], request.form['1'], request.form['soliditycodeinitial00')
-        #g.db.execute('insert into entries (title, text) values (?, ?)', [request.form['title'], request.form['text']])
-    #g.db.commit()
+        contract = Contract('blockchainderivativesid', request.form['buyerethereumaddress'], request.form['sellerethereumaddress'], request.form['deliverydate'], request.form['numberofunits'], request.form['commodityname'], request.form['price'], request.form['margin'], request.form['soliditycodeinitial'])
+        db.session.add(contract)
+        db.session.commit()
+        all_contracts = Contract.query.all()
+        print all_contracts
         #if request.form['buyerethereumaddress'] == null:
-            #error = 'Invalid buyer ethereum address'
+            #error = 'Invalid buyer ethereum address'     
         #elif request.form['sellerethereumaddress'] == null:
-            #error = 'Invalid seller ethereum address'
-        #elif request.form['deliverydate'] == null:
-            #error = 'Invalid delivery date'
-        #elif request.form['numberofunits'] == null:
-            #error = 'Invalid number of units'
-        #elif request.form['commodityname'] == null:
-            #error = 'Invalid commodity name'
-        #elif request.form['price'] == null:
-            #error = 'Invalid price'
-        #elif request.form['margin'] == null:
-            #error = 'Invalid margin'
-        #elif request.form['soliditycodeinitial'] == null:
-            #error = 'Invalid solidity code initial'
-        #else:
-            #session['logged_in'] = True
-            #flash('Great')
-            #__tablename__ = "FuturesContractsCreated"
-            #urllib.uses_netloc.append("postgres")
-            #url = urllib.parse(os.environ["DATABASE_URL"])
-            #con = psycopg2.connect(database=url.path[1:],user=url.username,password=url.password,host=url.hostname,port=url.port)
-            #con = psycopg2.connect("dbname=test user=postgres") 	
-            #cur = con.cursor()
-            #cur.execute("INSERT INTO 'FuturesContractsCreated' (blockchainderivativesid,buyerethereumaddress,sellerethereumaddress, deliverydate, numberofunits, commodityname, price, margin, soliditycodeinitial)) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)",[app.config['USERNAME'],request.form['buyerethereumaddress'],request.form['sellerethereumaddress'], request.form['deliverydate'], request.form['numberofunits'], request.form['commodityname'], request.form['price'], request.form['margin'], request.form['soliditycodeinitial']])
-            #con.commit()
-            #cur.close()
-            #con.close()
-            #return render_template('futureethereum.html')
-            #return redirect(url_for('main_future'))
-    #return render_template('futureethereum', error=error)
-    return render_template('futureethereum.html')
-
-#check out this page if necessary for better forms: http://stackoverflow.com/questions/20837209/flask-wtform-save-form-to-db
+            #error = 'Invalid seller ethereum address'              #can add this for all fields later 
+        return render_template('futureethereum.html')
+    return render_template('futureethereum.html', error=error)       #remove .html if something screws up
 
 @app.route('/calloptionethereum')
 def main_call_option():
@@ -247,8 +230,6 @@ def main_swap():
     return render_template('swapethereum.html')
 
 if __name__ == '__main__':
-    #app.run(debug=True)
-    #app.run(host='0.0.0.0')   #turn this on later when you go to another server
     #port = int(os.environ.get('PORT', 5001))
     #app.run(host='0.0.0.0', port=port)
     #port = int(os.environ.get("PORT", 33507))
@@ -256,4 +237,3 @@ if __name__ == '__main__':
     port = int(os.getenv('PORT', 8080))
     host = os.getenv('IP', '0.0.0.0')
     app.run(port=port, host=host)
-    #db.create_all()

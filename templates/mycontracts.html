@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if current_user.is_authenticated %}
+  Hi {{ current_user.name }}!
+{% endif %}
+
+{% for c in contracts %}
+
+  <p>{{ c.blockchainderivativesid }} -- {{ c.buyerethereumaddress }} -- {{ c.sellerethereumaddress }} -- {{ c.deliverydate }} -- {{ c.numberofunits }} -- {{ c.commodityname }} -- {{ c.price }} -- {{ c.margin }} -- {{ c.soliditycodeinitial }}</p>
+
+{% endfor %}
+
+{% endblock %}
