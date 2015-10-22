@@ -30,6 +30,10 @@
                 </ul>
             </nav>
         </div>
+
+{% if current_user.is_authenticated %}
+    <li><a href="/mycontracts">My Contracts</a></li>
+{% endif %}
  
  <br><br> 
         <div class="jumbotron">
