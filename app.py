@@ -13,8 +13,6 @@ from wtforms.validators import DataRequired
 
 app = Flask(__name__)
 
-
-
 # in the command line, maybe do: 'run python' and then 'from app import db' and then 'db.create_all()' and to leave: 'exit()'
 
 db = SQLAlchemy(app)

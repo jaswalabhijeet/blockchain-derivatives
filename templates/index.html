@@ -4,6 +4,10 @@
 
 {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}  
 
+{% if current_user.is_authenticated %}
+  You are logged in as: {{ current_user.email }}!
+{% endif %}
+
 <head>
     <title>Blockchain Derivative Builder</title>
  

@@ -4,6 +4,10 @@
  
 {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}  
 
+{% if current_user.is_authenticated %}
+  You are logged in as: {{ current_user.email }}!
+{% endif %}
+
 <head>
     <title>Blockchain Derivatives Builder</title>
 
@@ -36,8 +40,9 @@
         <div class="jumbotron">
             <h1>Blockchain Derivative Builder</h1>
             <p class="lead"></p>
+        </div>
 
-</div>
+
         <h1>
         <span>Future Contract on Ethereum</span> 
         </h1>
@@ -241,25 +246,107 @@
 
 
   <form action="{{ url_for('main_future') }}" method=post class=add-entry>
-    <dl>
-      <dt>buyer ethereum address:
-      <dd><input type=text name=buyerethereumaddress>
-      <dt>seller ethereum address:
-      <dd><input type=text name=sellerethereumaddress>
-      <dt>deliverydate:
-      <dd><input type=number name=deliverydate>
-      <dt>numberofunits:
-      <dd><input type=number name=numberofunits>
-      <dt>commodityname:
-      <dd><input type=text name=commodityname>
-      <dt>price:
-      <dd><input type=number name=price>
-      <dt>margin:
-      <dd><input type=number name=margin>
-      <dt>soliditycodeinitial:
-      <dd><input type=text name=soliditycodeinitial>
-      <dd><input type=submit value=Save>
-    </dl>
+
+  <label for="buyerethereumaddress">buyer ethereum address:</label>
+  <input type="text" name="buyerethereumaddress" id="buyerethereumaddress">
+
+  <label for="sellerethereumaddress">seller ethereum address:</label>
+  <input type="text" name="sellerethereumaddress" id="sellerethereumaddress">
+
+  <label for="sellerethereumaddress">sellerethereumaddress:</label>
+  <input type="text" name="sellerethereumaddress" id="sellerethereumaddress">
+
+  <label for="deliverydate">deliverydate:</label>
+  <input type="number" name="deliverydate" id="deliverydate">
+
+  <label for="numberofunits">numberofunits:</label>
+  <input type="number" name="numberofunits" id="numberofunits">
+
+<select id="commodityname" name="commodityname" onchange="updateText('commodity')">
+<option value disabled selected> -- select an option -- </option>
+                        <option value="corn">Corn</option>
+                        <option value="oats">Oats</option>
+                        <option value="roughrice">Rough Rice</option>
+                        <option value="soybeans">Soybeans</option>
+                        <option value="soybeanmeal">Soybean Meal</option>
+                        <option value="soybeanoil">Soybean Oil</option>
+                        <option value="rapeseed">Rapeseed</option>
+                        <option value="wheat">Wheat</option>
+                        <option value="springwheat">Spring Wheat</option>
+                        <option value="redwheat">Red Wheat</option>
+                        <option value="minnesotawheat">Minnesota Wheat</option>
+                        <option value="chicagowheat">Chicago Wheat</option>
+                        <option value="kcwheat">K.C. Wheat</option>
+                        <option value="barley">Barley</option>
+                        <option value="distillerdriedgrains">Distiller Dried Grains</option>
+                        <option value="milk">Milk</option>
+                        <option value="class3milk">Class III Milk</option>
+                        <option value="class4milk">Class IV Milk</option>
+                        <option value="skimmedmilk">Skimmed Milk</option>
+                        <option value="cheese">Cheese</option>
+                        <option value="butter">Butter</option>
+                        <option value="cocoa">Cocoa</option>
+                        <option value="coffeec">Coffee C</option>
+                        <option value="coffeerobustica">Coffee Robustica</option>
+                        <option value="coffeearabica">Coffee Arabica</option>
+                        <option value="cottonno2">Cotton No.2</option>
+                        <option value="sugarno11">Sugar No. 11</option>
+                        <option value="sugarno14">Sugar No. 14</option>
+                        <option value="frozenconcentratedorangejuice">Frozen Concentrated Orange Juice</option>
+                        <option value="wool">Wool</option>
+                        <option value="leanhogs">Lean Hogs</option>
+                        <option value="livecattle">Live Cattle</option>
+                        <option value="feedercattle">Feeder Cattle</option>
+                        <option value="wticrudeoil">WTI Crude Oil</option>
+                        <option value="brentcrude">Brent Crude</option>
+                        <option value="crudeoil">Crude Oil</option>
+                        <option value="gasoil">Gasoil</option>
+                        <option value="ethanol">Ethanol</option>
+                        <option value="kerosene">Kerosene</option>
+                        <option value="naturalgas">Natural Gas</option>
+                        <option value="heatingoil">Heating Oil</option>
+                        <option value="gulfcoastgasoline">Gulf Coast Gasoline</option>
+                        <option value="rbobgasoline">RBOB Gasoline</option>
+                        <option value="propane">Propane</option>
+                        <option value="purifiedterephthalicacid">Purified Terephthalic Acid</option>
+                        <option value="copper">Copper</option>
+                        <option value="lead">Lead</option>
+                        <option value="zinc">Zinc</option>
+                        <option value="tin">Tin</option>
+                        <option value="aluminum">Aluminum</option>
+                        <option value="aluminumalloy">Aluminum Alloy</option>
+                        <option value="nickel">Nickel</option>
+                        <option value="cobalt">Cobalt</option>
+                        <option value="coal">Coal</option>
+                        <option value="molybdenum">Molybdenum</option>
+                        <option value="recycledsteel">Recycled Steel</option>
+                        <option value="steel">Steel</option>
+                        <option value="gold">Gold</option>
+                        <option value="silver">Silver</option>
+                        <option value="platinum">Platinum</option>
+                        <option value="palladium">Palladium</option>
+                        <option value="rhodium">Rhodium</option>
+                        <option value="palmoil">Palm Oil</option>
+                        <option value="rubber">Rubber</option>
+                        <option value="wood">Wood</option>
+                        <option value="polypropylene">Polypropylene</option>
+                        <option value="linearlowdensitypolypropylene">Linear Low Density Polypropylene</option>
+                        <option value="ecxemissions">ECX Emissions</option>
+                        <option value="carbonoffsets">Carbon Offsets</option>
+                        <option value="renewableenergycertificates">Renewable Energy Certificates</option>
+                        <option value="whitecertificates">White Certificates</option>
+                </select>
+
+  <label for="price">price:</label>
+  <input type="number" name="price" id="price">
+
+  <label for="margin">margin:</label>
+  <input type="number" name="margin" id="margin">
+
+  <label for="soliditycodeinitial">soliditycodeinitial:</label>
+  <input type="text" name="soliditycodeinitial" id="soliditycodeinitial">
+
+<input type="submit" value="Save">
   </form>
 
 
