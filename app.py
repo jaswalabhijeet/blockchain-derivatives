@@ -185,7 +185,7 @@ def main_future():
         contract = Contract(str(current_user.id), request.form['buyerethereumaddress'],
                             request.form['sellerethereumaddress'], request.form['deliverydate'],
                             request.form['numberofunits'], request.form['commodityname'], request.form['price'],
-                            request.form['margin'], request.form['soliditycodeinitial'])  #might not need str()
+                            request.form['margin'], request.form['contractfield4'])  #might not need str() #change last one back request.form['soliditycodeinitial'] to: 
         db.session.add(contract)
         db.session.commit()
         all_contracts = Contract.query.all()
