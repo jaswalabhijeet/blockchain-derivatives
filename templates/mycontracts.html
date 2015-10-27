@@ -4,6 +4,8 @@
 
 {% if current_user.is_authenticated %}
   You are logged in as: {{ current_user.email }}!
+  Your user id is: {{ current_user.id }}!
+  The int version of your user id is: {{ current_user.id|int }}!
 {% endif %}
 
 <head>
@@ -32,20 +34,32 @@
 
   <h1>My Contracts</h1>
 {% for c in contracts %}
-  <p>{{ c.blockchainderivativesid }} -- {{ c.buyerethereumaddress }} -- {{ c.sellerethereumaddress }} -- {{ c.deliverydate }} -- {{ c.numberofunits }} -- {{ c.commodityname }} -- {{ c.price }} -- {{ c.margin }} -- {{ c.soliditycodeinitial }}</p>
+
+{% if c.blockchainderivativesid|int == current_user.id|int %}
+
+  <p>{{ c.blockchainderivativesid|int }} -- {{ c.buyerethereumaddress }} -- {{ c.sellerethereumaddress }} -- {{ c.deliverydate }} -- {{ c.numberofunits }} -- {{ c.commodityname }} -- {{ c.price }} -- {{ c.margin }} -- {{ c.soliditycodeinitial }}</p>
+
+{% endif %}
+
 {% endfor %}
 
 
 <table>
 {% for c in contracts %}
+
    <tr>
+        <th> Creator ID:    </th>
+        <td> {{  c.blockchainderivativesid }} </td>
+        <th> Int Version of Creator ID:    </th>
+        <td> {{  c.blockchainderivativesid|int }} </td>
         <th> Price:    </th>
         <td> {{  c.price }} </td>
         <th> Margin:    </th>
         <td> {{  c.margin }} </td>
-        <th> Price:    </th>
+        <th> Solidity Code:    </th>
         <td> {{  c.soliditycodeinitial }} </td>
    </tr>
+
 {% endfor %}
 </table>
 

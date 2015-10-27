@@ -8,6 +8,7 @@
 
 {% if current_user.is_authenticated %}
   You are logged in as: {{ current_user.email }}!
+  Your user id is: {{ current_user.id }}!
 {% endif %}
 
 <head>
