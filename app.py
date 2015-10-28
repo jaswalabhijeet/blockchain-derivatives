@@ -55,14 +55,18 @@ class Contract(db.Model):
     price = db.Column(db.Integer)
     margin = db.Column(db.Integer)
     soliditycodeinitial = db.Column(db.String(64))
+    transactionid = db.Column(db.String(64))
+    spotprice = db.Column(db.Integer)
+    soliditycodedeliverydate = db.Column(db.String(64))
+    soliditycodecancel = db.Column(db.String(64))
 
     def __repr__(self):
-        return '%s  %s  %s  %s  %s  %s  %s  %s  %s' % (
+        return '%s  %s  %s  %s  %s  %s  %s  %s  %s  %s  %s  %s  %s' % (
         self.blockchainderivativesid, self.buyerethereumaddress, self.sellerethereumaddress, self.deliverydate,
-        self.numberofunits, self.commodityname, self.price, self.margin, self.soliditycodeinitial)
+        self.numberofunits, self.commodityname, self.price, self.margin, self.soliditycodeinitial, self.transactionid, self.spotprice, self.soliditycodedeliverydate, self.soliditycodecancel)
 
     def __init__(self, blockchainderivativesid, buyerethereumaddress, sellerethereumaddress, deliverydate,
-                 numberofunits, commodityname, price, margin, soliditycodeinitial):
+                 numberofunits, commodityname, price, margin, soliditycodeinitial, transactionid, spotprice, soliditycodedeliverydate, soliditycodecancel):
         self.blockchainderivativesid = blockchainderivativesid
         self.buyerethereumaddress = buyerethereumaddress
         self.sellerethereumaddress = sellerethereumaddress
@@ -72,6 +76,10 @@ class Contract(db.Model):
         self.price = price
         self.margin = margin
         self.soliditycodeinitial = soliditycodeinitial
+        self.transactionid = transactionid 
+        self.spotprice = spotprice 
+        self.soliditycodedeliverydate = soliditycodedeliverydate 
+        self.soliditycodecancel = soliditycodecancel 
 
 
 db.create_all()
@@ -85,11 +93,11 @@ db.session.commit()
 # all_users = User.query.all()
 # print all_users
 
-# contract = Contract('blockchainderivativesid00', 'buyerethereumaddress00', 'sellerethereumaddress00', '1', '1', 'commodityname00', '1', '1', 'soliditycodeinitial00')
-# db.session.add(contract)
-# db.session.commit()
-# all_contracts = Contract.query.all()
-# print all_contracts
+contract = Contract('blockchainderivativesid00', 'buyerethereumaddress00', 'sellerethereumaddress00', '1', '1', 'commodityname00', '1', '1', 'soliditycodeinitial00', '1', '1', '1', '1')
+db.session.add(contract)
+db.session.commit()
+all_contracts = Contract.query.all()
+print all_contracts
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -184,7 +192,7 @@ def main_future():
         contract = Contract(str(current_user.id), request.form['buyerethereumaddress'],
                             request.form['sellerethereumaddress'], request.form['deliverydateTimestamp'],
                             request.form['numberofunits'], request.form['commodityname'], request.form['price'],
-                            request.form['margin'], request.form['contractfield4'])  #might not need str() #change last one or change deliverydate back 
+                            request.form['margin'], request.form['contractfield'], 0, 0, request.form['contractfield2'], request.form['contractfield3'])  #might not need str() #change last one or change deliverydate back 
         db.session.add(contract)
         db.session.commit()
         all_contracts = Contract.query.all()

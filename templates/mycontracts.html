@@ -33,35 +33,34 @@
         </div>
 
   <h1>My Contracts</h1>
+<table cellspacing='0'>
+
+<thead>
+		<tr>
+			<th>Details</th>
+			<th>Initialization Code</th>
+			<th>Delivery Date Code</th>
+			<th>Cancellation Code</th>
+		</tr>
+	</thead>
+<tbody>
+
+
 {% for c in contracts %}
 
 {% if c.blockchainderivativesid|int == current_user.id|int %}
 
-  <p>{{ c.blockchainderivativesid|int }} -- {{ c.buyerethereumaddress }} -- {{ c.sellerethereumaddress }} -- {{ c.deliverydate }} -- {{ c.numberofunits }} -- {{ c.commodityname }} -- {{ c.price }} -- {{ c.margin }} -- {{ c.soliditycodeinitial }}</p>
+<tr>
+			<td> Buyer: {{ c.buyerethereumaddress }} Seller: {{ c.sellerethereumaddress }} <br> Contract for {{ c.numberofunits }} of {{ c.commodityname }} at {{ c.price }} each with a margin of {{ c.margin }}</td>
+			<td> {{ c.soliditycodeinitial }} </td>
+			<td> {{ c.soliditycodedeliverydate }}</td>
+			<td> {{ c.soliditycodecancel }}</td>
+		</tr>
 
 {% endif %}
 
 {% endfor %}
-
-
-<table>
-{% for c in contracts %}
-
-   <tr>
-        <th> Creator ID:    </th>
-        <td> {{  c.blockchainderivativesid }} </td>
-        <th> Int Version of Creator ID:    </th>
-        <td> {{  c.blockchainderivativesid|int }} </td>
-        <th> Price:    </th>
-        <td> {{  c.price }} </td>
-        <th> Margin:    </th>
-        <td> {{  c.margin }} </td>
-        <th> Solidity Code:    </th>
-        <td> {{  c.soliditycodeinitial }} </td>
-   </tr>
-
-{% endfor %}
+	</tbody>
 </table>
-
 
 {% endblock %}
