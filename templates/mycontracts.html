@@ -3,9 +3,7 @@
 {% block content %}
 
 {% if current_user.is_authenticated %}
-  You are logged in as: {{ current_user.email }}!
-  Your user id is: {{ current_user.id }}!
-  The int version of your user id is: {{ current_user.id|int }}!
+  You are logged in as:  {{ current_user.email }}
 {% endif %}
 
 <head>
@@ -33,6 +31,9 @@
         </div>
 
   <h1>My Contracts</h1>
+<br><br>
+<p><b>For each of the contracts you have created, here is the Solidity initialization code (that you can inject directly onto Ethereum using Geth), the code you’ll want to send on the delivery date to finalize the exchange, and the code to cancel the derivative.</b></p>
+<br><br>
 <table cellspacing='0'>
 
 <thead>

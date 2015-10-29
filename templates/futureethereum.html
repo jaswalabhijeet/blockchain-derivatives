@@ -3,12 +3,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
- 
-{% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}  
 
 {% if current_user.is_authenticated %}
   You are logged in as: {{ current_user.email }}!
-  Your user id is: {{ current_user.id }}!
 {% endif %}
 
 <head>
@@ -52,19 +49,20 @@
         }
         </script>
 
-
+<br><br>
   <form action="{{ url_for('main_future') }}" method=post class=add-entry id="usrform">
 
   <label for="buyerethereumaddress">The Buyer and Futures Holder, whose Ethereum address is:</label><br>
-  <input type="text" name="buyerethereumaddress" id="buyerethereumaddress" placeholder="Enter The Buyer’s 40-Character Ethereum Address" class="mytext">
+  <input type="text" name="buyerethereumaddress" id="buyerethereumaddress" placeholder="Enter the Buyer’s 40-Character Ethereum Address" class="mytext">
 <br><br><br>
 
   <label for="sellerethereumaddress">Agrees to buy from the Seller, whose Ethereum address is:</label><br>
-  <input type="text" name="sellerethereumaddress" id="sellerethereumaddress" placeholder="Enter The Seller’s 40-Character Ethereum Address" class="mytext"> <br><br><br>
+  <input type="text" name="sellerethereumaddress" id="sellerethereumaddress" placeholder="Enter the Seller’s 40-Character Ethereum Address" class="mytext"> <br><br><br>
 
   <label for="numberofunits">The right to purchase from Seller:</label><br>
-  <input type="text" name="numberofunits" id="numberofunits" placeholder="Enter A Number of Units" class="mytext"> <br><br><br>
+  <input type="text" name="numberofunits" id="numberofunits" placeholder="Enter the Number of Commodity Units You Want" class="mytext"> <br><br><br>
 
+  <label for="commodityname">Of the following commodity and measurement:</label><br>
 <select id="commodityname" class="elegant-aero" name="commodityname" onchange="updateText('commodityname')">
 <option value disabled selected> -- select an option -- </option>
                         <option value="corn">Corn, bushel</option>
@@ -141,26 +139,27 @@
                         <option value="carbonoffsets">Carbon Offsets</option>
                         <option value="renewableenergycertificates">Renewable Energy Certificates</option>
                         <option value="whitecertificates">White Certificates</option>
-                </select>
+                </select><br><br>
 
 
-        <p><b>On or before the delivery date that is this many days in the future:</b></p>
-        <input type="text" name="deliverydate" id="deliverydate" placeholder="Enter A Number of Days" class="mytext" onchange="createTimestamp('deliverydate')">
+        <br><p><b>On or before the delivery date that is this many days in the future:</b></p>
+        <input type="text" name="deliverydate" id="deliverydate" placeholder="Enter A Number of Days" class="mytext" onchange="createTimestamp('deliverydate')"><br><br><br>
 
         <p><b>Which is represented by the Unix timestamp: </b></p>
-        </p><input type="text" value="" id="deliverydateTimestamp" class="mytext" name="deliverydateTimestamp" /> 
+        </p><input type="text" value="" id="deliverydateTimestamp" class="mytext" name="deliverydateTimestamp" /> <br><br><br>
 
 
 <label for="price">At the predetermined price (i.e., the </i>futures</i> price) of:</label><br>
-  <input type="text" name="price" id="price" placeholder="Enter A Price. e.g. 10.99" class="mytext"><br><br><br>  
+  <input type="text" name="price" id="price" placeholder="Enter The Price You’ll Pay On That Date. e.g. 10.99" class="mytext"><br><br><br>  
 
   <label for="margin">And the margin for this contract is:</label><br>
-  <input type="text" name="margin" id="margin" placeholder="Enter A Margin. e.g. 1.99" class="mytext"><br><br><br>  
+  <input type="text" name="margin" id="margin" placeholder="Enter The Deposit Amount on This Contract e.g. 1.99" class="mytext"><br><br><br>  
 
 <input type="submit" value="Save" onclick="add()">
   </form>
 
-
+        <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br>
+<br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br>
         <script>
         function add() {
         var price = parseFloat(document.getElementById('price').value);

@@ -29,6 +29,18 @@ padding: 30px 20px;
 line-height: 36px; }
 }
 
+input[type="password"] {
+    font-size:32px;
+padding: 30px 20px; 
+line-height: 36px; }
+}
+
+input[type="email"] {
+    font-size:32px;
+padding: 30px 20px; 
+line-height: 36px; }
+}
+
 input {
     line-height: 2em; // 2em is (2 * default line height)
 }
@@ -74,7 +86,7 @@ input {
     margin-top: 10px;
     font-weight: bold;
 }
-.elegant-aero input[type="text"], .elegant-aero input[type="number"], .elegant-aero input[type="email"], .elegant-aero textarea, .elegant-aero select {
+.elegant-aero input[type="text"], .elegant-aero input[type="number"], .elegant-aero input[type="password"], .elegant-aero input[type="email"], .elegant-aero textarea, .elegant-aero select {
     color: #888;
     width: 70%;
     padding: 0px 0px 0px 5px;

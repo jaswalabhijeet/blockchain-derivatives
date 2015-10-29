@@ -2,28 +2,23 @@
 
 {% block content %}
 
-{% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}  
-
 {% if current_user.is_authenticated %}
   You are logged in as: {{ current_user.email }}!
 {% endif %}
 
 <head>
     <title>Blockchain Derivative Builder</title>
- 
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
- 
     <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
 
 </head>
 
 <body>
     
-    <div class="container">
         <div class="header">
             <nav>
                 <ul class="nav nav-pills pull-right">
-                    <li role="presentation" class="active"><a href="/">Home</a>
+                    <li role="presentation"><a href="/">Home</a>
                     </li>
                     <li role="presentation"><a href="/login">Log In</a>
                     </li>
@@ -31,13 +26,12 @@
                     </li>
                     <li role="presentation"><a href="/register">Register</a>
                     </li>
+{% if current_user.is_authenticated %}
+    <li role="presentation"><a href="/mycontracts">My Contracts</a></li>
+{% endif %}
                 </ul>
             </nav>
         </div>
-
-{% if current_user.is_authenticated %}
-    <li><a href="/mycontracts">My Contracts</a></li>
-{% endif %}
  
  <br><br> 
         <div class="jumbotron">
@@ -52,7 +46,7 @@
 
         <h2>        
         <span>Or Just Get Started by Choosing a Type of Derivative & a Blockchain:</span> 
-        <h2><br>
+        <h2>
 
         <h2>        
         <span>
@@ -78,7 +72,6 @@
             <p>&copy; Bill Marino 2015</p>
         </footer>
  
-    </div>
 </body>
 
 {% endblock %}

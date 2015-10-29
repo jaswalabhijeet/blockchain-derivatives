@@ -8,34 +8,34 @@
 
 <head>
     <title>Blockchain Derivatives Builder</title>
- 
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
- 
     <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
  
 </head>
 
 <body>
 
-    <div class="container">
         <div class="header">
             <nav>
                 <ul class="nav nav-pills pull-right">
-                    <li role="presentation" class="active"><a href="/">Home</a>
+                    <li role="presentation"><a href="/">Home</a>
                     </li>
                     <li role="presentation"><a href="/login">Log In</a>
                     </li>
                     <li role="presentation"><a href="/logout">Log Out</a>
                     </li>
-<li role="presentation"><a href="/register">Register</a>
+<li role="presentation" class="active"><a href="/register">Register</a>
                     </li>
+{% if current_user.is_authenticated %}
+    <li role="presentation"><a href="/mycontracts">My Contracts</a></li>
+{% endif %}
                 </ul>
             </nav>
         </div>
 
   <h1>Register</h1>
 
-  <form action="" method="post" name="register">
+  <form action="" method="post" name="register" class=add-entry>
       <p>
           Please Enter Your Email:<br>
           {{ form.email }}<br>
