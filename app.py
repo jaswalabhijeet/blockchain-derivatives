@@ -160,7 +160,7 @@ def login():
                 pass
             return redirect(url_for("index"))
         else:
-            print 'No user with that name'
+            #print 'No user with that name'
             return "NO USER WITH THAT NAME"
             return redirect(url_for("register"))
     return render_template("login.html", form=form)
@@ -189,15 +189,15 @@ def index():
 def main_future():
     error = None
     if request.method == 'POST':
-        print request.form['buyerethereumaddress']
+        #print request.form['buyerethereumaddress']
         contract = Contract(str(current_user.id), request.form['buyerethereumaddress'],
                             request.form['sellerethereumaddress'], request.form['deliverydateTimestamp'],
                             request.form['numberofunits'], request.form['commodityname'], request.form['price'],
                             request.form['margin'], request.form['contractfield'], 0, 0, request.form['contractfield2'], request.form['contractfield3'])  #might not need str() #change last one or change deliverydate back 
         db.session.add(contract)
         db.session.commit()
-        all_contracts = Contract.query.all()
-        print all_contracts
+        #all_contracts = Contract.query.all()
+        #print all_contracts
         # if request.form['buyerethereumaddress'] == null:
         # error = 'Invalid buyer ethereum address'
         # elif request.form['sellerethereumaddress'] == null:
