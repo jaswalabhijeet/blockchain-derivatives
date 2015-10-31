@@ -96,8 +96,8 @@ db.session.commit()
 contract = Contract('blockchainderivativesid00', 'buyerethereumaddress00', 'sellerethereumaddress00', '1', '1', 'commodityname00', '1', '1', 'soliditycodeinitial00', '1', '1', '1', '1')
 db.session.add(contract)
 db.session.commit()
-all_contracts = Contract.query.all()
-print all_contracts
+#all_contracts = Contract.query.all()
+#print all_contracts
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -120,13 +120,13 @@ def register():
             user = User(form.email.data, form.password.data)
             db.session.add(user)
             db.session.commit()
-            print 'the user object is:', User.query.get(int(user.id))
+            #print 'the user object is:', User.query.get(int(user.id))
             user = User.query.get(int(user.id))
             login_user(user)
-            print 'I think you registered and logged in!!'
+            #print 'I think you registered and logged in!!'
             return redirect(url_for('index'))
         else:
-            print 'Sorry! User with that name'
+            #print 'Sorry! User with that name'
             return redirect(url_for('login'))  # send to login instead seemed to be a problem with it before
     return render_template('register.html', form=form)
 
@@ -149,14 +149,15 @@ def login():
         registered_users = User.query.filter_by(
             email=form.email.data)  # add something like this: .filter_by(password=password)
         if registered_users.count() == 1:
-            print 'yep, there is a user with that name!!!!'
+            #print 'yep, there is a user with that name!!!!'
             user = User.query.filter_by(email=form.email.data).first()
             user = User.query.get(int(user.id))
             login_user(user)
-            print 'I think you logged in!!'
-            print 'current user id is: ', current_user.id
+            #print 'I think you logged in!!'
+            #print 'current user id is: ', current_user.id
             if current_user.is_authenticated():
-                print 'Current user is authenticated  !!'
+                #print 'Current user is authenticated  !!'
+                pass
             return redirect(url_for("index"))
         else:
             print 'No user with that name'
