@@ -1,6 +1,8 @@
 import os
 from flask import Flask, render_template, request, session, g, redirect, url_for, abort, flash, Blueprint, \
     send_from_directory, current_app
+import json
+import urllib2
 from flask.ext.sqlalchemy import SQLAlchemy
 import psycopg2
 import logging
@@ -206,7 +208,7 @@ def main_future():
     return render_template('futureethereum.html', error=error)  # remove .html if something screws up
 
 
-@app.route('/calloptionethereum')
+@app.route('/calloptionethereum', methods=["GET", "POST"])
 def main_call_option():
     return render_template('calloptionethereum.html')
 
@@ -219,6 +221,115 @@ def main_put_option():
 @app.route('/swapethereum')
 def main_swap():
     return render_template('swapethereum.html')
+
+def getSpotPrices():
+    spotPrices = []
+    barleyResponse = urllib2.urlopen('http://www.quandl.com/api/v3/datasets/WSJ/BARLEY/data.json?api_key=vpiAmDEqu8LuxCupy7ab')
+    barleyData = barleyResponse.read()
+    barleyDataJSON = json.loads(barleyData)
+    spotPriceBarley = ("According to WSJ, the spot price of Barley as of " + str(barleyDataJSON['dataset_data']['data'][0][0]) + " is: " + str(barleyDataJSON['dataset_data']['data'][0][1]))
+    spotPrices.append(spotPriceBarley)
+    cornResponse = urllib2.urlopen('http://www.quandl.com/api/v3/datasets/OFDP/FUTURE_C1/data.json?api_key=vpiAmDEqu8LuxCupy7ab')
+    cornData = cornResponse.read()
+    cornDataJSON = json.loads(cornData)
+    spotPriceCorn = ("According to CBOT, the spot price of Corn as of " + str(cornDataJSON['dataset_data']['data'][0][0]) + " is: " + str(cornDataJSON['dataset_data']['data'][0][1]))
+    spotPrices.append(spotPriceCorn)
+    oatsResponse = urllib2.urlopen('http://www.quandl.com/api/v3/datasets/OFDP/FUTURE_O1/data.json?api_key=vpiAmDEqu8LuxCupy7ab')
+    oatsData = oatsResponse.read()
+    oatsDataJSON = json.loads(oatsData)
+    spotPriceOats = ("According to CBOT, the spot price of Oats as of " + str(oatsDataJSON['dataset_data']['data'][0][0]) + " is: " + str(oatsDataJSON['dataset_data']['data'][0][1]))
+    spotPrices.append(spotPriceOats)
+    riceResponse = urllib2.urlopen('http://www.quandl.com/api/v3/datasets/OFDP/FUTURE_RR1/data.json?api_key=vpiAmDEqu8LuxCupy7ab')
+    riceData = riceResponse.read()
+    riceDataJSON = json.loads(riceData)
+    spotPriceRice = ("According to CBOT, the spot price of Rice as of " + str(riceDataJSON['dataset_data']['data'][0][0]) + " is: " + str(riceDataJSON['dataset_data']['data'][0][1]))
+    spotPrices.append(spotPriceRice)
+    soybeanResponse = urllib2.urlopen('http://www.quandl.com/api/v3/datasets/OFDP/FUTURE_S1/data.json?api_key=vpiAmDEqu8LuxCupy7ab')
+    soybeanData = soybeanResponse.read()
+    soybeanDataJSON = json.loads(soybeanData)
+    spotPriceSoybean = ("According to CBOT, the spot price of Soybean as of " + str(soybeanDataJSON['dataset_data']['data'][0][0]) + " is: " + str(soybeanDataJSON['dataset_data']['data'][0][1]))
+    spotPrices.append(spotPriceSoybean)
+    soybeanMealResponse = urllib2.urlopen('http://www.quandl.com/api/v3/datasets/OFDP/FUTURE_SM1/data.json?api_key=vpiAmDEqu8LuxCupy7ab')
+    soybeanMealData = soybeanMealResponse.read()
+    soybeanMealDataJSON = json.loads(soybeanMealData)
+    spotPriceSoybeanMeal = ("According to CBOT, the spot price of Soybean Meal as of " + str(soybeanMealDataJSON['dataset_data']['data'][0][0]) + " is: " + str(soybeanMealDataJSON['dataset_data']['data'][0][1]))
+    spotPrices.append(spotPriceSoybeanMeal)
+    rhodiumResponse = urllib2.urlopen('http://www.quandl.com/api/v3/datasets/JOHNMATT/RHOD/data.json?api_key=vpiAmDEqu8LuxCupy7ab')
+    rhodiumData = rhodiumResponse.read()
+    rhodiumDataJSON = json.loads(rhodiumData)
+    spotPriceRhodium = ("According to Johnson Matthey, the spot price of Rhodium as of " + str(rhodiumDataJSON['dataset_data']['data'][0][0]) + " is: " + str(rhodiumDataJSON['dataset_data']['data'][0][1]))
+    spotPrices.append(spotPriceRhodium)
+    goldResponse = urllib2.urlopen('http://www.quandl.com/api/v3/datasets/OFDP/FUTURE_GC1/data.json?api_key=vpiAmDEqu8LuxCupy7ab')
+    goldData = goldResponse.read()
+    goldDataJSON = json.loads(goldData)
+    spotPriceGold = ("According to COMEX, the spot price of Gold as of " + str(goldDataJSON['dataset_data']['data'][0][0]) + " is: " + str(goldDataJSON['dataset_data']['data'][0][1]))
+    spotPrices.append(spotPriceGold)
+    silverResponse = urllib2.urlopen('http://www.quandl.com/api/v3/datasets/OFDP/FUTURE_SI1/data.json?api_key=vpiAmDEqu8LuxCupy7ab')
+    silverData = silverResponse.read()
+    silverDataJSON = json.loads(silverData)
+    spotPriceSilver = ("According to the COMEX, the spot price of Silver as of " + str(silverDataJSON['dataset_data']['data'][0][0]) + " is: " + str(silverDataJSON['dataset_data']['data'][0][1]))
+    spotPrices.append(spotPriceSilver)
+    platinumResponse = urllib2.urlopen('http://www.quandl.com/api/v3/datasets/OFDP/FUTURE_PL1/data.json?api_key=vpiAmDEqu8LuxCupy7ab')
+    platinumData = platinumResponse.read()
+    platinumDataJSON = json.loads(platinumData)
+    spotPricePlatinum = ("According to NYMEX, the spot price of Platinum as of " + str(platinumDataJSON['dataset_data']['data'][0][0]) + " is: " + str(platinumDataJSON['dataset_data']['data'][0][1]))
+    spotPrices.append(spotPricePlatinum)
+    copperResponse = urllib2.urlopen('http://www.quandl.com/api/v3/datasets/OFDP/COPPER_6/data.json?api_key=vpiAmDEqu8LuxCupy7ab')
+    copperData = copperResponse.read()
+    copperDataJSON = json.loads(copperData)
+    spotPriceCopper = ("According to the London Metal Exchange, the spot price of Copper as of " + str(copperDataJSON['dataset_data']['data'][0][0]) + " is: " + str(copperDataJSON['dataset_data']['data'][0][1]))
+    spotPrices.append(spotPriceCopper)
+    palladiumResponse = urllib2.urlopen('http://www.quandl.com/api/v3/datasets/OFDP/FUTURE_PA1/data.json?api_key=vpiAmDEqu8LuxCupy7ab')
+    palladiumData = palladiumResponse.read()
+    palladiumDataJSON = json.loads(palladiumData)
+    spotPricePalladium = ("According to the NYMEX, the spot price of Palladium as of " + str(palladiumDataJSON['dataset_data']['data'][0][0]) + " is: " + str(palladiumDataJSON['dataset_data']['data'][0][1]))
+    spotPrices.append(spotPricePalladium)
+    aluminumResponse = urllib2.urlopen('http://www.quandl.com/api/v3/datasets/OFDP/ALUMINIUM_21/data.json?api_key=vpiAmDEqu8LuxCupy7ab')
+    aluminumData = aluminumResponse.read()
+    aluminumDataJSON = json.loads(aluminumData)
+    spotPriceAluminum = ("According to the LME, the spot price of Aluminum as of " + str(aluminumDataJSON['dataset_data']['data'][0][0]) + " is: " + str(aluminumDataJSON['dataset_data']['data'][0][1]))
+    spotPrices.append(spotPriceAluminum)
+    cobaltResponse = urllib2.urlopen('http://www.quandl.com/api/v3/datasets/OFDP/COBALT_51/data.json?api_key=vpiAmDEqu8LuxCupy7ab')
+    cobaltData = cobaltResponse.read()
+    cobaltDataJSON = json.loads(cobaltData)
+    spotPriceCobalt = ("According to the LME, the spot price of Cobalt as of " + str(cobaltDataJSON['dataset_data']['data'][0][0]) + " is: " + str(cobaltDataJSON['dataset_data']['data'][0][1]))
+    spotPrices.append(spotPriceCobalt)
+    leadResponse = urllib2.urlopen('http://www.quandl.com/api/v3/datasets/WSJ/LEAD/data.json?api_key=vpiAmDEqu8LuxCupy7ab')
+    leadData = leadResponse.read()
+    leadDataJSON = json.loads(leadData)
+    spotPriceLead = ("According to WSJ, the spot price of Lead as of " + str(leadDataJSON['dataset_data']['data'][0][0]) + " is: " + str(leadDataJSON['dataset_data']['data'][0][1]))
+    spotPrices.append(spotPriceLead)
+    molybdenumResponse = urllib2.urlopen('http://www.quandl.com/api/v3/datasets/OFDP/MOLYBDENUM_56/data.json?api_key=vpiAmDEqu8LuxCupy7ab')
+    molybdenumData = molybdenumResponse.read()
+    molybdenumDataJSON = json.loads(molybdenumData)
+    spotPriceMolybdenum = ("According to LME, the spot price of Molybdenum as of " + str(molybdenumDataJSON['dataset_data']['data'][0][0]) + " is: " + str(molybdenumDataJSON['dataset_data']['data'][0][1]))
+    spotPrices.append(spotPriceMolybdenum)
+    nickelResponse = urllib2.urlopen('http://www.quandl.com/api/v3/datasets/ODA/PNICK_USD/data.json?api_key=vpiAmDEqu8LuxCupy7ab')
+    nickelData = nickelResponse.read()
+    nickelDataJSON = json.loads(nickelData)
+    spotPriceNickel = ("According to ODA, the spot price of Nickel as of " + str(nickelDataJSON['dataset_data']['data'][0][0]) + " is: " + str(nickelDataJSON['dataset_data']['data'][0][1]))
+    spotPrices.append(spotPriceNickel)
+    steelResponse = urllib2.urlopen('http://www.quandl.com/api/v3/datasets/WSJ/STEEL/data.json?api_key=vpiAmDEqu8LuxCupy7ab')
+    steelData = steelResponse.read()
+    steelDataJSON = json.loads(steelData)
+    spotPriceSteel = ("According to WSJ, the spot price of Steel as of " + str(steelDataJSON['dataset_data']['data'][0][0]) + " is: " + str(steelDataJSON['dataset_data']['data'][0][1]))
+    spotPrices.append(spotPriceSteel)
+    tinResponse = urllib2.urlopen('http://www.quandl.com/api/v3/datasets/WSJ/TIN/data.json?api_key=vpiAmDEqu8LuxCupy7ab')
+    tinData = tinResponse.read()
+    tinDataJSON = json.loads(tinData)
+    spotPriceTin = ("According to WSJ, the spot price of Tin as of " + str(tinDataJSON['dataset_data']['data'][0][0]) + " is: " + str(tinDataJSON['dataset_data']['data'][0][1]))
+    spotPrices.append(spotPriceTin)
+    zincResponse = urllib2.urlopen('http://www.quandl.com/api/v3/datasets/WSJ/ZINC/data.json?api_key=vpiAmDEqu8LuxCupy7ab')
+    zincData = zincResponse.read()
+    zincDataJSON = json.loads(zincData)
+    spotPriceZinc = ("According to WSJ, the spot price of Zinc as of " + str(zincDataJSON['dataset_data']['data'][0][0]) + " is: " + str(zincDataJSON['dataset_data']['data'][0][1]))
+    spotPrices.append(spotPriceZinc)
+    return spotPrices
+ 
+@app.route("/spotprices")
+def spotprices():
+    spotPrices = getSpotPrices()
+    return render_template('spotprices.html',**locals())  
 
 
 if __name__ == '__main__':

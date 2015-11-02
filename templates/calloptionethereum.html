@@ -4,8 +4,28 @@
  
 <head>
     <title>Blockchain Derivatives Builder</title>
+</head>
 
-{% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}  
+<script type=text/javascript src="{{
+  url_for('static', filename='jquery-1.11.3.js') }}"></script>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="{{
+  url_for('static', filename='jquery-1.11.3.js') }}">\x3C/script>')</script>
+
+<script>
+         $(document).ready(function() {
+            $("#driver").click(function(event){
+$.getJSON("http://www.quandl.com/api/v3/datasets/JOHNMATT/RHOD?callback=?", function(data) {
+    $('#summary').text(data);
+});
+</script>
+
+      <div id = "summary">
+      </div>
+      <input type = "button" id = "driver" value = "Load Data" />
+
+<body>
  
  
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
