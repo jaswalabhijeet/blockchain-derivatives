@@ -1,71 +1,152 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 
-{% block content %}
- 
 <head>
     <title>Blockchain Derivatives Builder</title>
+
+    <link rel=stylesheet type=text/css
+          href="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.indigo-deep_purple.min.css">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='home.css') }}">
+    <script src="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en"
+          rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 
-<script type=text/javascript src="{{
-  url_for('static', filename='jquery-1.11.3.js') }}"></script>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="{{
-  url_for('static', filename='jquery-1.11.3.js') }}">\x3C/script>')</script>
+        <script type="text/javascript">
 
-<script>
-         $(document).ready(function() {
-            $("#driver").click(function(event){
-$.getJSON("http://www.quandl.com/api/v3/datasets/JOHNMATT/RHOD?callback=?", function(data) {
-    $('#summary').text(data);
-});
-</script>
+        function add2() {
+        var transactionId = document.getElementById('transactionid').value;
+        var spotPrice = document.getElementById('spotprice').value;
+        document.getElementById("contractfield2").value = "contract MyMaturity{\n\nMyFuture feed;\n\nfunction setFeed(address addr){feed = MyFuture(addr);}\n\nfunction callFeed(){feed.MyDeliveryDate();}\n\ncallFeed("+transactionId+","+spotPrice+");\n\n}";
+        document.getElementById("contractfield3").value = "contract myCancellation{\n\nMyFuture feed;\n\nfunction setFeed(address add){feed = MyFuture(addr);}\n\nfunction callFeed(){feed.myCancel();}\n\ncallFeed();\n\n}";
+        }
 
-      <div id = "summary">
-      </div>
-      <input type = "button" id = "driver" value = "Load Data" />
+        function updateText(type) { 
+        var id = type+'Text';
+        document.getElementById(id).value = document.getElementById(type).value;
+        }
 
-<body>
- 
- 
-    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
- 
-    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
- 
- 
-</head>
- 
-<body>
- 
-    <div class="container">
-        <div class="header">
-            <nav>
-                <ul class="nav nav-pills pull-right">
-                    <li role="presentation" class="active"><a href="/">Home</a>
-                    </li>
-                    <li role="presentation"><a href="/login">Log In</a>
-                    </li>
-                    <li role="presentation"><a href="/logout">Log Out</a>
-                    </li>
-<li role="presentation"><a href="/register">Register</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+        function createTimestamp(type) { 
+        var deliveryDate = document.getElementById('deliverydate').value
+        var currentUnix = Math.round(+new Date()/1000);
+        var deliveryUnix = (parseInt(deliveryDate, 10) * 24 * 60 * 60) + parseInt(currentUnix, 10)
+        var id = type+'Timestamp';
+        document.getElementById(id).value = deliveryUnix;
+        }
 
- <br><br> 
-        <div class="jumbotron">
-            <h1>Blockchain Derivative Builder</h1>
-            <p class="lead"></p>
+        function add() {
+        var price = document.getElementById('price').value;
+        var units = document.getElementById('units').value; 
+        var contractValue = parseFloat(price, 10) * parseInt(units, 10);
+        var buyerAddress = document.getElementById('buyeraddress').value;
+        var sellerAddress = document.getElementById('selleraddress').value;
+        var commodity2 = document.getElementById('commodity').value;
+        var measurement2 = document.getElementById('measurement').value;
+        var unitsString = units.toString();
+        var assetString = unitsString+measurement2+commodity2;
+        var deliverydateTimestamp2 = document.getElementById('deliverydateTimestamp').value;
+        var margin2 = document.getElementById('margin').value;
+        document.getElementById("contractfield").value = "contract MyFuture{\n\naddress buyer = msg.sender;\naddress seller = "+buyerAddress+";\nvar contractvalue = "+contractValue+";\nasset= "+assetString+";\nuint constant deliverydate ="+deliverydateTimestamp2+";\nbool cancelled = false;\n"+sellerAddress+".send("+margin2+");\n\nfunction myDeliveryDate(transactionId, spotPrice){\nif((msg.value>= contractvalue) && (now => deliverydate) && cancelled == false) {\n"+sellerAddress+".send(msg.value);\nsendareceiptofthetransactiontotheprimisee;}\n\nfunction myCancel(){\n"+sellerAddress+".send("+margin2+");suicide(buyerAddress);}\n\n}";
+        }
+        </script>
+
+<!-- Uses a transparent header that draws on top of the layout's background -->
+<style>
+.demo-layout-transparent {
+  background: url('https://images.unsplash.com/photo-1424894408462-1c89797f2305?ixlib=rb-0.3.5&q=80&fm=jpg&s=42e7627aa059098be72974d544c04f2f') center / cover;
+}
+.demo-layout-transparent .mdl-layout__header,
+.demo-layout-transparent .mdl-layout__drawer-button {
+  /* This background is dark, so we set text to white. Use 87% black instead if
+     your background is light. */
+  color: white;
+}
+</style>
+
+<!-- Wide card with share menu button -->
+<style>
+.demo-card-wide.mdl-card {
+  width: 812px;
+}
+.demo-card-wide > .mdl-card__title {
+  color: #fff;
+  height: 576px;
+  background: url('../assets/demos/welcome_card.jpg') center / cover;
+}
+.demo-card-wide > .mdl-card__menu {
+  color: #fff;
+}
+</style>
+
+<body class="mdl-demo mdl-color--black mdl-color-text--grey-400 mdl-base">
+<div class="demo-layout-transparent mdl-layout mdl-js-layout">
+  <header class="mdl-layout__header mdl-layout__header--transparent">
+    <div class="mdl-layout__header-row">
+      <!-- Title -->
+      <span class="mdl-layout-title">Blockchain Derivatives</span>
+      <!-- Add spacer, to align navigation to the right -->
+      <div class="mdl-layout-spacer"></div>
+      <!-- Navigation -->
+      <nav class="mdl-navigation">
+        <a class="mdl-navigation__link" href="">Register</a>
+        <a class="mdl-navigation__link" href="">Log In</a>
+        <a class="mdl-navigation__link" href="">Log Out</a>
+        <a class="mdl-navigation__link" href="">My Derivatives</a>
+        <a class="mdl-navigation__link" href="">Current Spot Prices</a>
+      </nav>
+    </div>
+  </header>
+  <div class="mdl-layout__drawer">
+    <span class="mdl-layout-title">Create Derivatives</span>
+    <nav class="mdl-navigation">
+      <a class="mdl-navigation__link" href="">Create Ethereum Future</a>
+      <a class="mdl-navigation__link" href="">Create Ethereum Swap</a>
+      <a class="mdl-navigation__link" href="">Create Ethereum Put Option</a>
+    </nav>
+  </div>
+  <main class="mdl-layout__content">
+
+                <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+<div class="demo-card-wide mdl-card mdl-shadow--2dp">
+  <div class="mdl-card__title">
+    <h2 class="mdl-card__title-text">Welcome</h2>
+  </div>
 
         <h1>
         <span>Call Option Contract for Ethereum</span> 
         </h1>
 
-	<form><br><br>
-
         <p><b>The Option Holder and Buyer, whose Ethereum address is:</b></p>
         <input type="text" name="buyeraddress"  id="buyeraddress">   (A 40 character string. E.g., d6aaae06717f25095eab8250369a437e549160a4)<br><br><br>
+
+  <div class="mdl-card__actions mdl-card--border">
+    
+  </div>
+  <div class="mdl-card__menu">
+    <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+      <i class="material-icons">share</i>
+    </button>
+  </div>
+</div>
+                </section>
+
+
+
+
+  </main>
+</div>
+
+
+
+
+
+	<form><br><br>
+
+
 
         <p><b>Agrees to buy from the Seller, whose Ethereum address is:</b></p>
         <input type="text" name="selleraddress" id="selleraddress">  (A 40 character string. E.g., d6aaae06717f25095eab8250369a437e549160a4)<br><br><br>
@@ -185,12 +266,6 @@ $.getJSON("http://www.quandl.com/api/v3/datasets/JOHNMATT/RHOD?callback=?", func
         <p><b>At the predetermined strike price (i.e., the </i>futures</i> price) of:</b></p>
   	<input type="number" name="price" id="price" step="any"> per share<br><br><br>
 
-        <script type="text/javascript">
-        function updateText(type) { 
-        var id = type+'Text';
-        document.getElementById(id).value = document.getElementById(type).value;
-        }
-        </script>
 
         <p><b>On or before the expiration date that is this many days in the future:</b></p>
         <input type="number" name="deliverydate" id="deliverydate" onchange="createTimestamp('deliverydate')">
@@ -198,34 +273,7 @@ $.getJSON("http://www.quandl.com/api/v3/datasets/JOHNMATT/RHOD?callback=?", func
         <p><b>Which is represented by the Unix timestamp: </b></p>
         </p><input type="text" value="" id="deliverydateTimestamp" /> 
 
-        <script type="text/javascript">
-        function createTimestamp(type) { 
-        var deliveryDate = document.getElementById('deliverydate').value
-        var currentUnix = Math.round(+new Date()/1000);
-        var deliveryUnix = (parseInt(deliveryDate, 10) * 24 * 60 * 60) + parseInt(currentUnix, 10)
-        var id = type+'Timestamp';
-        document.getElementById(id).value = deliveryUnix;
-        }
-        </script>
-
         <input type="button" value="You're Done With The First Part! Click Here to Compile Your Contract into Ethereum’s Solidity Language" onclick="add()"/><br>
-
-        <script>
-        function add() {
-        var price = document.getElementById('price').value;
-        var units = document.getElementById('units').value; 
-        var contractValue = parseFloat(price, 10) * parseInt(units, 10);
-        var buyerAddress = document.getElementById('buyeraddress').value;
-        var sellerAddress = document.getElementById('selleraddress').value;
-        var commodity2 = document.getElementById('commodity').value;
-        var measurement2 = document.getElementById('measurement').value;
-        var unitsString = units.toString();
-        var assetString = unitsString+measurement2+commodity2;
-        var deliverydateTimestamp2 = document.getElementById('deliverydateTimestamp').value;
-        var margin2 = document.getElementById('margin').value;
-        document.getElementById("contractfield").value = "contract MyFuture{\n\naddress buyer = msg.sender;\naddress seller = "+buyerAddress+";\nvar contractvalue = "+contractValue+";\nasset= "+assetString+";\nuint constant deliverydate ="+deliverydateTimestamp2+";\nbool cancelled = false;\n"+sellerAddress+".send("+margin2+");\n\nfunction myDeliveryDate(transactionId, spotPrice){\nif((msg.value>= contractvalue) && (now => deliverydate) && cancelled == false) {\n"+sellerAddress+".send(msg.value);\nsendareceiptofthetransactiontotheprimisee;}\n\nfunction myCancel(){\n"+sellerAddress+".send("+margin2+");suicide(buyerAddress);}\n\n}";
-        }
-        </script>
 
         <br><br>
         <textarea rows="20" cols="80" type="text" id="contractfield">
@@ -244,14 +292,7 @@ $.getJSON("http://www.quandl.com/api/v3/datasets/JOHNMATT/RHOD?callback=?", func
         
         <input type="button" value="Create Code to Send Transaction on Delivery Date" onclick="add2()"/><br><br>
 
-        <script>
-        function add2() {
-        var transactionId = document.getElementById('transactionid').value;
-        var spotPrice = document.getElementById('spotprice').value;
-        document.getElementById("contractfield2").value = "contract MyMaturity{\n\nMyFuture feed;\n\nfunction setFeed(address addr){feed = MyFuture(addr);}\n\nfunction callFeed(){feed.MyDeliveryDate();}\n\ncallFeed("+transactionId+","+spotPrice+");\n\n}";
-        document.getElementById("contractfield3").value = "contract myCancellation{\n\nMyFuture feed;\n\nfunction setFeed(address add){feed = MyFuture(addr);}\n\nfunction callFeed(){feed.myCancel();}\n\ncallFeed();\n\n}";
-        }
-        </script>
+
 
         <textarea rows="15" cols="80" type="text" id="contractfield2">
         </textarea>
@@ -296,5 +337,4 @@ $.getJSON("http://www.quandl.com/api/v3/datasets/JOHNMATT/RHOD?callback=?", func
  
     </div>
 </body>
- 
-{% endblock %}
+</html>
