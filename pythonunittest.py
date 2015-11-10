@@ -20,13 +20,13 @@ class AppTestCase(unittest.TestCase):
         # assert the status code of the response
         self.assertEqual(result.status_code, 200)
 
-#test functional units on pages — check if necessary forms are
+#test functional units on pages & check if necessary forms are
 
-    def test_future_ethereum_status_code(self):
+    #def test_future_ethereum_status_code(self):
         # sends HTTP GET request to the application, on the Ethereum future page
-        result = self.app.get('/futureethereum') 
+        #result = self.app.get('/futureethereum') 
         # assert the status code of the response
-        self.assertEqual(result.status_code, 200)
+        #self.assertEqual(result.status_code, 200)
 
     def test_option_ethereum_status_code(self):
         # sends HTTP GET request to the application, on the Ethereum call option page
