@@ -58,17 +58,17 @@ class AppTestCase(unittest.TestCase):
         # assert the status code of the response
         self.assertEqual(result.status_code, 200)
 
-    def test_my_contracts_status_code(self):
+    #def test_my_contracts_status_code(self):
         # sends HTTP GET request to the application, on the Ethereum register page
-        result = self.app.get('/mycontracts')
+        #result = self.app.get('/mycontracts')
         # assert the status code of the response
-        self.assertEqual(result.status_code, 200)
+        #self.assertEqual(result.status_code, 200)
 
-    def test_spot_prices_status_code(self):
+    #def test_spot_prices_status_code(self):
         # sends HTTP GET request to the application, on the Ethereum register page
-        result = self.app.get('/spotprices')
+        #result = self.app.get('/spotprices')
         # assert the status code of the response
-        self.assertEqual(result.status_code, 200)
+        #self.assertEqual(result.status_code, 200)
 
 
     def login(self, username, password):
