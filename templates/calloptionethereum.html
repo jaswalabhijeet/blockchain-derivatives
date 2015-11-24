@@ -67,20 +67,32 @@
 }
 </style>
 
-<!-- Wide card with share menu button -->
+<!-- Square card -->
 <style>
 .demo-card-wide.mdl-card {
-  width: 812px;
-}
-.demo-card-wide > .mdl-card__title {
-  color: #fff;
-  height: 576px;
-  background: url('../assets/demos/welcome_card.jpg') center / cover;
-}
-.demo-card-wide > .mdl-card__menu {
-  color: #fff;
+  width:100%;
+  height:100%;
+  color: #341151;
+    margin-top: 70px;
+  margin-left: 70px;
+  margin-bottom: 70px;
+  margin-right: 70px;
+      padding: 30px;
+    }
+</style>
+
+<style>
+h1 {
+    text-align: center;
 }
 </style>
+
+<style>
+   .mdl-textfield {
+  width: 50%;
+}
+</style>
+
 
 <body class="mdl-demo mdl-color--black mdl-color-text--grey-400 mdl-base">
 <div class="demo-layout-transparent mdl-layout mdl-js-layout">
@@ -92,33 +104,36 @@
       <div class="mdl-layout-spacer"></div>
       <!-- Navigation -->
       <nav class="mdl-navigation">
-        <a class="mdl-navigation__link" href="">Register</a>
-        <a class="mdl-navigation__link" href="">Log In</a>
-        <a class="mdl-navigation__link" href="">Log Out</a>
-        <a class="mdl-navigation__link" href="">My Derivatives</a>
-        <a class="mdl-navigation__link" href="">Current Spot Prices</a>
+        <a class="mdl-navigation__link" href="/register">Register</a>
+        <a class="mdl-navigation__link" href="/login">Log In</a>
+        <a class="mdl-navigation__link" href="/logout">Log Out</a>
+        <a class="mdl-navigation__link" href="/mycontracts">My Derivatives</a>
+        <a class="mdl-navigation__link" href="/spotprices">Current Spot Prices</a>
       </nav>
     </div>
   </header>
   <div class="mdl-layout__drawer">
     <span class="mdl-layout-title">Create Derivatives</span>
     <nav class="mdl-navigation">
-      <a class="mdl-navigation__link" href="">Create Ethereum Future</a>
-      <a class="mdl-navigation__link" href="">Create Ethereum Swap</a>
-      <a class="mdl-navigation__link" href="">Create Ethereum Put Option</a>
+      <a class="mdl-navigation__link" href="/futureethereum">Create Ethereum Future</a>
+      <a class="mdl-navigation__link" href="/swapethereum">Create Ethereum Swap</a>
+      <a class="mdl-navigation__link" href="/putoptionethereum">Create Ethereum Put Option</a>
     </nav>
   </div>
   <main class="mdl-layout__content">
 
                 <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
 <div class="demo-card-wide mdl-card mdl-shadow--2dp">
-  <div class="mdl-card__title">
-    <h2 class="mdl-card__title-text">Welcome</h2>
-  </div>
 
-        <h1>
-        <span>Call Option Contract for Ethereum</span> 
-        </h1>
+        <h1>Call Option Contract for Ethereum</h1>
+
+    <!-- Simple Textfield -->
+<form action="#">
+  <div class="mdl-textfield">
+    <input class="mdl-textfield__input" type="text" name="buyeraddress"  id="buyeraddress">
+    <label class="mdl-textfield__label" for="buyeraddress">Enter the Buyer's 40 Character Ethereum Address</label>
+  </div>
+</form>
 
         <p><b>The Option Holder and Buyer, whose Ethereum address is:</b></p>
         <input type="text" name="buyeraddress"  id="buyeraddress">   (A 40 character string. E.g., d6aaae06717f25095eab8250369a437e549160a4)<br><br><br>

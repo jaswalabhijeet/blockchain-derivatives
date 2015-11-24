@@ -2,7 +2,7 @@ import os
 from flask import Flask, render_template, request, session, g, redirect, url_for, abort, flash, Blueprint, \
     send_from_directory, current_app
 import json
-#import urllib2
+import urllib2
 from flask.ext.sqlalchemy import SQLAlchemy
 import psycopg2
 import logging
@@ -18,6 +18,9 @@ app = Flask(__name__)
 # in the command line, maybe do: 'run python' and then 'from app import db' and then 'db.create_all()' and to leave: 'exit()'
 
 db = SQLAlchemy(app)
+
+app.logger.addHandler(logging.StreamHandler(sys.stdout))
+app.logger.setLevel(logging.ERROR)
 
 
 class User(db.Model, UserMixin):
