@@ -77,7 +77,7 @@
   margin-left: 70px;
   margin-bottom: 70px;
   margin-right: 70px;
-      padding: 30px;
+      padding: 70px;
     }
 </style>
 
@@ -92,6 +92,8 @@ h1 {
   width: 50%;
 }
 </style>
+
+
 
 
 <body class="mdl-demo mdl-color--black mdl-color-text--grey-400 mdl-base">
@@ -129,14 +131,46 @@ h1 {
 
     <!-- Simple Textfield -->
 <form action="#">
-  <div class="mdl-textfield">
+  <div class="mdl-textfield mdl-js-textfield">
     <input class="mdl-textfield__input" type="text" name="buyeraddress"  id="buyeraddress">
-    <label class="mdl-textfield__label" for="buyeraddress">Enter the Buyer's 40 Character Ethereum Address</label>
+    <label class="mdl-textfield__label" for="buyeraddress">Enter the 40 Character Ethereum Address for the Buyer, If Any</label>
   </div>
 </form>
 
-        <p><b>The Option Holder and Buyer, whose Ethereum address is:</b></p>
-        <input type="text" name="buyeraddress"  id="buyeraddress">   (A 40 character string. E.g., d6aaae06717f25095eab8250369a437e549160a4)<br><br><br>
+    <!-- Simple Textfield -->
+<form action="#">
+  <div class="mdl-textfield mdl-js-textfield">
+    <input class="mdl-textfield__input" type="text" name="selleraddress"  id="selleraddress">
+    <label class="mdl-textfield__label" for="selleraddress">Enter the 40 Character Ethereum Address for the Seller</label>
+  </div>
+</form>
+
+    <!-- Numeric Textfield -->
+<form action="#">
+  <div class="mdl-textfield mdl-js-textfield">
+    <input class="mdl-textfield__input" type="text" name="margin"  id="margin" pattern="-?[0-9]*(\.[0-9]+)?" step="any">
+    <label class="mdl-textfield__label" for="margin">Enter a Margin For This Contract</label>
+    <span class="mdl-textfield__error">Input is not a number!</span>
+  </div>
+</form>
+
+    <!-- Numeric Textfield -->
+<form action="#">
+  <div class="mdl-textfield mdl-js-textfield">
+    <input class="mdl-textfield__input" type="text" name="numberofshares" id="numberofshares" pattern="-?[0-9]*(\.[0-9]+)?" step="any">
+    <label class="mdl-textfield__label" for="numberofshares">Enter the Number of Shares You Desire</label>
+    <span class="mdl-textfield__error">Input is not a number!</span>
+  </div>
+</form>
+
+    <!-- Numeric Textfield -->
+<form action="#">
+  <div class="mdl-textfield mdl-js-textfield">
+    <input class="mdl-textfield__input" type="text" name="units" id="units" pattern="-?[0-9]*(\.[0-9]+)?" step="any">
+    <label class="mdl-textfield__label" for="units">Enter the Number of Units You Desire</label>
+    <span class="mdl-textfield__error">Input is not a number!</span>
+  </div>
+</form>
 
   <div class="mdl-card__actions mdl-card--border">
     
@@ -156,26 +190,8 @@ h1 {
 </div>
 
 
-
-
-
 	<form><br><br>
 
-
-
-        <p><b>Agrees to buy from the Seller, whose Ethereum address is:</b></p>
-        <input type="text" name="selleraddress" id="selleraddress">  (A 40 character string. E.g., d6aaae06717f25095eab8250369a437e549160a4)<br><br><br>
-
-        <p><b>For the price of:</b></p>
-  	<input type="number" name="margin" id="margin" step="any"><br><br><br>
-
-        <p><b>The right to purchase from the Seller:</b></p>
-  	<input type="number" name="numberofshares" id="numberofshares">   (enter number of shares)<br><br><br>
-        </form>
-
-        <p><b>The right to purchase from Seller:</b></p>
-  	<input type="number" name="units" id="units">   (enter number of units)<br><br><br>
-        </form>
 
         	<form id="measurementslist" name="measurementslist">
             		<select id="measurement" onchange="updateText('measurement')">
