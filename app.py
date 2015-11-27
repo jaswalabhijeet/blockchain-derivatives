@@ -494,9 +494,9 @@ class SpotpriceApi(Resource):
 
     def put(self, spotpriceapi):  #chanted from put
         #json = request.get_json(force=True)
-        print request.form['commodity']
+        #print request.form['commodity']
         newprice = request.form['spotprice']
-        print newprice
+        #print newprice
         #print request.form['spotprice']
         # print request.form.get("commodity")
         #print "got it"
