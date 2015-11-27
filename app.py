@@ -198,7 +198,7 @@ def logout():
     return redirect(url_for('index'))
 
 @app.route('/mycontracts')
-@login_required
+# @login_required
 def mycontracts():
     return render_template('mycontracts.html', contracts=Contract.query.all())
 
