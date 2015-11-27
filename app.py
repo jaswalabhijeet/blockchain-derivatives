@@ -21,6 +21,7 @@ from werkzeug.datastructures import ImmutableMultiDict
 
 app = Flask(__name__)
 api = Api(app)
+app.secret_key = "super secret key"
 
 # in the command line, maybe do: 'run python' and then 'from app import db' and then 'db.create_all()' and to leave: 'exit()'
 
@@ -524,8 +525,10 @@ if __name__ == '__main__':
     port = int(os.getenv('PORT', 8080))
     host = os.getenv('IP', '0.0.0.0')
     app.debug = True
+    # app.config.update(
+    #     SQLALCHEMY_DATABASE_URI=os.environ.get("DATABASE_URL", "postgresql://williammarino@localhost/blockchainderivatives"),
+    #     SECRET_KEY='super scret key',
+    # )
     app.config.update(
-        SQLALCHEMY_DATABASE_URI=os.environ.get("DATABASE_URL", "postgresql://williammarino@localhost/blockchainderivatives"),
-        SECRET_KEY='super scret key',
-    )
+        SQLALCHEMY_DATABASE_URI=os.environ.get("DATABASE_URL", "postgresql://williammarino@localhost/blockchainderivatives"))
     app.run(port=port, host=host)
