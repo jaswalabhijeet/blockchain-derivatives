@@ -97,6 +97,11 @@ class Spotprice(db.Model):
     #__tablename__ = 'spotprice'
     commodity = db.Column(db.String(64), primary_key=True)
     spotprice = db.Column(db.Integer)
+    version_id = db.Column(db.Integer, nullable=False)
+
+    __mapper_args__ = {
+        "version_id_col": version_id
+    }
 
     def __repr__(self):
         return '%s  %s' % (
@@ -490,12 +495,18 @@ class SpotpriceApi(Resource):
     def put(self, spotpriceapi):  #chanted from put
         #json = request.get_json(force=True)
         print request.form['commodity']
-        print request.form['spotprice']
+        newprice = request.form['spotprice']
+        print newprice
+        #print request.form['spotprice']
         # print request.form.get("commodity")
-        print "got it"
-        spotprice = Spotprice(request.form['commodity'], request.form['spotprice'])
-        db.session.add(spotprice)
+        #print "got it"
+        spotpricetoupdate = Spotprice.query.filter_by(commodity=request.form['commodity']).first()
+        # print spotpricetoupdate
+        # print spotpricetoupdate.spotprice
+        spotpricetoupdate.spotprice = newprice
         db.session.commit()
+        #db.session.add(spotprice)
+        #db.session.commit()
         # print "api PUT message received"
         return {}
 
