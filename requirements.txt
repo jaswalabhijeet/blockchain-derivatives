@@ -22,6 +22,7 @@ Flask==0.10.1
 Flask-Login==0.3.0
 Flask-Testing==0.4.2
 Flask-SQLAlchemy==1.0
+Flask_RESTful == 0.2.3
 itsdangerous==0.24
 Jinja2==2.8
 MarkupSafe==0.23
