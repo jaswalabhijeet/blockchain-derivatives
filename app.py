@@ -491,24 +491,30 @@ def spotprices2():
         return render_template('spotprices2.html', spotprices=Spotprice.query.all())
     return render_template('spotprices2.html',  error=error, spotprices=Spotprice.query.all())
 
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static', 'images'),
+                               'favicon.ico', mimetype='image/png')
+
+
+
 class SpotpriceApi(Resource):
 
     def put(self, spotpriceapi):  #chanted from put
-        #json = request.get_json(force=True)
-        #print request.form['commodity']
-        newprice = request.form['spotprice']
-        #print newprice
-        #print request.form['spotprice']
-        # print request.form.get("commodity")
-        #print "got it"
-        spotpricetoupdate = Spotprice.query.filter_by(commodity=request.form['commodity']).first()
-        # print spotpricetoupdate
-        # print spotpricetoupdate.spotprice
-        spotpricetoupdate.spotprice = newprice
-        db.session.commit()
-        #db.session.add(spotprice)
-        #db.session.commit()
-        # print "api PUT message received"
+        # newprice = request.form['spotprice']
+        # spotpricetoupdate = Spotprice.query.filter_by(commodity=request.form['commodity']).first()
+        # spotpricetoupdate.spotprice = newprice
+        # db.session.commit()
+        try :
+            spotpricetoupdate = Spotprice.query.filter_by(commodity=request.form['commodity']).first()
+            newprice = request.form['spotprice']
+            spotpricetoupdate.spotprice = newprice
+            db.session.commit()
+        except :
+            spotprice = Spotprice(request.form['commodity'], request.form['spotprice'])
+            db.session.add(spotprice)
+            db.session.commit()
         return {}
 
 api.add_resource(SpotpriceApi, '/<string:spotpriceapi>')
