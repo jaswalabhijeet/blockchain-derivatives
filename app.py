@@ -224,7 +224,7 @@ def main_future():
 
 @app.route('/calloptionethereum', methods=["GET", "POST"])
 def main_call_option():
-    return render_template('calloptionethereum.html', spotprices=json.dumps(Spotprice.query.all()), spotpricesjson=json.dumps(Spotprice.query.all()))
+    return render_template('calloptionethereum.html', spotprices=json.dumps(Spotprice.query.all())) #spotpricesjson=json.dumps(Spotprice.query.all()))
 
 
 @app.route('/putoptionethereum')

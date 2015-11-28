@@ -111,16 +111,16 @@ h1 {
     <!-- Simple Textfield -->
 <form action="#">
   <div class="mdl-textfield mdl-js-textfield">
-    <input class="mdl-textfield__input" type="text" name="buyeraddress"  id="buyeraddress">
-    <label class="mdl-textfield__label" for="buyeraddress">Enter the 40 Character Ethereum Address for the Buyer, If Any</label>
+    <input class="mdl-textfield__input" type="text" name="buyerethereumaddress"  id="buyerethereumaddress">
+    <label class="mdl-textfield__label" for="buyerethereumaddress">Enter the 40 Character Ethereum Address for the Buyer, If Any</label>
   </div>
 </form>
 
     <!-- Simple Textfield -->
 <form action="#">
   <div class="mdl-textfield mdl-js-textfield">
-    <input class="mdl-textfield__input" type="text" name="selleraddress"  id="selleraddress">
-    <label class="mdl-textfield__label" for="selleraddress">Enter the 40 Character Ethereum Address for the Seller</label>
+    <input class="mdl-textfield__input" type="text" name="sellerethereumaddress"  id="sellerethereumaddress">
+    <label class="mdl-textfield__label" for="selleretherumaddress">Enter the 40 Character Ethereum Address for the Seller</label>
   </div>
 </form>
 
@@ -145,15 +145,15 @@ h1 {
     <!-- Numeric Textfield -->
 <form action="#">
   <div class="mdl-textfield mdl-js-textfield">
-    <input class="mdl-textfield__input" type="text" name="units" id="units" pattern="-?[0-9]*(\.[0-9]+)?" step="any">
-    <label class="mdl-textfield__label" for="units">Enter the Number of Units You Desire</label>
+    <input class="mdl-textfield__input" type="text" name="numberofunits" id="numberofunits" pattern="-?[0-9]*(\.[0-9]+)?" step="any">
+    <label class="mdl-textfield__label" for="numberofunits">Enter the Number of Units You Desire</label>
     <span class="mdl-textfield__error">Input is not a number!</span>
   </div>
 </form>
 
 
                <form id="commoditieslist" name="commoditieslist">
-            		<select id="commodity" onchange="callApi('commodity', spotprice)">
+            		<select id="commodityname" name="commodityname" onchange="callApi('commodityname', spotprice)">
                         <option value disabled selected> -- Select A Commodity -- </option>
                         <option value="corn">Corn</option>
                         <option value="oats">Oats</option>
@@ -208,8 +208,8 @@ h1 {
         </form>
 
         <script>
-        function callApi(commodity, spotpricejson) {
-        var id = document.getElementById(commodity).value;
+        function callApi(commodityname, spotpricejson) {
+        var id = document.getElementById(commodityname).value;
         var idString = id.toString();
         <!--if (idString == 'wheat') {-->
 
@@ -328,28 +328,28 @@ document.getElementById("apifield").value = spotpricejson;
                                     </div>
 
                                 <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
-                                        onclick="add()">
+                                        onclick="add()" value="Post" action="{{ url_for('main_future') }}" method="post">
                                     Compile Your Contract Into Solidity Code
                                 </button>
 
         <script>
         function add() {
         var price = document.getElementById('price').value;
-        var units = document.getElementById('units').value;
-        var contractValue = parseFloat(price, 10) * parseInt(units, 10);
-        var buyerAddress = document.getElementById('buyeraddress').value;
-        var sellerAddress = document.getElementById('selleraddress').value;
-        var commodity2 = document.getElementById('commodity').value;
-        var unitsString = units.toString();
-        var assetString = unitsString+commodity2;
+        var numberofunits = document.getElementById('numberofunits').value;
+        var contractValue = parseFloat(price, 10) * parseInt(numberofunits, 10);
+        var buyerEthereumAddress = document.getElementById('buyerethereumaddress').value;
+        var sellerEthereumAddress = document.getElementById('sellerethereumaddress').value;
+        var commodity2 = document.getElementById('commodityname').value;
+        var numberofunitsString = numberofunits.toString();
+        var assetString = numberofunitsString+commodity2;
         var deliverydateTimestamp2 = document.getElementById('deliverydateTimestamp').value;
         var margin2 = document.getElementById('margin').value;
-        document.getElementById("contractfield").value = "contract MyFuture{\n\naddress buyer = msg.sender;\naddress seller = "+buyerAddress+";\nvar contractvalue = "+contractValue+";\nasset= "+assetString+";\nuint constant deliverydate ="+deliverydateTimestamp2+";\nbool cancelled = false;\n"+sellerAddress+".send("+margin2+");\n\nfunction myDeliveryDate(transactionId, spotPrice){\nif((msg.value>= contractvalue) && (now => deliverydate) && cancelled == false) {\n"+sellerAddress+".send(msg.value);\nsendareceiptofthetransactiontotheprimisee;}\n\nfunction myCancel(){\n"+sellerAddress+".send("+margin2+");suicide(buyerAddress);}\n\n}";
+        document.getElementById("soliditycodeinitial").value = "contract MyFuture{\n\naddress buyer = msg.sender;\naddress seller = "+buyerEthereumAddress+";\nvar contractvalue = "+contractValue+";\nasset= "+assetString+";\nuint constant deliverydate ="+deliverydateTimestamp2+";\nbool cancelled = false;\n"+sellerEthereumAddress+".send("+margin2+");\n\nfunction myDeliveryDate(transactionId, spotPrice){\nif((msg.value>= contractvalue) && (now => deliverydate) && cancelled == false) {\n"+sellerEthereumAddress+".send(msg.value);\nsendareceiptofthetransactiontotheprimisee;}\n\nfunction myCancel(){\n"+sellerEthereumAddress+".send("+margin2+");suicide(buyerEthereumAddress);}\n\n}";
         }
         </script>
 
 
-<textarea rows="20" cols="80" type="text" id="contractfield" name="contractfield">
+<textarea rows="20" cols="80" type="text" id="soliditycodeinitial" name="soliditycodeinitial">
 </textarea>
 
 
@@ -372,68 +372,6 @@ document.getElementById("apifield").value = spotpricejson;
         </form>
 
         <br/><br>
-
-
-        <br><br>
-        <p><b>Using Alethzero (Ethereum’s C++ GUI), send an unaddressed transaction with this code in its data field. Be sure to endow your contract (via amount field) with an amount of ethere greater than the sum of your margin and contract value. Sending that transaction will inject your contract onto the blockchain.
-        <br><br>
-        Once you have injected the contract on the blockchain, a transaction address will be assigned to it. If the delivery date arrives and you wish to execute your contract, plug in a transaction address and spot price below. Then, put the code generated here into the data field of a new message —this time, addressed to the transaction address— and watch your contract execute:<br><br></b></p>
-  	
-
-        <p><b>The Transaction ID Is:</b></p>
-        <input type="text" name="transactionid" id="transactionid">(A 60 character string. E.g., g6aaae06717f25095eab8250369a437e549160a4g6aaae06717f25095eab)<br><br><br>
-
-        <p><b>The Spot Price —I.e., the Current Price of The Commodity— Is:</b></p>
-        <input type="number" name="spotprice" id="spotprice" step="any">(enter the spot price here)<br><br><br>
-
- <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br> <br/><br><br/><br><br/><br><br/><br><br/><br><br/><br><br/><br><br/><br><br/><br><br/><br>
-
-
-        <input type="button" value="Create Code to Send Transaction on Delivery Date" onclick="add2()"/><br><br>
-
-        <script>
-        function add2() {
-        var transactionId = document.getElementById('transactionid').value;
-        var spotPrice = document.getElementById('spotprice').value;
-        document.getElementById("contractfield2").value = "contract MyMaturity{\n\nMyFuture feed;\n\nfunction setFeed(address addr){feed = MyFuture(addr);}\n\nfunction callFeed(){feed.MyDeliveryDate();}\n\ncallFeed("+transactionId+","+spotPrice+");\n\n}";
-        document.getElementById("contractfield3").value = "contract myCancellation{\n\nMyFuture feed;\n\nfunction setFeed(address add){feed = MyFuture(addr);}\n\nfunction callFeed(){feed.myCancel();}\n\ncallFeed();\n\n}";
-        }
-        </script>
-
-        <textarea rows="15" cols="80" type="text" id="contractfield2" name="contractfield2">
-        </textarea>
-
-        <br><br>
-        <p><b>Lastly, if you wish to cancel your futures contract, send a transaction, addressed to the transaction ID and with this code in the data field:</b></p><br> 
-        <textarea rows="10" cols="80" type="text" id="contractfield3" name="contractfield3">
-        </textarea>
-
-
-
-
-  <form action="{{ url_for('main_future') }}" method=post>
-    <dl>
-      <dt>buyer ethereum address:
-      <dd><input type=text name=buyerethereumaddress>
-      <dt>seller ethereum address:
-      <dd><input type=text name=sellerethereumaddress>
-      <dt>deliverydate:
-      <dd><input type=number name=deliverydate>
-      <dt>numberofunits:
-      <dd><input type=number name=numberofunits>
-      <dt>commodityname:
-      <dd><input type=text name=commodityname>
-      <dt>price:
-      <dd><input type=number name=price>
-      <dt>margin:
-      <dd><input type=number name=margin>
-      <dt>soliditycodeinitial:
-      <dd><input type=text name=soliditycodeinitial>
-      <dd><input type=submit value=Post>
-    </dl>
-  </form>
-
-
 
         
         <br><br>
