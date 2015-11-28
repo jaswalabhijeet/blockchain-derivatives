@@ -288,7 +288,7 @@ document.getElementById("apifield").value = spotprice;
 <textarea class="mdl-color--white" rows="10" cols="20" type="text" id="apifield"
                                           style="font-size:12px" placeholder={{spotprice}} ></textarea>
 
-
+{% block content %}
 {% for s in spotprice %}
 
 <!--{% if s.commodity|string == 'commodity' %}-->
@@ -298,6 +298,7 @@ document.getElementById("apifield").value = spotprice;
 <!--{% endif %}-->
 
 {% endfor %}
+    {% endblock %}
 
 
     <!-- Numeric Textfield -->
