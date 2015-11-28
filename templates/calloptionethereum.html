@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 
-{% block content %}
-
 <head>
     <title>Ethereum Derivatives Builder</title>
 
@@ -20,9 +18,6 @@
 </head>
 
 
-
-
-
         <script type="text/javascript">
         function createTimestamp(type) { 
         var deliveryDate = document.getElementById('deliverydate').value
@@ -32,8 +27,6 @@
         document.getElementById(id).value = deliveryUnix;
         }
         </script>
-
-
 
 <!-- Uses a transparent header that draws on top of the layout's background -->
 <style>
@@ -125,7 +118,7 @@ h1 {
 <form action="#">
   <div class="mdl-textfield mdl-js-textfield">
     <input class="mdl-textfield__input" type="text" name="sellerethereumaddress"  id="sellerethereumaddress">
-    <label class="mdl-textfield__label" for="selleretherumaddress">Enter the 40 Character Ethereum Address for the Seller</label>
+    <label class="mdl-textfield__label" for="sellerethereumaddress">Enter the 40 Character Ethereum Address for the Seller</label>
   </div>
 </form>
 
@@ -298,11 +291,11 @@ document.getElementById("apifield").value = spotprice;
 
 {% for s in spotprice %}
 
-{% if s.commodity|string == 'commodity' %}
+<!--{% if s.commodity|string == 'commodity' %}-->
 
 {{ s.spotprice }}
 
-{% endif %}
+<!--{% endif %}-->
 
 {% endfor %}
 
@@ -417,5 +410,4 @@ document.getElementById("apifield").value = spotprice;
     </div>
 </body>
 
-{% endblock %}
 </html>
