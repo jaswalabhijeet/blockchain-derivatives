@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 
+{% block content %}
+
 <head>
     <title>Ethereum Derivatives Builder</title>
 
@@ -85,10 +87,13 @@ h1 {
       <div class="mdl-layout-spacer"></div>
       <!-- Navigation -->
       <nav class="mdl-navigation">
+        <a class="mdl-navigation__link" href="">{% if current_user.is_authenticated %}
+  You are logged in as: {{ current_user.email }}
+{% endif %}</a>
         <a class="mdl-navigation__link" href="/register">Register</a>
         <a class="mdl-navigation__link" href="/login">Log In</a>
         <a class="mdl-navigation__link" href="/logout">Log Out</a>
-        <a class="mdl-navigation__link" href="/mycontracts">My Derivatives</a>
+        <a class="mdl-navigation__link" href="/mycontracts">My Contracts</a>
         <a class="mdl-navigation__link" href="/spotprices">Current Spot Prices</a>
       </nav>
     </div>
@@ -411,4 +416,6 @@ document.getElementById("apifield").value = spotprice;
  
     </div>
 </body>
+
+{% endblock %}
 </html>
