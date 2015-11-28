@@ -288,14 +288,14 @@ document.getElementById("apifield").value = spotpricejson;
         <!--</script>-->
 
 <textarea class="mdl-color--white" rows="10" cols="20" type="text" id="apifield"
-                                          style="font-size:12px" ></textarea>
+                                          style="font-size:12px" placeholder={{spotpricejson}} ></textarea>
 
 
 {% for s in spotprice %}
 
-{% if s.commodity|string == current_user.id|int %}
+{% if s.commodity|string == 'commodity' %}
 
-{{ c.spotprice }}
+{{ s.spotprice }}
 
 {% endif %}
 
