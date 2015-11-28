@@ -233,7 +233,7 @@ def main_call_option():
         db.session.add(contract)
         db.session.commit()
         return render_template('calloptionethereum.html', spotprices=Spotprice.query.all())
-    return render_template('calloptionethereum.html', , error=error, spotprices=Spotprice.query.all()) #spotpricesjson=json.dumps(Spotprice.query.all()))
+    return render_template('calloptionethereum.html', error=error, spotprices=Spotprice.query.all()) #spotpricesjson=json.dumps(Spotprice.query.all()))
 
 
 @app.route('/putoptionethereum')
