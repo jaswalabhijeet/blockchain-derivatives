@@ -236,13 +236,13 @@ def main_put_option():
 def main_swap():
     return render_template('swapethereum.html')
 
-def getSpotPrices():
-    spotPrices = []
-    barleyResponse = urlopen('http://www.quandl.com/api/v3/datasets/WSJ/BARLEY/data.json?api_key=vpiAmDEqu8LuxCupy7ab')
-    barleyData = barleyResponse.read()
-    barleyDataJSON = json.loads(barleyData)
-    spotPriceBarley = ("According to WSJ, the spot price of Barley as of " + str(barleyDataJSON['dataset_data']['data'][0][0]) + " is: " + str(barleyDataJSON['dataset_data']['data'][0][1]))
-    spotPrices.append(spotPriceBarley)
+# def getSpotPrices():
+#     spotPrices = []
+#     barleyResponse = urlopen('http://www.quandl.com/api/v3/datasets/WSJ/BARLEY/data.json?api_key=vpiAmDEqu8LuxCupy7ab')
+#     barleyData = barleyResponse.read()
+#     barleyDataJSON = json.loads(barleyData)
+#     spotPriceBarley = ("According to WSJ, the spot price of Barley as of " + str(barleyDataJSON['dataset_data']['data'][0][0]) + " is: " + str(barleyDataJSON['dataset_data']['data'][0][1]))
+#     spotPrices.append(spotPriceBarley)
     # cornResponse = urlopen('http://www.quandl.com/api/v3/datasets/OFDP/FUTURE_C1/data.json?api_key=vpiAmDEqu8LuxCupy7ab')
     # cornData = cornResponse.read()
     # cornDataJSON = json.loads(cornData)
@@ -474,22 +474,22 @@ def getSpotPrices():
     # spotPriceCotton = ("According to ICE, the spot price of Cotton No. 2 as of " + str(cottonDataJSON['dataset_data']['data'][0][0]) + " is: " + str(cottonDataJSON['dataset_data']['data'][0][1]))
     # spotPrices.append(spotPriceCotton)
 
-    return spotPrices
+    # return spotPrices
  
-@app.route("/spotprices")
-def spotprices():
-    spotPrices = getSpotPrices()
-    return render_template('spotprices.html',**locals())
+# @app.route("/spotprices")
+# def spotprices():
+#     spotPrices = getSpotPrices()
+#     return render_template('spotprices.html',**locals())
 
-@app.route("/spotprices2", methods=["GET", "POST"])
-def spotprices2():
+@app.route("/spotprices", methods=["GET", "POST"])   #changed the href here
+def spotprices():
     error = None
     if request.method == 'POST':
         spotprice = Spotprice(request.form['commodity'], request.form['spotprice'])
         db.session.add(spotprice)
         db.session.commit()
-        return render_template('spotprices2.html', spotprices=Spotprice.query.all())
-    return render_template('spotprices2.html',  error=error, spotprices=Spotprice.query.all())
+        return render_template('spotprices.html', spotprices=Spotprice.query.all())
+    return render_template('spotprices.html',  error=error, spotprices=Spotprice.query.all())
 
 
 @app.route('/favicon.ico')
