@@ -226,10 +226,21 @@ def main_future():
 def main_call_option():
     error = None
     if request.method == 'POST':
+        # print str(current_user.id)
+        # print request.form['buyerethereumaddress']
+        # print request.form['sellerethereumaddress']
+        # print request.form['deliverydateTimestamp']
+        # print request.form['numberofunits']
+        # print request.form['commodityname']
+        # print request.form['price']
+        # print request.form['margin']
+        # print request.form['soliditycodeinitial']
+        # print request.form['contractfield2']
+        # print request.form['contractfield3']
         contract = Contract(str(current_user.id), request.form['buyerethereumaddress'],
                             request.form['sellerethereumaddress'], request.form['deliverydateTimestamp'],
                             request.form['numberofunits'], request.form['commodityname'], request.form['price'],
-                            request.form['margin'], request.form['soliditycodeinitial'], 0, 0, 0, 0)  #might not need str() #change last one or change deliverydate back
+                            request.form['margin'], request.form['soliditycodeinitial'], 0, 0, request.form['contractfield2'], request.form['contractfield3'])  #might not need str() #change last one or change deliverydate back
         db.session.add(contract)
         db.session.commit()
         return render_template('calloptionethereum.html', spotprices=Spotprice.query.all())
