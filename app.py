@@ -219,12 +219,12 @@ def main_future():
         db.session.add(contract)
         db.session.commit()
         return render_template('futureethereum.html', spotprices=Spotprice.query.all())
-    return render_template('futureethereum.html', error=error,  spotprices=Spotprice.query.all())
+    return render_template('futureethereum.html', error=error, spotprices=Spotprice.query.all())
 
 
 @app.route('/calloptionethereum', methods=["GET", "POST"])
 def main_call_option():
-    return render_template('calloptionethereum.html', spotprices=Spotprice.query.all())
+    return render_template('calloptionethereum.html', spotprices=json.dumps(Spotprice.query.all()), spotpricesjson=json.dumps(Spotprice.query.all()))
 
 
 @app.route('/putoptionethereum')

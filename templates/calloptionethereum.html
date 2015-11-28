@@ -208,7 +208,7 @@ h1 {
         </form>
 
         <script>
-        function callApi(commodity, spotprice) {
+        function callApi(commodity, spotpricejson) {
         var id = document.getElementById(commodity).value;
         var idString = id.toString();
         <!--if (idString == 'wheat') {-->
@@ -217,7 +217,7 @@ h1 {
 
 <!--{% if s.commodity|string == idString|string %}-->
 
-document.getElementById("apifield").value = spotprice;
+document.getElementById("apifield").value = spotpricejson;
 
 <!--{% endif %}-->
 
@@ -289,6 +289,18 @@ document.getElementById("apifield").value = spotprice;
 
 <textarea class="mdl-color--white" rows="10" cols="20" type="text" id="apifield"
                                           style="font-size:12px" ></textarea>
+
+
+{% for s in spotprice %}
+
+{% if s.commodity|string == current_user.id|int %}
+
+{{ c.spotprice }}
+
+{% endif %}
+
+{% endfor %}
+
 
     <!-- Numeric Textfield -->
 <form action="#">
