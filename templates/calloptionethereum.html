@@ -208,7 +208,7 @@ h1 {
         </form>
 
         <script>
-        function callApi(commodityname, spotpricejson) {
+        function callApi(commodityname, spotprice) {
         var id = document.getElementById(commodityname).value;
         var idString = id.toString();
         <!--if (idString == 'wheat') {-->
@@ -217,7 +217,7 @@ h1 {
 
 <!--{% if s.commodity|string == idString|string %}-->
 
-document.getElementById("apifield").value = spotpricejson;
+document.getElementById("apifield").value = spotprice;
 
 <!--{% endif %}-->
 
@@ -348,10 +348,46 @@ document.getElementById("apifield").value = spotpricejson;
         }
         </script>
 
-
+<<br>
 <textarea rows="20" cols="80" type="text" id="soliditycodeinitial" name="soliditycodeinitial">
 </textarea>
 
+
+
+
+        <br><br>
+        <p><b>Using Alethzero (Ethereum’s C++ GUI), send an unaddressed transaction with this code in its data field. Be sure to endow your contract (via amount field) with an amount of ethere greater than the sum of your margin and contract value. Sending that transaction will inject your contract onto the blockchain.
+        <br><br>
+        Once you have injected the contract on the blockchain, a transaction address will be assigned to it. If the delivery date arrives and you wish to execute your contract, plug in a transaction address and spot price below. Then, put the code generated here into the data field of a new message —this time, addressed to the transaction address— and watch your contract execute:<br><br></b></p>
+
+
+        <p><b>The Transaction ID Is:</b></p>
+        <input type="text" name="transactionid" id="transactionid">(A 60 character string. E.g., g6aaae06717f25095eab8250369a437e549160a4g6aaae06717f25095eab)<br><br><br>
+
+        <p><b>The Spot Price —I.e., the Current Price of The Commodity— Is:</b></p>
+        <input type="number" name="spotprice" id="spotprice" step="any">(enter the spot price here)<br><br><br>
+
+ <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br> <br/><br><br/><br><br/><br><br/><br><br/><br><br/><br><br/><br><br/><br><br/><br><br/><br>
+
+
+        <input type="button" value="Create Code to Send Transaction on Delivery Date" onclick="add2()"/><br><br>
+
+        <script>
+        function add2() {
+        var transactionId = document.getElementById('transactionid').value;
+        var spotPrice = document.getElementById('spotprice').value;
+        document.getElementById("contractfield2").value = "contract MyMaturity{\n\nMyFuture feed;\n\nfunction setFeed(address addr){feed = MyFuture(addr);}\n\nfunction callFeed(){feed.MyDeliveryDate();}\n\ncallFeed("+transactionId+","+spotPrice+");\n\n}";
+        document.getElementById("contractfield3").value = "contract myCancellation{\n\nMyFuture feed;\n\nfunction setFeed(address add){feed = MyFuture(addr);}\n\nfunction callFeed(){feed.myCancel();}\n\ncallFeed();\n\n}";
+        }
+        </script>
+
+        <textarea rows="15" cols="80" type="text" id="contractfield2" name="contractfield2">
+        </textarea>
+
+        <br><br>
+        <p><b>Lastly, if you wish to cancel your futures contract, send a transaction, addressed to the transaction ID and with this code in the data field:</b></p><br>
+        <textarea rows="10" cols="80" type="text" id="contractfield3" name="contractfield3">
+        </textarea>
 
 
 
@@ -369,12 +405,6 @@ document.getElementById("apifield").value = spotpricejson;
   </main>
 </div>
 
-        </form>
-
-        <br/><br>
-
-        
-        <br><br>
         <footer class="footer">
             <p>&copy; Bill Marino 2015</p>
         </footer>

@@ -224,7 +224,16 @@ def main_future():
 
 @app.route('/calloptionethereum', methods=["GET", "POST"])
 def main_call_option():
-    return render_template('calloptionethereum.html', spotprices=json.dumps(Spotprice.query.all())) #spotpricesjson=json.dumps(Spotprice.query.all()))
+    error = None
+    if request.method == 'POST':
+        contract = Contract(str(current_user.id), request.form['buyerethereumaddress'],
+                            request.form['sellerethereumaddress'], request.form['deliverydateTimestamp'],
+                            request.form['numberofunits'], request.form['commodityname'], request.form['price'],
+                            request.form['margin'], request.form['soliditycodeinitial'], 0, 0, request.form['contractfield2'], request.form['contractfield3'])  #might not need str() #change last one or change deliverydate back
+        db.session.add(contract)
+        db.session.commit()
+        return render_template('calloptionethereum.html', spotprices=Spotprice.query.all())
+    return render_template('calloptionethereum.html', , error=error, spotprices=Spotprice.query.all()) #spotpricesjson=json.dumps(Spotprice.query.all()))
 
 
 @app.route('/putoptionethereum')
