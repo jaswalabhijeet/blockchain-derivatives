@@ -80,11 +80,11 @@ class AppTestCase(unittest.TestCase):
     def logout(self):
         return self.app.get('/logout', follow_redirects=True)
 
-    def test_login_logout(self):
-        result = self.login('username', 'password')
+    # def test_login_logout(self):
+    #     result = self.login('username', 'password')
         #print jsonify(result.headers)
         #self.assertEqual(result.data, index.html)
-        self.assertEqual(result.status_code, 200)
+        # self.assertEqual(result.status_code, 200)
         #session['logged_in']
         #rv = self.login('username', 'password')
         #assert 'You were logged in' in rv.data
