@@ -1,51 +1,165 @@
-
-{% extends 'base.html' %}
-
-{% block content %}
-
-{% if current_user.is_authenticated %}
-  You are logged in as: {{ current_user.email }}!
-{% endif %}
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 
 <head>
-    <title>Blockchain Derivatives Builder</title>
+    <title>Ethereum Derivatives Builder</title>
+
+    <link rel=stylesheet type=text/css
+          href="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.indigo-deep_purple.min.css">
+    <!--<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">-->
+    <!--<link rel=stylesheet type=text/css href="{{ url_for('static', filename='home.css') }}">-->
+        <!--<link rel=stylesheet type=text/css href="/static/css/style.css">-->
+        <!--<link rel=stylesheet type=text/css href="/static/css/home.css">-->
+    <script src="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en"
+          rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+
+<!-- Uses a transparent header that draws on top of the layout's background -->
+<style>
+.demo-layout-transparent {
+  background: url('https://images.unsplash.com/photo-1424894408462-1c89797f2305?ixlib=rb-0.3.5&q=80&fm=jpg&s=42e7627aa059098be72974d544c04f2f') center / cover;
+}
+.demo-layout-transparent .mdl-layout__header,
+.demo-layout-transparent .mdl-layout__drawer-button {
+  /* This background is dark, so we set text to white. Use 87% black instead if
+     your background is light. */
+  color: white;
+}
+</style>
+
+<!-- Square card -->
+<style>
+.demo-card-wide.mdl-card {
+  width:100%;
+  height:100%;
+  color: #341151;
+    margin-top: 70px;
+  margin-left: 70px;
+  margin-bottom: 70px;
+  margin-right: 70px;
+      padding: 70px;
+    }
+</style>
+
+<style>
+h1 {
+    text-align: center;
+}
+</style>
+
+<style>
+   .mdl-textfield {
+  width: 50%;
+}
+</style>
+
+<body class="mdl-demo mdl-color--black mdl-color-text--grey-400 mdl-base">
+<div class="demo-layout-transparent mdl-layout mdl-js-layout">
+  <header class="mdl-layout__header mdl-layout__header--transparent">
+    <div class="mdl-layout__header-row">
+      <!-- Title -->
+      <span class="mdl-layout-title">Ethereum Derivatives</span>
+      <!-- Add spacer, to align navigation to the right -->
+      <div class="mdl-layout-spacer"></div>
+      <!-- Navigation -->
+      <nav class="mdl-navigation">
+        <a class="mdl-navigation__link" href="">{% if current_user.is_authenticated %}
+  You are logged in as: {{ current_user.email }}
+{% endif %}</a>
+        <a class="mdl-navigation__link" href="/register">Register</a>
+        <a class="mdl-navigation__link" href="/login">Log In</a>
+        <a class="mdl-navigation__link" href="/logout">Log Out</a>
+        <a class="mdl-navigation__link" href="/mycontracts">My Contracts</a>
+        <a class="mdl-navigation__link" href="/spotprices">Current Spot Prices</a>
+      </nav>
+    </div>
+  </header>
+  <div class="mdl-layout__drawer">
+    <span class="mdl-layout-title">Create Derivatives</span>
+    <nav class="mdl-navigation">
+      <a class="mdl-navigation__link" href="/futureethereum">Create Ethereum Future</a>
+      <a class="mdl-navigation__link" href="/swapethereum">Create Ethereum Swap</a>
+      <a class="mdl-navigation__link" href="/putoptionethereum">Create Ethereum Put Option</a>
+    </nav>
+  </div>
+  <main class="mdl-layout__content">
+
+                <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+<div class="demo-card-wide mdl-card mdl-shadow--2dp">
+
+
+
+<!--<head>-->
+<!--    <title>Blockchain Derivatives Builder</title>-->
  
 <!--    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">-->
 <!-- -->
 <!--    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">-->
  
-</head>
+<!--</head>-->
 
-<body>
+<!--<body>-->
 
-    <div class="container">
-        <div class="header">
-            <nav>
-                <ul class="nav nav-pills pull-right">
-                    <li role="presentation"><a href="/">Home</a>
-                    </li>
-                    <li role="presentation" class="active"><a href="/login">Log In</a>
-                    </li>
-                    <li role="presentation"><a href="/logout">Log Out</a>
-                    </li>
-<li role="presentation"><a href="/register">Register</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+<!--    <div class="container">-->
+<!--        <div class="header">-->
+<!--            <nav>-->
+<!--                <ul class="nav nav-pills pull-right">-->
+<!--                    <li role="presentation"><a href="/">Home</a>-->
+<!--                    </li>-->
+<!--                    <li role="presentation" class="active"><a href="/login">Log In</a>-->
+<!--                    </li>-->
+<!--                    <li role="presentation"><a href="/logout">Log Out</a>-->
+<!--                    </li>-->
+<!--<li role="presentation"><a href="/register">Register</a>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </nav>-->
+<!--        </div>-->
 
 
   <h1>Log In</h1>
-  <form action="" method="post" name="login">
-      <p>
-          Please Enter Your Email:<br>
-          {{ form.email }}<br>
-          Please Enter Your Password:<br>
-          {{ form.password }}<br>
-      </p>
-      <p><input type="submit" value="Sign In"></p>
-  </form>
 
+
+      <form action="{{ url_for('login') }}" method=post id="usrform" name="login">
+
+  <div class="mdl-textfield mdl-js-textfield">
+    <input class="mdl-textfield__input" type="text" name="email"  id="email">
+    <label class="mdl-textfield__label" for="email">Enter Your Email</label>
+  </div>
+
+  <div class="mdl-textfield mdl-js-textfield">
+    <input class="mdl-textfield__input" type="text" name="password"  id="password">
+    <label class="mdl-textfield__label" for="password">Password</label>
+  </div>
+<br>
+<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit" value="Save">
+    Log In</button><br>
+        </form>
+
+<!--</body>-->
+
+<div class="mdl-card__actions mdl-card--border">
+
+  </div>
+  <div class="mdl-card__menu">
+    <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+      <i class="material-icons">share</i>
+    </button>
+  </div>
+</div>
+                </section>
+
+  </main>
+</div>
+
+        <footer class="footer">
+            <p>&copy; Bill Marino 2015</p>
+        </footer>
+
+    </div>
 </body>
 
-{% endblock %}
+</html>

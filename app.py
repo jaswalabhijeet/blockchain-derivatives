@@ -143,17 +143,19 @@ SECRET_KEY = 'secretkey'
 USERNAME = 'username'
 PASSWORD = 'password'
 
-class RegistrationForm(Form):
+class RegistrationForm(Form):      #possibly not using any more
     email = TextField('Email Address', [validators.Length(min=1, max=35)])
     password = PasswordField('Password', [validators.Length(min=1, max=35)])
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    form = RegistrationForm(request.form)
+    # form = RegistrationForm(request.form)
     if request.method == 'POST':
-        registered_users = User.query.filter_by(email=form.email.data)
+        # registered_users = User.query.filter_by(email=form.email.data)
+        registered_users = User.query.filter_by(email=request.form['email'])
         if registered_users.count() == 0:
-            user = User(form.email.data, form.password.data)
+            # user = User(form.email.data, form.password.data)
+            user = User(request.form['email'], request.form['password'])
             db.session.add(user)
             db.session.commit()
             user = User.query.get(int(user.id))
@@ -161,7 +163,8 @@ def register():
             return redirect(url_for('index'))
         else:
             return redirect(url_for('login'))
-    return render_template('register.html', form=form)
+    # return render_template('register.html', form=form)
+    return render_template('register.html')
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -174,12 +177,15 @@ class LoginForm(Form):
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    form = LoginForm(request.form)
+    # form = LoginForm(request.form)
     if request.method == 'POST':
+        # registered_users = User.query.filter_by(
+        #     email=form.email.data)
         registered_users = User.query.filter_by(
-            email=form.email.data)
+            email=request.form['email'])
         if registered_users.count() == 1:
-            user = User.query.filter_by(email=form.email.data).first()
+            # user = User.query.filter_by(email=form.email.data).first()
+            user = User.query.filter_by(email=request.form['email']).first()
             user = User.query.get(int(user.id))
             login_user(user)
             if current_user.is_authenticated():
@@ -188,7 +194,8 @@ def login():
         else:
             return "NO USER WITH THAT NAME"
             return redirect(url_for("register"))
-    return render_template("login.html", form=form)
+    # return render_template("login.html", form=form)
+    return render_template("login.html")
 
 
 @app.route("/logout", methods=["GET"])
@@ -226,17 +233,6 @@ def main_future():
 def main_call_option():
     error = None
     if request.method == 'POST':
-        # print str(current_user.id)
-        # print request.form['buyerethereumaddress']
-        # print request.form['sellerethereumaddress']
-        # print request.form['deliverydateTimestamp']
-        # print request.form['numberofunits']
-        # print request.form['commodityname']
-        # print request.form['price']
-        # print request.form['margin']
-        # print request.form['soliditycodeinitial']
-        # print request.form['contractfield2']
-        # print request.form['contractfield3']
         contract = Contract(str(current_user.id), request.form['buyerethereumaddress'],
                             request.form['sellerethereumaddress'], request.form['deliverydateTimestamp'],
                             request.form['numberofunits'], request.form['commodityname'], request.form['price'],
