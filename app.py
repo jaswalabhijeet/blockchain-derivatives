@@ -247,7 +247,7 @@ def main_call_option():
         # list_of_dictionaries.append(little_list)
         #list_of_dictionaries(u.__dict__)
     # print list_of_dictionaries
-    print spotprice_dictionary
+    # print spotprice_dictionary
     if request.method == 'POST':
         contract = Contract(str(current_user.id), request.form['buyerethereumaddress'],
                             request.form['sellerethereumaddress'], request.form['deliverydateTimestamp'],

@@ -134,39 +134,39 @@ h1 {
 
   <!-- Commodity Select Menu -->
   <div>
-    <select id="commodityname" name="commodityname" onchange="callApi('commodityname', {{spotpriceslist}})">
+    <select id="commodityname" name="commodityname">
     <!--<select id="commodityname" name="commodityname" onchange="callApi('commodityname', 'my-data')">-->
      <option value disabled selected> -- Select A Commodity -- </option>
      <option value="corn">Corn</option>
      <option value="oats">Oats</option>
      <option value="rice">Rice</option>
      <option value="soybeans">Soybeans</option>
-     <option value="soybeanmeal">Soybean Meal</option>
-     <option value="soybeanoil">Soybean Oil</option>
+     <option value="soybeanMeal">Soybean Meal</option>
+     <option value="soybeanOil">Soybean Oil</option>
      <option value="wheat">Wheat</option>
-     <option value="minnesotawheat">Minnesota Wheat</option>
-     <option value="chicagowheat">Chicago Wheat</option>
-     <option value="kcwheat">K.C. Wheat</option>
+     <option value="minnesotaWheat">Minnesota Wheat</option>
+     <option value="chicagoWheat">Chicago Wheat</option>
+     <option value="kansasCityWheat">K.C. Wheat</option>
      <option value="barley">Barley</option>
-     <option value="skimmedmilk">Skimmed Milk</option>
+     <option value="skimmedMilk">Skimmed Milk</option>
      <option value="cheese">Cheese</option>
      <option value="butter">Butter</option>
      <option value="cocoa">Cocoa</option>
      <option value="coffee">Coffee</option>
-     <option value="coffeerobustica">Coffee Robustica</option>
-     <option value="coffeearabica">Coffee Arabica</option>
+     <option value="coffeeRobusta">Coffee Robustica</option>
+     <option value="coffeeArabica">Coffee Arabica</option>
      <option value="cotton">Cotton</option>
-     <option value="sugarno11">Sugar No. 11</option>
-     <option value="frozenconcentratedorangejuice">Frozen Concentrated Orange Juice</option>
+     <option value="sugar11">Sugar No. 11</option>
+     <option value="orangeJuice">Frozen Concentrated Orange Juice</option>
      <option value="wool">Wool</option>
-     <option value="leanhogs">Lean Hogs</option>
-     <option value="livecattle">Live Cattle</option>
-     <option value="feedercattle">Feeder Cattle</option>
-     <option value="brentcrude">Brent Crude</option>
-     <option value="crudeoil">Crude Oil</option>
-     <option value="naturalgas">Natural Gas</option>
-     <option value="gulfcoastgasoline">Gulf Coast Gasoline</option>
-     <option value="rbobgasoline">RBOB Gasoline</option>
+     <option value="hogs">Lean Hogs</option>
+     <option value="liveCattle">Live Cattle</option>
+     <option value="feederCattle">Feeder Cattle</option>
+     <option value="brentCrude">Brent Crude</option>
+     <option value="crudeOil">Crude Oil</option>
+     <option value="naturalGas">Natural Gas</option>
+     <option value="gulfCoastGasoline">Gulf Coast Gasoline</option>
+     <option value="rbobGasoline">RBOB Gasoline</option>
      <option value="propane">Propane</option>
      <option value="copper">Copper</option>
      <option value="lead">Lead</option>
@@ -183,23 +183,27 @@ h1 {
      <option value="platinum">Platinum</option>
      <option value="palladium">Palladium</option>
      <option value="rhodium">Rhodium</option>
-     <option value="palmoil">Palm Oil</option>
+     <option value="palmOil">Palm Oil</option>
      <option value="rubber">Rubber</option>
      <option value="lumber">Lumber</option>
      </select>
   </div>
 
-
+<button type='button' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="callApi({{spotpriceslist}})">
+Get Current Spot Price of This Commodity
+</button>
         <script>
-        function callApi(commodityname, spotpricesData) {
-        var commodityString = commodityname.toString();
-        <!--document.getElementById("apifield").value = spotpricesData;-->
-        <!--spotpricesData = $('#my-data').data();-->
+        function callApi(spotpricesData) {
+        var commodityName = document.getElementById('commodityname').value;
+        var commodityString = commodityName.toString();
+        <!--document.getElementById("apifield").value = commodityString;-->
+        <!--document.getElementById("apifield").value = commodityString;-->
+        <!--&lt;!&ndash;spotpricesData = $('#my-data').data();&ndash;&gt;-->
         for(var key in spotpricesData) {
-                document.getElementById("apifield").value = key
-        <!--if(spotpricesData.hasOwnProperty(key)) {-->
-        <!--if (key == commodityString){ document.getElementById("apifield").value = spotpricesData[key]}-->
-        <!--}-->
+        if(spotpricesData.hasOwnProperty(key)) {
+        if (key == commodityString){ document.getElementById("apifield").value = spotpricesData[key];}
+        }
+        else {document.getElementById("apifield").value = "Spot Price Temporarily Unavailable";}
         }
         }
 
