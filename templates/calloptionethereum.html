@@ -130,9 +130,12 @@ h1 {
     <span class="mdl-textfield__error">Input is not a number!</span>
   </div>
 
+<!--<meta id="my-data" data-spotprices="{{spotpriceslist}}">-->
+
   <!-- Commodity Select Menu -->
   <div>
-    <select id="commodityname" name="commodityname" onchange="callApi('commodityname')">
+    <select id="commodityname" name="commodityname" onchange="callApi('commodityname', {{spotpriceslist}})">
+    <!--<select id="commodityname" name="commodityname" onchange="callApi('commodityname', 'my-data')">-->
      <option value disabled selected> -- Select A Commodity -- </option>
      <option value="corn">Corn</option>
      <option value="oats">Oats</option>
@@ -186,14 +189,24 @@ h1 {
      </select>
   </div>
 
-<meta id="my-data" data-spotprices="{{spotpriceslist}}">
 
         <script>
-        function callApi(commodityname, spotpriceslist) {
-        spotpricesData = $('#my-data').data();
-        <!--spotpricesData = JSON.parse(spotpricesData);-->
-        document.getElementById("apifield").value = spotpricesData;
+        function callApi(commodityname, spotpricesData) {
+        var commodityString = commodityname.toString();
+        <!--document.getElementById("apifield").value = spotpricesData;-->
+        <!--spotpricesData = $('#my-data').data();-->
+        for(var key in spotpricesData) {
+                document.getElementById("apifield").value = key
+        <!--if(spotpricesData.hasOwnProperty(key)) {-->
+        <!--if (key == commodityString){ document.getElementById("apifield").value = spotpricesData[key]}-->
+        <!--}-->
         }
+        }
+
+
+
+        <!--spotpricesData = JSON.parse(spotpricesData);-->
+        <!--document.getElementById("apifield").value = spotpricesData;-->
         <!--var id = document.getElementById(commodityname).value;-->
         <!--var idString = id.toString();-->
         <!--if (idString == 'wheat') {-->
