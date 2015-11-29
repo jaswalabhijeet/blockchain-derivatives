@@ -1,5 +1,7 @@
+
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
+
 
 <head>
     <title>Ethereum Derivatives Builder</title>
@@ -130,7 +132,7 @@ h1 {
 
   <!-- Commodity Select Menu -->
   <div>
-    <select id="commodityname" name="commodityname"> <!--onchange="callApi('commodityname', {{spotprices}})">-->
+    <select id="commodityname" name="commodityname" onchange="callApi('commodityname')">
      <option value disabled selected> -- Select A Commodity -- </option>
      <option value="corn">Corn</option>
      <option value="oats">Oats</option>
@@ -184,15 +186,21 @@ h1 {
      </select>
   </div>
 
+<meta id="my-data" data-spotprices="{{spotpriceslist}}">
+
         <script>
-        function callApi(commodityname, spotprice) {
+        function callApi(commodityname, spotpriceslist) {
+        spotpricesData = $('#my-data').data();
+        <!--spotpricesData = JSON.parse(spotpricesData);-->
+        document.getElementById("apifield").value = spotpricesData;
+        }
         <!--var id = document.getElementById(commodityname).value;-->
         <!--var idString = id.toString();-->
         <!--if (idString == 'wheat') {-->
-        <!--{% for s in spotprice %}-->
+        <!--{% for s in spotprices %}-->
 <!--{% if s.commodity|string == idString|string %}-->
 
-<!--document.getElementById("apifield").value = spotprice;-->
+<!--document.getElementById("apifield").value = spotprices;-->
 
 <!--{% endif %}-->
 <!--{% endfor %}-->
@@ -225,18 +233,9 @@ h1 {
         <!--else {-->
         <!--document.getElementById("apifield").value = idString;-->
         <!--}-->
-        }
+        <!--}-->
         </script>
 
-            <script>
-<!--function httpGet(theUrl)-->
-<!--{-->
-    <!--var xmlHttp = new XMLHttpRequest();-->
-    <!--xmlHttp.open("GET", theUrl, true); // false for synchronous request-->
-    <!--xmlHttp.send();-->
-    <!--document.getElementById("apifield").innerHTML = xmlHttp.responseText;-->
-<!--}-->
-        </script>
 
             <!--<script>-->
         <!--function fillApi() {-->
@@ -254,21 +253,17 @@ h1 {
         <!--}-->
         <!--</script>-->
 
-      <div>
-<textarea class="mdl-color--white" rows="10" cols="20" type="text" id="apifield"
-                                          style="font-size:12px" placeholder={{spotprice}} ></textarea>
-
-{% block content %}
-{% for s in spotprice %}
-
+{% for s in spotprices %}
 <!--{% if s.commodity|string == 'commodity' %}-->
-
-{{ s.spotprice }}
-
+{{ s.commodity }}
 <!--{% endif %}-->
-
 {% endfor %}
-    {% endblock %}
+      <div>
+<textarea class="mdl-color--white" rows="20" cols="50" type="text" id="apifield"
+                                          style="font-size:12px" placeholder={{spotpriceslist}}></textarea>
+
+
+
 </div>
     <br>Set contract execution date:<br>
     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -343,12 +338,16 @@ Code to Send Upon Delivery Date:<br>
 <br>
 Code to Cancel Contract:<br>
         <textarea rows="10" cols="80" type="text" id="contractfield3" name="contractfield3">
-        </textarea>
+        </textarea><br>
 
 <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit" value="Save">
     Save This Contract</button>
         </form>
-
+{% for s in spotprices %}
+<!--{% if s.commodity|string == 'commodity' %}-->
+{{ s.commodity }}
+<!--{% endif %}-->
+{% endfor %}
 
   <div class="mdl-card__actions mdl-card--border">
     
@@ -369,6 +368,7 @@ Code to Cancel Contract:<br>
         </footer>
  
     </div>
+
 </body>
 
 </html>

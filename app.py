@@ -14,6 +14,7 @@ try:
 except ImportError:
     from urllib2 import urlopen
 from flask_restful import Resource, Api
+from decimal import Decimal
 from werkzeug.datastructures import ImmutableMultiDict
 
 #html = urlopen("http://www.google.com/")
@@ -232,6 +233,21 @@ def main_future():
 @app.route('/calloptionethereum', methods=["GET", "POST"])
 def main_call_option():
     error = None
+    #print Spotprice.query.all()
+    # list_of_dictionaries = []
+    spotprice_dictionary = {}
+    for u in Spotprice.query.all():
+        # little_list = []
+        dict = u.__dict__
+        dict_commodity = dict.get('commodity')
+        # little_list.append(dict_commodity)
+        dict_spotprice = float(dict.get('spotprice'))
+        spotprice_dictionary[dict_commodity] = dict_spotprice
+        # little_list.append(dict_spotprice)
+        # list_of_dictionaries.append(little_list)
+        #list_of_dictionaries(u.__dict__)
+    # print list_of_dictionaries
+    print spotprice_dictionary
     if request.method == 'POST':
         contract = Contract(str(current_user.id), request.form['buyerethereumaddress'],
                             request.form['sellerethereumaddress'], request.form['deliverydateTimestamp'],
@@ -239,8 +255,8 @@ def main_call_option():
                             request.form['margin'], request.form['soliditycodeinitial'], 0, 0, request.form['contractfield2'], request.form['contractfield3'])  #might not need str() #change last one or change deliverydate back
         db.session.add(contract)
         db.session.commit()
-        return render_template('calloptionethereum.html', spotprices=Spotprice.query.all())
-    return render_template('calloptionethereum.html', error=error, spotprices=Spotprice.query.all()) #spotpricesjson=json.dumps(Spotprice.query.all()))
+        return render_template('calloptionethereum.html', spotprices=Spotprice.query.all(), spotpriceslist=json.dumps(spotprice_dictionary))
+    return render_template('calloptionethereum.html', error=error, spotprices=Spotprice.query.all(), spotpriceslist=json.dumps(spotprice_dictionary)) #spotpricesjson=json.dumps(Spotprice.query.all()))
 
 
 @app.route('/putoptionethereum')
