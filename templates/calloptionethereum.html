@@ -199,12 +199,12 @@ Get Current Spot Price of This Commodity
         <!--document.getElementById("apifield").value = commodityString;-->
         <!--document.getElementById("apifield").value = commodityString;-->
         <!--&lt;!&ndash;spotpricesData = $('#my-data').data();&ndash;&gt;-->
+        var notFound = true;
         for(var key in spotpricesData) {
-        if(spotpricesData.hasOwnProperty(key)) {
-        if (key == commodityString){ document.getElementById("apifield").value = spotpricesData[key];}
+        if(spotpricesData.hasOwnProperty(key)) {if (key == commodityString){document.getElementById("apifield").value = spotpricesData[key]; notFound = false;}
         }
-        else {document.getElementById("apifield").value = "Spot Price Temporarily Unavailable";}
         }
+        if (notFound){document.getElementById("apifield").value = "Spot Price Temporarily Unavailable";}
         }
 
 
