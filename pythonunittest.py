@@ -13,8 +13,9 @@ class AppTestCase(unittest.TestCase):
         self.app.testing = True
         #self.app = app.app.test_client()   #turn back on if need be
         #self.app.config['TESTING'] = True  #take out if you have to
-        self.db_fd, app.app.config['DATABASE'] = tempfile.mkstemp()
-        flaskr.app.config['TESTING'] = True
+        self.db_fd, app.config['DATABASE'] = tempfile.mkstemp()
+        app.config['TESTING'] = True
+        app.init_db()
 
     def test_home_status_code(self):
         result = self.app.get('/')
