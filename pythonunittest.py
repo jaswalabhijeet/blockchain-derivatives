@@ -13,11 +13,11 @@ class AppTestCase(unittest.TestCase):
         self.app.testing = True
         #self.app = app.app.test_client()   #turn back on if need be
         #self.app.config['TESTING'] = True  #take out if you have to
+        self.db_fd, flaskr.app.config['DATABASE'] = tempfile.mkstemp()
+        flaskr.app.config['TESTING'] = True
 
     def test_home_status_code(self):
-        # sends HTTP GET request to the application, on the index page
-        result = self.app.get('/') 
-        # assert the status code of the response
+        result = self.app.get('/')
         self.assertEqual(result.status_code, 200)
 
 #test functional units on pages & check if necessary forms are
@@ -29,33 +29,39 @@ class AppTestCase(unittest.TestCase):
         #self.assertEqual(result.status_code, 200)
 
     def test_option_ethereum_status_code(self):
-        # sends HTTP GET request to the application, on the Ethereum call option page
-        result = self.app.get('/calloptionethereum') 
-        # assert the status code of the response
+        result = self.app.get('/')
         self.assertEqual(result.status_code, 200)
 
     def test_option_ethereum_status_code(self):
-        # sends HTTP GET request to the application, on the Ethereum put option page
-        result = self.app.get('/putoptionethereum') 
-        # assert the status code of the response
+        result = self.app.get('/futureethereum')
+        self.assertEqual(result.status_code, 200)
+
+    def test_option_ethereum_status_code(self):
+        result = self.app.get('/calloptionethereum')
+        self.assertEqual(result.status_code, 200)
+
+    def test_option_ethereum_status_code(self):
+        result = self.app.get('/putoptionethereum')
         self.assertEqual(result.status_code, 200)
 
     def test_swap_ethereum_status_code(self):
-        # sends HTTP GET request to the application, on the Ethereum swap page
-        result = self.app.get('/swapethereum') 
-        # assert the status code of the response
+        result = self.app.get('/swapethereum')
         self.assertEqual(result.status_code, 200)
 
     def test_register_status_code(self):
-        # sends HTTP GET request to the application, on the Ethereum register page
         result = self.app.get('/register')
-        # assert the status code of the response
         self.assertEqual(result.status_code, 200)
 
     def test_login_status_code(self):
-        # sends HTTP GET request to the application, on the Ethereum register page
         result = self.app.get('/login')
-        # assert the status code of the response
+        self.assertEqual(result.status_code, 200)
+
+    def test_login_status_code(self):
+        result = self.app.get('/spotprices')
+        self.assertEqual(result.status_code, 200)
+
+    def test_login_status_code(self):
+        result = self.app.get('/mycontracts')
         self.assertEqual(result.status_code, 200)
 
     #def test_my_contracts_status_code(self):
