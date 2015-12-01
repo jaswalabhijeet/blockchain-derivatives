@@ -13,7 +13,7 @@ class AppTestCase(unittest.TestCase):
         self.app.testing = True
         #self.app = app.app.test_client()   #turn back on if need be
         #self.app.config['TESTING'] = True  #take out if you have to
-        self.db_fd, flaskr.app.config['DATABASE'] = tempfile.mkstemp()
+        self.db_fd, app.app.config['DATABASE'] = tempfile.mkstemp()
         flaskr.app.config['TESTING'] = True
 
     def test_home_status_code(self):
