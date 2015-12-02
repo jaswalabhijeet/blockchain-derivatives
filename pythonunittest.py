@@ -1,8 +1,9 @@
 import os
-#import app
+import json
+import requests
+import time
 from app import app
-import unittest 
-#from unittest import TestCase
+import unittest
 import tempfile
 from flask import jsonify
 
@@ -67,20 +68,11 @@ class AppTestCase(unittest.TestCase):
 
 
     def test_api_valid_data(self):
-        response = self.app.put('/spotpriceapi?commodity=barley&spotprice=33.33')
+        response = self.app.put('/spotpriceapi', data=dict(
+        commodity=barley,
+        spotprice=9.99
+    ), follow_redirects=True)
         self.assertEqual(response.status_code, 200)
-
-    #def test_my_contracts_status_code(self):
-        # sends HTTP GET request to the application, on the Ethereum register page
-        #result = self.app.get('/mycontracts')
-        # assert the status code of the response
-        #self.assertEqual(result.status_code, 200)
-
-    #def test_spot_prices_status_code(self):
-        # sends HTTP GET request to the application, on the Ethereum register page
-        #result = self.app.get('/spotprices')
-        # assert the status code of the response
-        #self.assertEqual(result.status_code, 200)
 
 
     def login(self, username, password):
