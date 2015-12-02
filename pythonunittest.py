@@ -69,7 +69,7 @@ class AppTestCase(unittest.TestCase):
 
     def test_api_valid_data(self):
         response = self.app.put('/spotpriceapi', data=dict(
-        commodity=barley,
+        commodity='barley',
         spotprice=9.99
     ), follow_redirects=True)
         self.assertEqual(response.status_code, 200)
