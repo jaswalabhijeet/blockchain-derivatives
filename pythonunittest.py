@@ -67,7 +67,7 @@ class AppTestCase(unittest.TestCase):
 
 
     def test_api_valid_data(self):
-        response = self.app.post('/spotpriceapi, data="commodity=corn&spotprice=9.99")
+        response = self.app.post('/spotpriceapi?commodity=barley&spotprice=33.33')
         self.assertEqual(response.status_code, 200)
 
     #def test_my_contracts_status_code(self):
