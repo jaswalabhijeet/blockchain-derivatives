@@ -41,3 +41,4 @@ psycopg2==2.5.1
 #wsgiref==0.1.2
 wtforms==1.0.5
 flask-wtf==0.9.3
+requests==1.2.0
