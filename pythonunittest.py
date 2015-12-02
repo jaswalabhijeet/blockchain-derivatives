@@ -15,7 +15,7 @@ class AppTestCase(unittest.TestCase):
         #self.app.config['TESTING'] = True  #take out if you have to
         self.db_fd, app.config['DATABASE'] = tempfile.mkstemp()
         app.config['TESTING'] = True
-        app.init_db()
+        # db.create_all()
 
     def test_home_status_code(self):
         result = self.app.get('/')
@@ -29,19 +29,19 @@ class AppTestCase(unittest.TestCase):
         # assert the status code of the response
         #self.assertEqual(result.status_code, 200)
 
-    def test_option_ethereum_status_code(self):
+    def test_index_status_code(self):
         result = self.app.get('/')
         self.assertEqual(result.status_code, 200)
 
-    def test_option_ethereum_status_code(self):
+    def test_future_ethereum_status_code(self):
         result = self.app.get('/futureethereum')
         self.assertEqual(result.status_code, 200)
 
-    def test_option_ethereum_status_code(self):
+    def test_calloption_ethereum_status_code(self):
         result = self.app.get('/calloptionethereum')
         self.assertEqual(result.status_code, 200)
 
-    def test_option_ethereum_status_code(self):
+    def test_putoption_ethereum_status_code(self):
         result = self.app.get('/putoptionethereum')
         self.assertEqual(result.status_code, 200)
 
@@ -57,13 +57,18 @@ class AppTestCase(unittest.TestCase):
         result = self.app.get('/login')
         self.assertEqual(result.status_code, 200)
 
-    def test_login_status_code(self):
+    def test_spotprices_status_code(self):
         result = self.app.get('/spotprices')
         self.assertEqual(result.status_code, 200)
 
-    def test_login_status_code(self):
+    def test_mycontracts_status_code(self):
         result = self.app.get('/mycontracts')
         self.assertEqual(result.status_code, 200)
+
+
+    def test_api_valid_data(self):
+        response = self.app.post('/spotpriceapi, data="commodity=corn&spotprice=9.99")
+        self.assertEqual(response.status_code, 200)
 
     #def test_my_contracts_status_code(self):
         # sends HTTP GET request to the application, on the Ethereum register page
