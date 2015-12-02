@@ -88,19 +88,19 @@ class AppTestCase(unittest.TestCase):
     ), follow_redirects=True)
         self.assertEqual(response.status_code, 404)
 
-    def test_api_invalid_method(self):
+    def test_api_invalid_method_get(self):
         response = self.app.get('/spotpriceapi', data=dict(
         commodity='barley',
         spotprice=9.99
     ), follow_redirects=True)
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 405)
 
-    def test_api_invalid_method(self):
-        response = self.app.get('/spotpriceapi', data=dict(
+    def test_api_invalid_method_post(self):
+        response = self.app.post('/spotpriceapi', data=dict(
         commodity='barley',
         spotprice=9.99
     ), follow_redirects=True)
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 405)
 
     def login(self, username, password):
         return self.app.post('/login', data=dict(
