@@ -290,9 +290,11 @@ class SpotpriceApi(Resource):
         # spotpricetoupdate = Spotprice.query.filter_by(commodity=request.form['commodity']).first()
         # spotpricetoupdate.spotprice = newprice
         # db.session.commit()
-        if len(commodity=request.form['commodity']) == 0:
+        commodity_response = request.form['commodity']
+        if len(commodity_response) == 0:
             abort(404)
-        if len(commodity=request.form['spotprice']) == 0:
+        spotprice_response = request.form['spotprice']
+        if len(spotprice_response) == 0:
             abort(404)
         try :
             spotpricetoupdate = Spotprice.query.filter_by(commodity=request.form['commodity']).first()
