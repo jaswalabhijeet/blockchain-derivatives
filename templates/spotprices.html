@@ -45,6 +45,16 @@
 </style>
 
 <style>
+.mdl-data-table.mdl-js-data-table {
+  width:80%;
+align-items: center;
+    font-size: 1em;
+    }
+</style>
+
+
+
+<style>
 h1 {
     text-align: center;
 }
@@ -94,6 +104,24 @@ h1 {
   <h1>Current Spot Prices</h1>
 
 
+    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" table align="center">
+  <thead>
+    <tr>
+      <th class="mdl-data-table__cell--non-numeric">Commodity</th>
+      <th>Most Current Spot Price (Updated Constantly)</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for s in spotprices %}
+    <tr>
+      <td class="mdl-data-table__cell--non-numeric">{{ s.commodity }}</td>
+      <td>{{ s.spotprice }} </td>
+    </tr>
+{% endfor %}
+  </tbody>
+</table>
+<br>
+
 	  <!--<form action="{{ url_for('spotprices') }}" method=post class=add-entry id="usrform">-->
 <!--<label for="commodity">Enter a Commodity:</label><br>-->
   <!--<input type="text" name="commodity" id="commodity" placeholder="Enter A Commodity" class="mytext">-->
@@ -101,32 +129,6 @@ h1 {
 
   <!--<label for="spotprice">Enter a Spot Price:</label><br>-->
   <!--<input type="text" name="spotprice" id="spotprice" placeholder="Enter a New Spot Price" class="mytext"> <br><br><br>-->
-
-
-<!--<input type="submit" value="Save">-->
-  <!--</form>	-->
-
-<table cellspacing='2'>
-
-<thead>
-		<tr>
-			<th>Commodity</th>
-			<th>Freshest Spot Price</th>
-		</tr>
-	</thead>
-<tbody>
-
-{% for s in spotprices %}
-
-<tr>
-			<td> {{ s.commodity }}</td>
-			<td> {{ s.spotprice }} </td>
-		</tr>
-
-
-{% endfor %}
-	</tbody>
-</table>
 
 
 <div class="mdl-card__actions mdl-card--border">

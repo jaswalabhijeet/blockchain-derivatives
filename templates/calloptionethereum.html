@@ -189,7 +189,7 @@ h1 {
      </select>
   </div><br>
 
-<button type='button' class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="callApi({{spotpriceslist}})">
+<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="callApi({{spotpriceslist}}); return false;">
 Get Current Spot Price of This Commodity
 </button><br>
         <script>
@@ -245,7 +245,7 @@ Get Current Spot Price of This Commodity
   </div>
 
     <br>
-                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="add()">
+                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="add(); return false;">
                                     Compile Your Contract Into Solidity Code
                                 </button>
       <!--<input type="submit" value="Save" onclick="add()">-->
@@ -293,11 +293,6 @@ Code to Cancel Contract:<br>
 <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit" value="Save">
     Save This Contract</button>
         </form>
-{% for s in spotprices %}
-<!--{% if s.commodity|string == 'commodity' %}-->
-{{ s.commodity }}
-<!--{% endif %}-->
-{% endfor %}
 
   <div class="mdl-card__actions mdl-card--border">
     

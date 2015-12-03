@@ -222,7 +222,7 @@ def main_future():
     if request.method == 'POST':
         contract = Contract(str(current_user.id), request.form['buyerethereumaddress'],
                             request.form['sellerethereumaddress'], request.form['deliverydateTimestamp'],
-                            request.form['numberofunits'], request.form['commodityname'], request.form['price'],
+                            int(request.form['numberofunits']), request.form['commodityname'], request.form['price'],
                             request.form['margin'], request.form['contractfield'], 0, 0, request.form['contractfield2'], request.form['contractfield3'])  #might not need str() #change last one or change deliverydate back 
         db.session.add(contract)
         db.session.commit()
@@ -249,6 +249,7 @@ def main_call_option():
     # print list_of_dictionaries
     # print spotprice_dictionary
     if request.method == 'POST':
+        # print request.form['soliditycodeinitial']
         contract = Contract(str(current_user.id), request.form['buyerethereumaddress'],
                             request.form['sellerethereumaddress'], request.form['deliverydateTimestamp'],
                             request.form['numberofunits'], request.form['commodityname'], request.form['price'],

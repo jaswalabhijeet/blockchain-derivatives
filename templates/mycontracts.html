@@ -45,6 +45,47 @@
 </style>
 
 <style>
+table {
+    table-layout: fixed;
+    word-wrap: break-word;
+   word-break: break-all;
+}
+</style>
+
+<style>
+.mdl-data-table.mdl-js-data-table {
+  width:100%;
+align-items: center;
+    font-size: 1em;
+    table-layout: fixed;
+    word-wrap: break-word;
+   word-break: break-all;
+    }
+</style>
+
+<style>
+.mdl-data-table__cell {
+        table-layout: fixed;
+    word-wrap: break-word;
+   word-break: break-all;
+      color: #FF0000;
+      height: 200px;
+}
+</style>
+
+<style>
+.mdl-cell {
+        margin-top: 20px;
+  margin-left: 20px;
+  margin-bottom: 20px;
+  margin-right: 20px;
+      padding: 20px;
+      width:100%;
+
+}
+</style>
+
+<style>
 h1 {
     text-align: center;
 }
@@ -88,39 +129,84 @@ h1 {
   <main class="mdl-layout__content">
 
                 <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+
 <div class="demo-card-wide mdl-card mdl-shadow--2dp">
+
 
   <h1>My Contracts</h1>
 
-<table cellspacing='0'>
-
-<thead>
-		<tr>
-			<th>Details</th>
-			<th>Initialization Code</th>
-			<th>Delivery Date Code</th>
-			<th>Cancellation Code</th>
-		</tr>
-	</thead>
-<tbody>
-
-
 {% for c in contracts %}
-
 {% if c.blockchainderivativesid|int == current_user.id|int %}
-
-<tr>
-			<td> Buyer: {{ c.buyerethereumaddress }} Seller: {{ c.sellerethereumaddress }} <br> Contract for {{ c.numberofunits }} of {{ c.commodityname }} at {{ c.price }} each with a margin of {{ c.margin }}</td>
-			<td> {{ c.soliditycodeinitial }} </td>
-			<td> {{ c.soliditycodedeliverydate }}</td>
-			<td> {{ c.soliditycodecancel }}</td>
-		</tr>
-
+                    <div class="android-card-container mdl-grid">
+                    <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp">
+{{ c.deliverydate }}
+                               <h5>Details:</h5> Buyer: {{ c.buyerethereumaddress }} <br>Seller: {{ c.sellerethereumaddress }} <br> Terms: {{ c.numberofunits }} of {{ c.commodityname }} at {{ c.price }} each with a margin of {{ c.margin }} <br><br>
+      <h5>Initialization Code:</h5> {{ c.soliditycodeinitial }} <br><br>
+              <h5>Delivery Date Code:</h5> {{ c.soliditycodedeliverydate }} <br><br>
+              <h5>Cancellation Code:</h5> {{ c.soliditycodecancel }}
+                                                    </div>
+                                                                            </div>
+                        <br>
 {% endif %}
-
 {% endfor %}
-	</tbody>
-</table>
+
+                        <br>                        <br>                        <br>                        <br>
+
+
+        <!--<table class="mdl-data-table mdl-js-data-table mdl-shadow&#45;&#45;2dp" table align="center">-->
+  <!--<thead>-->
+    <!--<tr>-->
+      <!--<th class="mdl-data-table__cell&#45;&#45;non-numeric">Details</th>-->
+      <!--<th>Initialization Code</th>-->
+              <!--<th>Delivery Date Code</th>-->
+              <!--<th>Cancellation Code</th>-->
+    <!--</tr>-->
+  <!--</thead>-->
+  <!--<tbody>-->
+<!--{% for c in contracts %}-->
+<!--{% if c.blockchainderivativesid|int == current_user.id|int %}-->
+    <!--<tr>-->
+      <!--<td class="mdl-data-table__cell">Buyer: {{ c.buyerethereumaddress }} Seller: {{ c.sellerethereumaddress }} <br> Contract for {{ c.numberofunits }} of {{ c.commodityname }} at {{ c.price }} each with a margin of {{ c.margin }}</td>-->
+      <!--<td>{{ c.soliditycodeinitial }} </td>-->
+              <!--<td>{{ c.soliditycodedeliverydate }} </td>-->
+              <!--<td>{{ c.soliditycodecancel }} </td>-->
+    <!--</tr>-->
+<!--{% endif %}-->
+<!--{% endfor %}-->
+  <!--</tbody>-->
+<!--</table>-->
+<!--<br>-->
+
+
+<!--<table cellspacing='0'>-->
+
+<!--<thead>-->
+		<!--<tr>-->
+			<!--<th>Details</th>-->
+			<!--<th>Initialization Code</th>-->
+			<!--<th>Delivery Date Code</th>-->
+			<!--<th>Cancellation Code</th>-->
+		<!--</tr>-->
+	<!--</thead>-->
+<!--<tbody>-->
+
+
+<!--{% for c in contracts %}-->
+
+<!--{% if c.blockchainderivativesid|int == current_user.id|int %}-->
+
+<!--<tr>-->
+			<!--<td> Buyer: {{ c.buyerethereumaddress }} Seller: {{ c.sellerethereumaddress }} <br> Contract for {{ c.numberofunits }} of {{ c.commodityname }} at {{ c.price }} each with a margin of {{ c.margin }}</td>-->
+			<!--<td> {{ c.soliditycodeinitial }} </td>-->
+			<!--<td> {{ c.soliditycodedeliverydate }}</td>-->
+			<!--<td> {{ c.soliditycodecancel }}</td>-->
+		<!--</tr>-->
+
+<!--{% endif %}-->
+
+<!--{% endfor %}-->
+	<!--</tbody>-->
+<!--</table>-->
 
 
 
