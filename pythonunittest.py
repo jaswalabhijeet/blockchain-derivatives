@@ -113,7 +113,7 @@ class AppTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_logout(self):
-        reponse = self.app.get('/logout', follow_redirects=True)
+        response = self.app.get('/logout', follow_redirects=True)
         print response
 
 if __name__ == '__main__':
