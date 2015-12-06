@@ -94,18 +94,19 @@ class AppTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 405)
 
     def test_future_post_valid_inputs(self, buyerethereumaddress, sellerethereumaddress, deliverydate, blockchainderivativesid, numberofunits, commodityname, price, margin, soliditycodeinitial, transactionid, spotprice, soliditycodedeliverydate, soliditycodecancel):
-        return self.app.post('/futureethereum', data=dict(
+        rv = self.app.post('/futureethereum', data=dict(
         buyerethereumaddress='d6aaae06717f25095eab8250369a437e549160a4',
         sellerethereumaddress='e6aaae06717f25095eab8250369a437e549160a4', deliverydate=1623492485, blockchainderivativesid='11', numberofunits=22, commodityname='wheat', price=22, margin=2, soliditycodeinitial='', transactionid='', spotprice=1, soliditycodedeliverydate='', soliditycodecancel=''), follow_redirects=True)
-
-    def test_login(self, username, password):
-        return self.app.post('/login', data=dict(
-        username=username,
-        password=password
-    ), follow_redirects=True)
+        print rv.data
+    # def test_login(self, username, password):
+    #     return self.app.post('/login', data=dict(
+    #     username=username,
+    #     password=password
+    # ), follow_redirects=True)
 
     def test_logout(self):
-        return self.app.get('/logout', follow_redirects=True)
+        rv = self.app.get('/logout', follow_redirects=True)
+        print rv.data
 
 if __name__ == '__main__':
     unittest.main()

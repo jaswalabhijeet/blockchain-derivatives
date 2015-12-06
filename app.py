@@ -284,7 +284,8 @@ def main_future():
                             request.form['margin'], request.form['contractfield'], 0, 0, request.form['contractfield2'], request.form['contractfield3'])  #might not need str() #change last one or change deliverydate back 
         db.session.add(contract)
         db.session.commit()
-        return render_template('futureethereum.html', spotprices=Spotprice.query.all(), spotpriceslist=json.dumps(spotprice_dictionary))
+        return redirect(url_for("mycontracts"))
+        #return render_template('futureethereum.html', spotprices=Spotprice.query.all(), spotpriceslist=json.dumps(spotprice_dictionary))
     return render_template('futureethereum.html', error=error, spotprices=Spotprice.query.all(), spotpriceslist=json.dumps(spotprice_dictionary))
 
 @app.route('/calloptionethereum', methods=["GET", "POST"])
