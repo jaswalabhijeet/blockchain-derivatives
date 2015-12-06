@@ -6,10 +6,8 @@
 
     <link rel=stylesheet type=text/css
           href="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.indigo-deep_purple.min.css">
-    <!--<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">-->
-    <!--<link rel=stylesheet type=text/css href="{{ url_for('static', filename='home.css') }}">-->
-        <!--<link rel=stylesheet type=text/css href="/static/css/style.css">-->
-        <!--<link rel=stylesheet type=text/css href="/static/css/home.css">-->
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='home.css') }}">
     <script src="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en"
@@ -17,7 +15,6 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 
-<!-- Uses a transparent header that draws on top of the layout's background -->
 <style>
 .demo-layout-transparent {
   background: url('https://images.unsplash.com/photo-1424894408462-1c89797f2305?ixlib=rb-0.3.5&q=80&fm=jpg&s=42e7627aa059098be72974d544c04f2f') center / cover;
@@ -30,7 +27,6 @@
 }
 </style>
 
-<!-- Square card -->
 <style>
 .demo-card-wide.mdl-card {
   width:100%;
@@ -101,11 +97,8 @@ h1 {
 <div class="demo-layout-transparent mdl-layout mdl-js-layout">
   <header class="mdl-layout__header mdl-layout__header--transparent">
     <div class="mdl-layout__header-row">
-      <!-- Title -->
       <span class="mdl-layout-title">Ethereum Derivatives</span>
-      <!-- Add spacer, to align navigation to the right -->
       <div class="mdl-layout-spacer"></div>
-      <!-- Navigation -->
       <nav class="mdl-navigation">
         <a class="mdl-navigation__link" href="">{% if current_user.is_authenticated %}
   You are logged in as: {{ current_user.email }}
@@ -123,7 +116,7 @@ h1 {
     <nav class="mdl-navigation">
       <a class="mdl-navigation__link" href="/">Home</a>
       <a class="mdl-navigation__link" href="/futureethereum">Create Future</a>
-      <a class="mdl-navigation__link" href="/swapethereum">Create Swap</a>
+      <!--<a class="mdl-navigation__link" href="/swapethereum">Create Swap</a>-->
       <a class="mdl-navigation__link" href="/putoptionethereum">Create Put Option</a>
       <a class="mdl-navigation__link" href="/calloptionethereum">Create Call Option</a>
       <a class="mdl-navigation__link" href="/spotprices">Current Spot Prices</a>
@@ -139,18 +132,17 @@ h1 {
 
 <div class="demo-card-wide mdl-card mdl-shadow--2dp">
 
-
   <h1>My Contracts</h1>
 
               <h3>Futures</h3>
 
-    {% set futures_count = [0] %}
+{% set futures_count = [0] %}
 {% for c in contracts %}
 
 {% if c.blockchainderivativesid|int == current_user.id|int %}
-  {% set _ = futures_count.append(futures_count.pop() + 1) %}
-                    <div class="android-card-container mdl-grid">
-                    <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp">
+{% set _ = futures_count.append(futures_count.pop() + 1) %}
+  <div class="android-card-container mdl-grid">
+  <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp">
 {{ c.deliverydate }}
                                <h5>Details:</h5> Buyer: {{ c.buyerethereumaddress }} <br>Seller: {{ c.sellerethereumaddress }} <br> Terms: {{ c.numberofunits }} of {{ c.commodityname }} at {{ c.price }} each with a margin of {{ c.margin }} <br><br>
       <h5>Initialization Code:</h5> {{ c.soliditycodeinitial }} <br>
@@ -161,19 +153,19 @@ h1 {
                         <br>
 {% endif %}
 {% endfor %}
-    {% if futures_count.pop() == 0 %}
-                  <a href="/futureethereum">You Have No Futures. Click Here to Create One.</a><br>
-    {% endif %}
+{% if futures_count.pop() == 0 %}
+  <a href="/futureethereum">You Have No Futures. Click Here to Create One.</a><br>
+{% endif %}
 
-              <h3>Call Options</h3>
+    <h3>Call Options</h3>
 
-    {% set calloptions_count = [0] %}
+{% set calloptions_count = [0] %}
 {% for x in calloptions %}
 
 {% if x.blockchainderivativesid|int == current_user.id|int %}
-  {% set _ = calloptions_count.append(calloptions_count.pop() + 1) %}
-                    <div class="android-card-container mdl-grid">
-                    <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp">
+{% set _ = calloptions_count.append(calloptions_count.pop() + 1) %}
+   <div class="android-card-container mdl-grid">
+   <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp">
 {{ x.expirydate }}
                                <h5>Details:</h5> Buyer: {{ x.buyerethereumaddress }} <br>Seller: {{ x.sellerethereumaddress }} <br> Terms: {{ x.numberofunits }} of {{ x.assetname }} at {{ x.strikeprice }} each with a premium of {{ x.premium }} <br><br>
       <h5>Initialization Code:</h5> {{ x.soliditycodeinitial }} <br>

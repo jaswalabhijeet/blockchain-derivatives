@@ -6,10 +6,8 @@
 
     <link rel=stylesheet type=text/css
           href="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.indigo-deep_purple.min.css">
-    <!--<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">-->
-    <!--<link rel=stylesheet type=text/css href="{{ url_for('static', filename='home.css') }}">-->
-        <!--<link rel=stylesheet type=text/css href="/static/css/style.css">-->
-        <!--<link rel=stylesheet type=text/css href="/static/css/home.css">-->
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='home.css') }}">
     <script src="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en"
@@ -17,7 +15,6 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 
-<!-- Uses a transparent header that draws on top of the layout's background -->
 <style>
 .demo-layout-transparent {
   background: url('https://images.unsplash.com/photo-1424894408462-1c89797f2305?ixlib=rb-0.3.5&q=80&fm=jpg&s=42e7627aa059098be72974d544c04f2f') center / cover;
@@ -30,7 +27,6 @@
 }
 </style>
 
-<!-- Square card -->
 <style>
 .demo-card-wide.mdl-card {
   width:100%;
@@ -60,11 +56,8 @@ h1 {
 <div class="demo-layout-transparent mdl-layout mdl-js-layout">
   <header class="mdl-layout__header mdl-layout__header--transparent">
     <div class="mdl-layout__header-row">
-      <!-- Title -->
       <span class="mdl-layout-title">Ethereum Derivatives</span>
-      <!-- Add spacer, to align navigation to the right -->
       <div class="mdl-layout-spacer"></div>
-      <!-- Navigation -->
       <nav class="mdl-navigation">
         <a class="mdl-navigation__link" href="">{% if current_user.is_authenticated %}
   You are logged in as: {{ current_user.email }}
@@ -82,7 +75,7 @@ h1 {
     <nav class="mdl-navigation">
       <a class="mdl-navigation__link" href="/">Home</a>
       <a class="mdl-navigation__link" href="/futureethereum">Create Future</a>
-      <a class="mdl-navigation__link" href="/swapethereum">Create Swap</a>
+      <!--<a class="mdl-navigation__link" href="/swapethereum">Create Swap</a>-->
       <a class="mdl-navigation__link" href="/putoptionethereum">Create Put Option</a>
       <a class="mdl-navigation__link" href="/calloptionethereum">Create Call Option</a>
       <a class="mdl-navigation__link" href="/spotprices">Current Spot Prices</a>
@@ -97,38 +90,7 @@ h1 {
                 <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
 <div class="demo-card-wide mdl-card mdl-shadow--2dp">
 
-
-
-<!--<head>-->
-<!--    <title>Blockchain Derivatives Builder</title>-->
- 
-<!--    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">-->
-<!-- -->
-<!--    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">-->
- 
-<!--</head>-->
-
-<!--<body>-->
-
-<!--    <div class="container">-->
-<!--        <div class="header">-->
-<!--            <nav>-->
-<!--                <ul class="nav nav-pills pull-right">-->
-<!--                    <li role="presentation"><a href="/">Home</a>-->
-<!--                    </li>-->
-<!--                    <li role="presentation" class="active"><a href="/login">Log In</a>-->
-<!--                    </li>-->
-<!--                    <li role="presentation"><a href="/logout">Log Out</a>-->
-<!--                    </li>-->
-<!--<li role="presentation"><a href="/register">Register</a>-->
-<!--                    </li>-->
-<!--                </ul>-->
-<!--            </nav>-->
-<!--        </div>-->
-
-
   <h1>Log In</h1>
-
 
       <form action="{{ url_for('login') }}" method=post id="usrform" name="login">
 

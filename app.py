@@ -181,28 +181,6 @@ class Spotprice(db.Model):
 
 db.create_all()
 
-# user = User('email1', 'password2')
-# db.session.add(user)
-# db.session.commit()
-# user = User('email2', 'password2')
-# db.session.add(user)
-# db.session.commit()
-# all_users = User.query.all()
-# print all_users
-# contract = Contract('blockchainderivativesid00', 'buyerethereumaddress00', 'sellerethereumaddress00', '1', '1', 'commodityname00', '1', '1', 'soliditycodeinitial00', '1', '1', '1', '1')
-# db.session.add(contract)
-# db.session.commit()
-# all_contracts = Contract.query.all()
-# print all_contracts
-# spotprice = Spotprice('wheat', '1.01')
-# db.session.add(spotprice)
-# db.session.commit()
-# spotprice = Spotprice('gold', '1.01')
-# db.session.add(spotprice)
-# db.session.commit()
-# allSpotPrices=Spotprice.query.all()
-# print allSpotPrices
-
 # registration and log in process and pages
 
 login_manager = LoginManager()
@@ -211,7 +189,7 @@ SECRET_KEY = 'secretkey'
 USERNAME = 'username'
 PASSWORD = 'password'
 
-class RegistrationForm(Form):      #possibly not using any more
+class RegistrationForm(Form):
     email = TextField('Email Address', [validators.Length(min=1, max=35)])
     password = PasswordField('Password', [validators.Length(min=1, max=35)])
 
@@ -334,25 +312,24 @@ def main_put_option():
     return render_template('putoptionethereum.html', error=error, spotprices=Spotprice.query.all(), spotpriceslist=json.dumps(spotprice_dictionary)) #spotpricesjson=json.dumps(Spotprice.query.all()))
 
 
-@app.route('/swapethereum', methods=["GET", "POST"])
-def main_swap():
-    error = None
-    spotprice_dictionary = {}
-    for u in Spotprice.query.all():
-        dict = u.__dict__
-        dict_commodity = dict.get('commodity')
-        dict_spotprice = float(dict.get('spotprice'))
-        spotprice_dictionary[dict_commodity] = dict_spotprice
-    if request.method == 'POST':
-        contract = Contract(str(current_user.id), request.form['buyerethereumaddress'],
-                            request.form['sellerethereumaddress'], request.form['deliverydateTimestamp'],
-                            request.form['numberofunits'], request.form['commodityname'], request.form['price'],
-                            request.form['margin'], request.form['soliditycodeinitial'], 0, 0, request.form['contractfield2'], request.form['contractfield3'])  #might not need str() #change last one or change deliverydate back
-        db.session.add(contract)
-        db.session.commit()
-        return render_template('swapethereum.html', spotprices=Spotprice.query.all(), spotpriceslist=json.dumps(spotprice_dictionary))
-    return render_template('swapethereum.html', error=error, spotprices=Spotprice.query.all(), spotpriceslist=json.dumps(spotprice_dictionary)) #spotpricesjson=json.dumps(Spotprice.query.all()))
-
+# @app.route('/swapethereum', methods=["GET", "POST"])
+# def main_swap():
+#     error = None
+#     spotprice_dictionary = {}
+#     for u in Spotprice.query.all():
+#         dict = u.__dict__
+#         dict_commodity = dict.get('commodity')
+#         dict_spotprice = float(dict.get('spotprice'))
+#         spotprice_dictionary[dict_commodity] = dict_spotprice
+#     if request.method == 'POST':
+#         contract = Contract(str(current_user.id), request.form['buyerethereumaddress'],
+#                             request.form['sellerethereumaddress'], request.form['deliverydateTimestamp'],
+#                             request.form['numberofunits'], request.form['commodityname'], request.form['price'],
+#                             request.form['margin'], request.form['soliditycodeinitial'], 0, 0, request.form['contractfield2'], request.form['contractfield3'])  #might not need str() #change last one or change deliverydate back
+#         db.session.add(contract)
+#         db.session.commit()
+#         return render_template('swapethereum.html', spotprices=Spotprice.query.all(), spotpriceslist=json.dumps(spotprice_dictionary))
+#     return render_template('swapethereum.html', error=error, spotprices=Spotprice.query.all(), spotpriceslist=json.dumps(spotprice_dictionary)) #spotpricesjson=json.dumps(Spotprice.query.all()))
 
 @app.route('/mycontracts')
 # @login_required
