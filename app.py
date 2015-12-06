@@ -347,10 +347,21 @@ class SpotpriceApi(Resource):
         spotprice_response = request.form['spotprice']
         if len(spotprice_response) == 0:
             abort(404)
-        if type(request.form['commodity']) != unicode:
-            abort(400)
-        if type(request.form['spotprice']) != unicode:
-            abort(400)
+
+        try:
+            if type(request.form['commodity']) != unicode:
+                abort(400)
+        except:
+            if type(request.form['commodity']) != str:
+                abort(400)
+
+        try:
+            if type(request.form['spotprice']) != unicode:
+                abort(400)
+        except:
+            if type(request.form['spotprice']) != str:
+                abort(400)
+
         try :
             spotpricetoupdate = Spotprice.query.filter_by(commodity=request.form['commodity']).first()
             newprice = request.form['spotprice']
