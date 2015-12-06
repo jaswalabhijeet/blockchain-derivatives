@@ -121,9 +121,16 @@ h1 {
   <div class="mdl-layout__drawer">
     <span class="mdl-layout-title">Create Derivatives</span>
     <nav class="mdl-navigation">
-      <a class="mdl-navigation__link" href="/futureethereum">Create Ethereum Future</a>
-      <a class="mdl-navigation__link" href="/swapethereum">Create Ethereum Swap</a>
-      <a class="mdl-navigation__link" href="/putoptionethereum">Create Ethereum Put Option</a>
+      <a class="mdl-navigation__link" href="/">Home</a>
+      <a class="mdl-navigation__link" href="/futureethereum">Create Future</a>
+      <a class="mdl-navigation__link" href="/swapethereum">Create Swap</a>
+      <a class="mdl-navigation__link" href="/putoptionethereum">Create Put Option</a>
+      <a class="mdl-navigation__link" href="/calloptionethereum">Create Call Option</a>
+      <a class="mdl-navigation__link" href="/spotprices">Current Spot Prices</a>
+      <a class="mdl-navigation__link" href="/tutorial">Tutorial</a>
+      <a class="mdl-navigation__link" href="/register">Register</a>
+      <a class="mdl-navigation__link" href="/login">Log In</a>
+      <a class="mdl-navigation__link" href="/calloptionethereum">Log Out</a>
     </nav>
   </div>
   <main class="mdl-layout__content">
@@ -135,13 +142,18 @@ h1 {
 
   <h1>My Contracts</h1>
 
+              <h3>Futures</h3>
+
+    {% set futures_count = 0 %}
 {% for c in contracts %}
+
 {% if c.blockchainderivativesid|int == current_user.id|int %}
+  {% set futures_count = futures_count + 1 %}
                     <div class="android-card-container mdl-grid">
                     <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp">
 {{ c.deliverydate }}
                                <h5>Details:</h5> Buyer: {{ c.buyerethereumaddress }} <br>Seller: {{ c.sellerethereumaddress }} <br> Terms: {{ c.numberofunits }} of {{ c.commodityname }} at {{ c.price }} each with a margin of {{ c.margin }} <br><br>
-      <h5>Initialization Code:</h5> {{ c.soliditycodeinitial }} <br><br>
+      <h5>Initialization Code:</h5> {{ c.soliditycodeinitial }} <br>
               <h5>Delivery Date Code:</h5> {{ c.soliditycodedeliverydate }} <br><br>
               <h5>Cancellation Code:</h5> {{ c.soliditycodecancel }}
                                                     </div>
@@ -149,6 +161,32 @@ h1 {
                         <br>
 {% endif %}
 {% endfor %}
+    {% if futures_count == 0 %}
+                  <a href="/futureethereum">You Have No Futures. Click Here to Create One.</a><br><br>
+    {% endif %}
+
+              <h3>Call Options</h3>
+
+    {% set calloptions_count = 0 %}
+{% for x in calloptions %}
+
+{% if x.blockchainderivativesid|int == current_user.id|int %}
+  {% set calloptions_count = calloptions_count + 1 %}
+                    <div class="android-card-container mdl-grid">
+                    <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp">
+{{ x.expirydate }}
+                               <h5>Details:</h5> Buyer: {{ x.buyerethereumaddress }} <br>Seller: {{ x.sellerethereumaddress }} <br> Terms: {{ x.numberofunits }} of {{ x.assetname }} at {{ x.strikeprice }} each with a margin of {{ x.premium }} <br><br>
+      <h5>Initialization Code:</h5> {{ x.soliditycodeinitial }} <br>
+              <h5>Expiry Date Code:</h5> {{ x.soliditycodedeliverydate }} <br><br>
+              <h5>Cancellation Code:</h5> {{ x.soliditycodecancel }}
+                                                    </div>
+                                                                            </div>
+                        <br>
+{% endif %}
+{% endfor %}
+    {% if calloptions_count == 0 %}
+                  <a href="/calloptionethereum">You Have No Call Options. Click Here to Create One.</a><br><br>
+    {% endif %}
 
                         <br>                        <br>                        <br>                        <br>
 

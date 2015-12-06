@@ -1,49 +1,344 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 
-{% block content %}
-
-{% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}  
-
-{% if current_user.is_authenticated %}
-  You are logged in as: {{ current_user.email }}!
-{% endif %}
- 
 <head>
-    <title>Blockchain Derivatives Builder</title> 
-    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <title>Ethereum Derivatives Builder</title>
+
+    <link rel=stylesheet type=text/css
+          href="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.indigo-deep_purple.min.css">
+    <!--<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">-->
+    <!--<link rel=stylesheet type=text/css href="{{ url_for('static', filename='home.css') }}">-->
+        <!--<link rel=stylesheet type=text/css href="/static/css/style.css">-->
+        <!--<link rel=stylesheet type=text/css href="/static/css/home.css">-->
+    <script src="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en"
+          rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 
- 
-<body>
- 
-    <div class="container">
-        <div class="header">
-            <nav>
-                <ul class="nav nav-pills pull-right">
-                    <li role="presentation" class="active"><a href="/">Home</a>
-                    </li>
-                    <li role="presentation"><a href="/login">Log In</a>
-                    </li>
-                    <li role="presentation"><a href="/logout">Log Out</a>
-                    </li>
-<li role="presentation"><a href="/register">Register</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+        <script type="text/javascript">
+        function createTimestamp(type) {
+        var deliveryDate = document.getElementById('deliverydate').value
+        var currentUnix = Math.round(+new Date()/1000);
+        var deliveryUnix = (parseInt(deliveryDate, 10) * 24 * 60 * 60) + parseInt(currentUnix, 10)
+        var id = type+'Timestamp';
+        document.getElementById(id).value = deliveryUnix;
+        }
+        </script>
+
+<!-- Uses a transparent header that draws on top of the layout's background -->
+<style>
+.demo-layout-transparent {
+  background: url('https://images.unsplash.com/photo-1424894408462-1c89797f2305?ixlib=rb-0.3.5&q=80&fm=jpg&s=42e7627aa059098be72974d544c04f2f') center / cover;
+}
+.demo-layout-transparent .mdl-layout__header,
+.demo-layout-transparent .mdl-layout__drawer-button {
+  /* This background is dark, so we set text to white. Use 87% black instead if
+     your background is light. */
+  color: white;
+}
+</style>
+
+<!-- Square card -->
+<style>
+.demo-card-wide.mdl-card {
+  width:100%;
+  height:100%;
+  color: #341151;
+    margin-top: 70px;
+  margin-left: 70px;
+  margin-bottom: 70px;
+  margin-right: 70px;
+      padding: 70px;
+    }
+</style>
+
+<style>
+h1 {
+    text-align: center;
+}
+</style>
+
+<style>
+   .mdl-textfield {
+  width: 50%;
+}
+</style>
 
 
- <br><br> 
-        <div class="jumbotron">
-            <h1>Blockchain Derivative Builder</h1>
-            <p class="lead"></p>
-        </div>
+<body class="mdl-demo mdl-color--black mdl-color-text--grey-400 mdl-base">
+<div class="demo-layout-transparent mdl-layout mdl-js-layout">
+  <header class="mdl-layout__header mdl-layout__header--transparent">
+    <div class="mdl-layout__header-row">
+      <span class="mdl-layout-title">Ethereum Derivatives</span>
+      <div class="mdl-layout-spacer"></div>
+      <nav class="mdl-navigation">
+        <a class="mdl-navigation__link" href="">{% if current_user.is_authenticated %}
+        You are logged in as: {{ current_user.email }}
+        {% endif %}</a>
+        <a class="mdl-navigation__link" href="/register">Register</a>
+        <a class="mdl-navigation__link" href="/login">Log In</a>
+        <a class="mdl-navigation__link" href="/logout">Log Out</a>
+        <a class="mdl-navigation__link" href="/mycontracts">Your Contracts</a>
+        <a class="mdl-navigation__link" href="/spotprices">Current Spot Prices</a>
+      </nav>
+    </div>
+  </header>
+  <div class="mdl-layout__drawer">
+    <span class="mdl-layout-title">Create Derivatives</span>
+    <nav class="mdl-navigation">
+      <a class="mdl-navigation__link" href="/">Home</a>
+      <a class="mdl-navigation__link" href="/futureethereum">Create Future</a>
+      <a class="mdl-navigation__link" href="/calloptionethereum">Create Call Option</a>
+      <a class="mdl-navigation__link" href="/swapethereum">Create Swap</a>
+      <a class="mdl-navigation__link" href="/mycontracts">Your Contracts</a>
+      <a class="mdl-navigation__link" href="/spotprices">Current Spot Prices</a>
+      <a class="mdl-navigation__link" href="/tutorial">Tutorial</a>
+      <a class="mdl-navigation__link" href="/register">Register</a>
+      <a class="mdl-navigation__link" href="/login">Log In</a>
+      <a class="mdl-navigation__link" href="/calloptionethereum">Log Out</a>
+    </nav>
+  </div>
+  <main class="mdl-layout__content">
 
+                <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+<div class="demo-card-wide mdl-card mdl-shadow--2dp">
 
-        <h1>
-        <span>Put Option Contract for Ethereum</span> 
+                <h1>
+        <span>Put Option Contract for Ethereum</span>
         </h1>
+
+  <form action="{{ url_for('main_call_option') }}" method=post class=add-entry id="usrform">
+  <div class="mdl-textfield mdl-js-textfield">
+    <input class="mdl-textfield__input" type="text" name="buyerethereumaddress"  id="buyerethereumaddress">
+    <label class="mdl-textfield__label" for="buyerethereumaddress">Enter the 40 Character Ethereum Address for the Buyer, If Any</label>
+  </div>
+
+      <!-- Seller Address Textfield -->
+  <div class="mdl-textfield mdl-js-textfield">
+    <input class="mdl-textfield__input" type="text" name="sellerethereumaddress"  id="sellerethereumaddress">
+    <label class="mdl-textfield__label" for="sellerethereumaddress">Enter the 40 Character Ethereum Address for the Seller</label>
+  </div>
+
+    <!-- Number of Units Textfield -->
+  <div class="mdl-textfield mdl-js-textfield">
+    <input class="mdl-textfield__input" type="text" name="numberofunits" id="numberofunits" pattern="-?[0-9]*(\.[0-9]+)?" step="any">
+    <label class="mdl-textfield__label" for="numberofunits">Enter the Number of Units You Desire</label>
+    <span class="mdl-textfield__error">Input is not a number!</span>
+  </div>
+
+<!--<meta id="my-data" data-spotprices="{{spotpriceslist}}">-->
+
+  <!-- Commodity Select Menu -->
+  <div>
+    <select id="commodityname" name="commodityname">
+    <!--<select id="commodityname" name="commodityname" onchange="callApi('commodityname', 'my-data')">-->
+     <option value disabled selected> -- Select A Commodity -- </option>
+     <option value="corn">Corn</option>
+     <option value="oats">Oats</option>
+     <option value="rice">Rice</option>
+     <option value="soybeans">Soybeans</option>
+     <option value="soybeanMeal">Soybean Meal</option>
+     <option value="soybeanOil">Soybean Oil</option>
+     <option value="wheat">Wheat</option>
+     <option value="minnesotaWheat">Minnesota Wheat</option>
+     <option value="chicagoWheat">Chicago Wheat</option>
+     <option value="kansasCityWheat">K.C. Wheat</option>
+     <option value="barley">Barley</option>
+     <option value="skimmedMilk">Skimmed Milk</option>
+     <option value="cheese">Cheese</option>
+     <option value="butter">Butter</option>
+     <option value="cocoa">Cocoa</option>
+     <option value="coffee">Coffee</option>
+     <option value="coffeeRobusta">Coffee Robusta</option>
+     <option value="coffeeArabica">Coffee Arabica</option>
+     <option value="cotton">Cotton</option>
+     <option value="sugar11">Sugar No. 11</option>
+     <option value="orangeJuice">Orange Juice</option>
+     <option value="wool">Wool</option>
+     <option value="hogs">Lean Hogs</option>
+     <option value="liveCattle">Live Cattle</option>
+     <option value="feederCattle">Feeder Cattle</option>
+     <option value="brentCrude">Brent Crude</option>
+     <option value="crudeOil">Crude Oil</option>
+     <option value="naturalGas">Natural Gas</option>
+     <option value="gulfCoastGasoline">Gulf Coast Gasoline</option>
+     <option value="rbobGasoline">RBOB Gasoline</option>
+     <option value="propane">Propane</option>
+     <option value="copper">Copper</option>
+     <option value="lead">Lead</option>
+     <option value="zinc">Zinc</option>
+     <option value="tin">Tin</option>
+     <option value="aluminum">Aluminum</option>
+     <option value="nickel">Nickel</option>
+     <option value="cobalt">Cobalt</option>
+     <option value="coal">Coal</option>
+     <option value="molybdenum">Molybdenum</option>
+     <option value="steel">Steel</option>
+     <option value="gold">Gold</option>
+     <option value="silver">Silver</option>
+     <option value="platinum">Platinum</option>
+     <option value="palladium">Palladium</option>
+     <option value="rhodium">Rhodium</option>
+     <option value="palmOil">Palm Oil</option>
+     <option value="rubber">Rubber</option>
+     <option value="lumber">Lumber</option>
+     </select>
+  </div><br>
+
+<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="callApi({{spotpriceslist}}); return false;">
+Get Current Spot Price of This Commodity
+</button><br>
+        <script>
+        function callApi(spotpricesData) {
+        var commodityName = document.getElementById('commodityname').value;
+        var commodityString = commodityName.toString();
+        <!--document.getElementById("apifield").value = commodityString;-->
+        <!--document.getElementById("apifield").value = commodityString;-->
+        <!--&lt;!&ndash;spotpricesData = $('#my-data').data();&ndash;&gt;-->
+        var notFound = true;
+        for(var key in spotpricesData) {
+        if(spotpricesData.hasOwnProperty(key)) {if (key == commodityString){document.getElementById("apifield").value = spotpricesData[key]; notFound = false;}
+        }
+        }
+        if (notFound){document.getElementById("apifield").value = "Spot Price Temporarily Unavailable";}
+        }
+        </script>
+
+      <br><div>
+<textarea class="mdl-color--white" rows="20" cols="50" type="text" id="apifield"
+                                          style="font-size:12px" placeholder={{spotpriceslist}}></textarea>
+
+
+
+</div>
+    <br>Set contract execution date:<br>
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+
+                                        <input class="mdl-textfield__input" type="date" pattern="-?[0-9]*(\[0-9]+)?"
+                                               name="deliverydate" id="deliverydate"
+                                               onchange="createTimestamp('deliverydate')"/>
+                                        <label class="mdl-textfield__label" for="deliverydate"></label>
+                                    </div>
+
+<div>
+                                        Unix timestamp: <input class="mdl-color--white" type="text" value=""
+                                                               id="deliverydateTimestamp" name="deliverydateTimestamp"
+                                                               style="border: 0px; font-size:16px">
+                                    </div>
+
+    <!-- Future Price Textfield -->
+  <div class="mdl-textfield mdl-js-textfield">
+    <input class="mdl-textfield__input" type="text" name="price" id="price" pattern="-?[0-9]*(\.[0-9]+)?" step="any">
+    <label class="mdl-textfield__label" for="price">Enter a Future Price</label>
+    <span class="mdl-textfield__error">Input is not a number!</span>
+  </div>
+
+    <!-- Margin Textfield -->
+  <div class="mdl-textfield mdl-js-textfield">
+    <input class="mdl-textfield__input" type="text" name="margin"  id="margin" pattern="-?[0-9]*(\.[0-9]+)?" step="any">
+    <label class="mdl-textfield__label" for="margin">Enter a Margin For This Contract</label>
+    <span class="mdl-textfield__error">Input is not a number!</span>
+  </div>
+
+    <br>
+                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="add(); return false;">
+                                    Compile Your Contract Into Solidity Code
+                                </button>
+      <!--<input type="submit" value="Save" onclick="add()">-->
+
+
+
+        <script>
+        function add() {
+        var price = document.getElementById('price').value;
+        var numberofunits = document.getElementById('numberofunits').value;
+        var contractValue = parseFloat(price, 10) * parseInt(numberofunits, 10);
+        var buyerEthereumAddress = document.getElementById('buyerethereumaddress').value;
+        var sellerEthereumAddress = document.getElementById('sellerethereumaddress').value;
+        var commodity2 = document.getElementById('commodityname').value;
+        var numberofunitsString = numberofunits.toString();
+        var assetString = numberofunitsString+commodity2;
+        var deliverydateTimestamp2 = document.getElementById('deliverydateTimestamp').value;
+        var margin2 = document.getElementById('margin').value;
+        document.getElementById("soliditycodeinitial").value = "contract MyFuture{\n\naddress buyer = msg.sender;\naddress seller = "+buyerEthereumAddress+";\nvar contractvalue = "+contractValue+";\nasset= "+assetString+";\nuint constant deliverydate ="+deliverydateTimestamp2+";\nbool cancelled = false;\n"+sellerEthereumAddress+".send("+margin2+");\n\nfunction myDeliveryDate(transactionId, spotPrice){\nif((msg.value>= contractvalue) && (now => deliverydate) && cancelled == false) {\n"+sellerEthereumAddress+".send(msg.value);\nsendareceiptofthetransactiontotheprimisee;}\n\nfunction myCancel(){\n"+sellerEthereumAddress+".send("+margin2+");suicide(buyerEthereumAddress);}\n\n}";
+        document.getElementById("contractfield2").value = "contract MyMaturity{\n\nMyFuture feed;\n\nfunction setFeed(address addr){feed = MyFuture(addr);}\n\nfunction callFeed(){feed.MyDeliveryDate();}\n\ncallFeed(%TRANSACTIONID%,%SPOTPRICE%);\n\n}";
+        document.getElementById("contractfield3").value = "contract myCancellation{\n\nMyFuture feed;\n\nfunction setFeed(address add){feed = MyFuture(addr);}\n\nfunction callFeed(){feed.myCancel();}\n\ncallFeed();\n\n}";
+        }
+        </script>
+
+<br>
+Initial Code to Create Contract:<br>
+<textarea rows="20" cols="80" type="text" id="soliditycodeinitial" name="soliditycodeinitial">
+</textarea>
+
+<!--<div>-->
+                                        <!--Initial Solidity Code: <input class="mdl-color&#45;&#45;white" type="text" value=""-->
+                                                               <!--id="soliditycodeinitial" name="soliditycodeinitial"-->
+                                                               <!--style="border: 0px; font-size:48px">-->
+                                    <!--</div>-->
+
+<br>
+Code to Send Upon Delivery Date:<br>
+        <textarea rows="15" cols="80" type="text" id="contractfield2" name="contractfield2">
+        </textarea>
+<br>
+Code to Cancel Contract:<br>
+        <textarea rows="10" cols="80" type="text" id="contractfield3" name="contractfield3">
+        </textarea><br>
+
+<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit" value="Save">
+    Save This Contract</button>
+        </form>
+
+
+<!--<!DOCTYPE html>-->
+
+<!--{% extends 'base.html' %}-->
+
+<!--{% block content %}-->
+
+<!--{% if current_user.is_authenticated %}-->
+  <!--You are logged in as: {{ current_user.email }}!-->
+<!--{% endif %}-->
+
+<!--<head>-->
+<!--    <title>Blockchain Derivatives Builder</title>-->
+<!--&lt;!&ndash;    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">&ndash;&gt;-->
+<!--&lt;!&ndash;    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">&ndash;&gt;-->
+<!--</head>-->
+<!-- -->
+<!--<body>-->
+<!-- -->
+<!--    <div class="container">-->
+<!--        <div class="header">-->
+<!--            <nav>-->
+<!--                <ul class="nav nav-pills pull-right">-->
+<!--                    <li role="presentation" class="active"><a href="/">Home</a>-->
+<!--                    </li>-->
+<!--                    <li role="presentation"><a href="/login">Log In</a>-->
+<!--                    </li>-->
+<!--                    <li role="presentation"><a href="/logout">Log Out</a>-->
+<!--                    </li>-->
+<!--                    <li role="presentation"><a href="/register">Register</a>-->
+<!--                    </li>-->
+<!--                    <li role="presentation"><a href="/spotprices">Spot Prices</a>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </nav>-->
+<!--        </div>-->
+
+<!--{% if current_user.is_authenticated %}-->
+    <!--<li><a href="/mycontracts">My Contracts</a></li>-->
+<!--{% endif %}-->
+
+<!--        <br><br><div class="jumbotron">-->
+<!--            <h1>Blockchain Derivative Builder</h1>-->
+<!--            <p class="lead"></p></div>-->
+
+
+
 
 	<form><br><br>
 
@@ -202,12 +497,12 @@
         var assetString = unitsString+measurement2+commodity2;
         var deliverydateTimestamp2 = document.getElementById('deliverydateTimestamp').value;
         var margin2 = document.getElementById('margin').value;
-        document.getElementById("contractfield").value = "contract MyFuture{\n\naddress buyer = msg.sender;\naddress seller = "+buyerAddress+";\nvar contractvalue = "+contractValue+";\nasset= "+assetString+";\nuint constant deliverydate ="+deliverydateTimestamp2+";\nbool cancelled = false;\n"+sellerAddress+".send("+margin2+");\n\nfunction myDeliveryDate(transactionId, spotPrice){\nif((msg.value>= contractvalue) && (now => deliverydate) && cancelled == false) {\n"+sellerAddress+".send(msg.value);\nsendareceiptofthetransactiontotheprimisee;}\n\nfunction myCancel(){\n"+sellerAddress+".send("+margin2+");suicide(buyerAddress);}\n\n}";
+        document.getElementById("soliditycodeinitial").value = "contract MyFuture{\n\naddress buyer = msg.sender;\naddress seller = "+buyerAddress+";\nvar contractvalue = "+contractValue+";\nasset= "+assetString+";\nuint constant deliverydate ="+deliverydateTimestamp2+";\nbool cancelled = false;\n"+sellerAddress+".send("+margin2+");\n\nfunction myDeliveryDate(transactionId, spotPrice){\nif((msg.value>= contractvalue) && (now => deliverydate) && cancelled == false) {\n"+sellerAddress+".send(msg.value);\nsendareceiptofthetransactiontotheprimisee;}\n\nfunction myCancel(){\n"+sellerAddress+".send("+margin2+");suicide(buyerAddress);}\n\n}";
         }
         </script>
 
         <br><br>
-        <textarea rows="20" cols="80" type="text" id="contractfield">
+        <textarea rows="20" cols="80" type="text" id="soliditycodeinitial">
         </textarea>
         <br><br>
         <p><b>Using Alethzero (Ethereum’s C++ GUI), send an unaddressed transaction with this code in its data field. Be sure to endow your contract (via amount field) with an amount of ethere greater than the sum of your margin and contract value. Sending that transaction will inject your contract onto the blockchain.
@@ -243,34 +538,194 @@
 
 
 
-  <form action="{{ url_for('main_future') }}" method=post>
-    <dl>
-      <dt>buyer ethereum address:
-      <dd><input type=text name=buyerethereumaddress>
-      <dt>seller ethereum address:
-      <dd><input type=text name=sellerethereumaddress>
-      <dt>deliverydate:
-      <dd><input type=number name=deliverydate>
-      <dt>numberofunits:
-      <dd><input type=number name=numberofunits>
-      <dt>commodityname:
-      <dd><input type=text name=commodityname>
-      <dt>price:
-      <dd><input type=number name=price>
-      <dt>margin:
-      <dd><input type=number name=margin>
-      <dt>soliditycodeinitial:
-      <dd><input type=text name=soliditycodeinitial>
-      <dd><input type=submit value=Post>
-    </dl>
-  </form>
- 
-        <br><br>
-        <footer class="footer">
-            <p>&copy; Bill Marino 2015</p>
-        </footer>
+
+        <!--<script type="text/javascript">-->
+        <!--function updateText(type) { -->
+        <!--var id = type+'Text';-->
+        <!--document.getElementById(id).value = document.getElementById(type).value;-->
+        <!--}-->
+        <!--</script>-->
+
+<!--<br><br>-->
+  <!--<form action="{{ url_for('main_future') }}" method=post class=add-entry id="usrform">-->
+
+  <!--<label for="buyerethereumaddress">The Buyer and Futures Holder, whose Ethereum address is:</label><br>-->
+  <!--<input type="text" name="buyerethereumaddress" id="buyerethereumaddress" placeholder="Enter the Buyer’s 40-Character Ethereum Address" class="mytext">-->
+<!--<br><br><br>-->
+
+  <!--<label for="sellerethereumaddress">Agrees to buy from the Seller, whose Ethereum address is:</label><br>-->
+  <!--<input type="text" name="sellerethereumaddress" id="sellerethereumaddress" placeholder="Enter the Seller’s 40-Character Ethereum Address" class="mytext"> <br><br><br>-->
+
+  <!--<label for="numberofunits">The right to purchase from Seller:</label><br>-->
+  <!--<input type="text" name="numberofunits" id="numberofunits" placeholder="Enter the Number of Commodity Units You Want" class="mytext"> <br><br><br>-->
+
+  <!--<label for="commodityname">Of the following commodity and measurement:</label><br>-->
+<!--<select id="commodityname" class="elegant-aero" name="commodityname" onchange="updateText('commodityname')">-->
+<!--<option value disabled selected> &#45;&#45; select an option &#45;&#45; </option>-->
+                        <!--<option value="corn">Corn, bushel</option>-->
+                        <!--<option value="oats">Oats, bushel</option>-->
+                        <!--<option value="roughrice">Rough Rice, hundredweight</option>-->
+                        <!--<option value="soybeans">Soybeans, bushel</option>-->
+                        <!--<option value="soybeanmeal">Soybean Meal, ton</option>-->
+                        <!--<option value="soybeanoil">Soybean Oil, pound</option>-->
+                        <!--<option value="canola">Canola, metric ton</option>-->
+                        <!--<option value="wheat">Wheat, bushel</option>-->
+                        <!--<option value="springwheat">Spring Wheat, bushel</option>-->
+                        <!--<option value="redwheat">Red Wheat, bushel</option>-->
+                        <!--<option value="minnesotawheat">Minnesota Wheat, bushel</option>-->
+                        <!--<option value="chicagowheat">Chicago Wheat, bushel</option>-->
+                        <!--<option value="kcwheat">K.C. Wheat, bushel</option>-->
+                        <!--<option value="barley">Barley, bushel</option>-->
+                        <!--<option value="distillerdriedgrains">Distiller Dried Grains, bushel</option>-->
+                        <!--<option value="milk">Milk, pounds</option>-->
+                        <!--<option value="class3milk">Class III Milk, pounds</option>-->
+                        <!--<option value="class4milk">Class IV Milk, pounds</option>-->
+                        <!--<option value="skimmedmilk">Skimmed Milk, pounds</option>-->
+                        <!--<option value="cheese">Cheese, pound</option>-->
+                        <!--<option value="butter">Butter, pound</option>-->
+                        <!--<option value="cocoa">Cocoa, metric ton</option>-->
+                        <!--<option value="coffee">Coffee, pound</option>-->
+                        <!--<option value="coffeec">Coffee C, pound</option>-->
+                        <!--<option value="coffeerobustica">Coffee Robustica, pound</option>-->
+                        <!--<option value="coffeearabica">Coffee Arabica, pound</option>-->
+                        <!--<option value="cottonno2">Cotton No.2, pound</option>-->
+                        <!--<option value="sugarno11">Sugar No. 11, pound</option>-->
+                        <!--<option value="sugarno14">Sugar No. 14</option>-->
+                        <!--<option value="frozenconcentratedorangejuice">Frozen Concentrated Orange Juice, pound</option>-->
+                        <!--<option value="wool">Wool, kilogram</option>-->
+                        <!--<option value="leanhogs">Lean Hogs, pound</option>-->
+                        <!--<option value="livecattle">Live Cattle, pound</option>-->
+                        <!--<option value="feedercattle">Feeder Cattle, pound</option>-->
+                        <!--<option value="wticrudeoil">WTI Crude Oil, barrel</option>-->
+                        <!--<option value="brentcrude">Brent Crude, barrel</option>-->
+                        <!--<option value="crudeoil">Crude Oil, barrel</option>-->
+                        <!--<option value="crudeoil">Light Crude Oil, barrel</option>-->
+                        <!--<option value="gasoil">Gasoil</option>-->
+                        <!--<option value="unleaded gas">Unleaded Gas, gallon</option>-->
+                        <!--<option value="ethanol">Ethanol</option>-->
+                        <!--<option value="kerosene">Kerosene</option>-->
+                        <!--<option value="naturalgas">Natural Gas, million BTUs</option>-->
+                        <!--<option value="heatingoil">Heating Oil, gallon</option>-->
+                        <!--<option value="gulfcoastgasoline">Gulf Coast Gasoline, gallon</option>-->
+                        <!--<option value="rbobgasoline">RBOB Gasoline, gallon</option>-->
+                        <!--<option value="propane">Propane, gallon</option>-->
+                        <!--<option value="purifiedterephthalicacid">Purified Terephthalic Acid, ton</option>-->
+                        <!--<option value="copper">Copper, metric ton</option>-->
+                        <!--<option value="lead">Lead, metric ton</option>-->
+                        <!--<option value="zinc">Zinc, metric ton</option>-->
+                        <!--<option value="tin">Tin, metric ton</option>-->
+                        <!--<option value="aluminum">Aluminum, metric ton</option>-->
+                        <!--<option value="aluminumalloy">Aluminum Alloy, metric ton</option>-->
+                        <!--<option value="nickel">Nickel, metric ton</option>-->
+                        <!--<option value="cobalt">Cobalt, metric ton</option>-->
+                        <!--<option value="coal">Coal, ton</option>-->
+                        <!--<option value="molybdenum">Molybdenum, metric ton</option>-->
+                        <!--<option value="recycledsteel">Recycled Steel, metric ton</option>-->
+                        <!--<option value="steel">Steel, metric ton</option>-->
+                        <!--<option value="gold">Gold, troy ounce</option>-->
+                        <!--<option value="silver">Silver, troy ounce</option>-->
+                        <!--<option value="platinum">Platinum, troy ounce</option>-->
+                        <!--<option value="palladium">Palladium, troy ounce</option>-->
+                        <!--<option value="rhodium">Rhodium, troy ounce</option>-->
+                        <!--<option value="palmoil">Palm Oil, kilogram</option>-->
+                        <!--<option value="rubber">Rubber, kilogram</option>-->
+                        <!--<option value="wood">Wood, 1000 board feet</option>-->
+                        <!--<option value="polypropylene">Polypropylene, pound</option>-->
+                        <!--<option value="linearlowdensitypolypropylene">Linear Low Density Polypropylene, pound</option>-->
+                        <!--<option value="ecxemissions">ECX Emissions</option>-->
+                        <!--<option value="carbonoffsets">Carbon Offsets</option>-->
+                        <!--<option value="renewableenergycertificates">Renewable Energy Certificates</option>-->
+                        <!--<option value="whitecertificates">White Certificates</option>-->
+                <!--</select><br><br>-->
+
+
+        <!--<br><p><b>On or before the delivery date that is this many days in the future:</b></p>-->
+        <!--<input type="text" name="deliverydate" id="deliverydate" placeholder="Enter A Number of Days" class="mytext" onchange="createTimestamp('deliverydate')"><br><br><br>-->
+
+        <!--<p><b>Which is represented by the Unix timestamp: </b></p>-->
+        <!--</p><input type="text" value="" id="deliverydateTimestamp" class="mytext" name="deliverydateTimestamp" /> <br><br><br>-->
+
+
+<!--<label for="price">At the predetermined price (i.e., the </i>futures</i> price) of:</label><br>-->
+  <!--<input type="text" name="price" id="price" placeholder="Enter The Price You’ll Pay On That Date. e.g. 10.99" class="mytext"><br><br><br>  -->
+
+  <!--<label for="margin">And the margin for this contract is:</label><br>-->
+  <!--<input type="text" name="margin" id="margin" placeholder="Enter The Deposit Amount on This Contract e.g. 1.99" class="mytext"><br><br><br>  -->
+
+<!--<input type="submit" value="Save" onclick="add()">-->
+  <!--</form>-->
+
+        <!--<br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br>-->
+<!--<br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br>-->
+        <!--<script>-->
+        <!--function add() {-->
+        <!--var price = parseFloat(document.getElementById('price').value);-->
+        <!--var units = parseInt(document.getElementById('numberofunits').value); -->
+        <!--var contractValue = parseFloat(parseFloat(price, 10) * parseInt(units, 10));-->
+        <!--var buyerAddress = document.getElementById('buyerethereumaddress').value;-->
+        <!--var sellerAddress = document.getElementById('sellerethereumaddress').value;-->
+        <!--var commodity2 = document.getElementById('commodityname').value;-->
+        <!--var unitsString = units.toString();-->
+        <!--var assetString = unitsString+commodity2;-->
+        <!--var deliverydateTimestamp2 = document.getElementById('deliverydateTimestamp').value;-->
+        <!--var margin2 = parseFloat(document.getElementById('margin').value);-->
+        <!--document.getElementById("soliditycodeinitial").value = "contract MyFuture{\n\naddress buyer = msg.sender;\naddress seller = "+buyerAddress+";\nvar contractvalue = "+contractValue+";\nasset= "+assetString+";\nuint constant deliverydate ="+deliverydateTimestamp2+";\nbool cancelled = false;\n"+sellerAddress+".send("+margin2+");\n\nfunction myDeliveryDate(transactionId, spotPrice){\nif((msg.value>= contractvalue) && (now => deliverydate) && cancelled == false) {\n"+sellerAddress+".send(msg.value);\nsendareceiptofthetransactiontotheprimisee;}\n\nfunction myCancel(){\n"+sellerAddress+".send("+margin2+");suicide(buyerAddress);}\n\n}";-->
+        <!--document.getElementById("contractfield2").value = "contract MyMaturity{\n\nMyFuture feed;\n\nfunction setFeed(address addr){feed = MyFuture(addr);}\n\nfunction callFeed(){feed.MyDeliveryDate();}\n\ncallFeed(%TRANSACTIONID%,%SPOTPRICE%);\n\n}";-->
+        <!--document.getElementById("contractfield3").value = "contract myCancellation{\n\nMyFuture feed;\n\nfunction setFeed(address add){feed = MyFuture(addr);}\n\nfunction callFeed(){feed.myCancel();}\n\ncallFeed();\n\n}";-->
+        <!--}-->
+        <!--</script>-->
+
+        <!--<br><br>-->
+        <!--<textarea rows="20" cols="80" type="text" id="soliditycodeinitial" name="soliditycodeinitial" form="usrform">-->
+        <!--</textarea>-->
+        <!--<br><br>-->
+
+        <!--<script type="text/javascript">-->
+        <!--function createTimestamp(type) { -->
+        <!--var deliveryDate = parseInt(document.getElementById('deliverydate').value);-->
+        <!--var currentUnix = Math.round(+new Date()/1000);-->
+        <!--var deliveryUnix = (parseInt(deliveryDate, 10) * 24 * 60 * 60) + parseInt(currentUnix, 10);-->
+        <!--var id = type+'Timestamp';-->
+        <!--document.getElementById("deliverydateTimestamp").value = deliveryUnix;-->
+        <!--}-->
+        <!--</script>-->
+
+        <!--<textarea rows="15" cols="80" type="text" id="contractfield2" name="contractfield2" form="usrform">-->
+        <!--</textarea>-->
+
+        <!--<textarea rows="10" cols="80" type="text" id="contractfield3" name="contractfield3" form="usrform">-->
+        <!--</textarea>-->
  
-    </div>
+        <!--<br><br>-->
+<!--        <footer class="footer">-->
+<!--            <p>&copy; Bill Marino 2015</p>-->
+<!--        </footer>-->
+<!-- -->
+<!--    </div>-->
+<!--</body>-->
+<!-- -->
+<!--{% endblock %}-->
+
+      <div class="mdl-card__actions mdl-card--border">
+
+  </div>
+  <div class="mdl-card__menu">
+    <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+      <i class="material-icons">share</i>
+    </button>
+  </div>
+</div>
+                </section>
+
+  </main>
+</div>
+
+        <footer class="footer">
+            <p>&copy; Bill Marino 2015</p>
+        </footer>
+
+    </div>
+
 </body>
- 
-{% endblock %}
+
+</html>

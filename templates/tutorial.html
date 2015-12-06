@@ -1,7 +1,5 @@
-
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
-
 
 <head>
     <title>Ethereum Derivatives Builder</title>
@@ -18,17 +16,6 @@
           rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
-
-
-        <script type="text/javascript">
-        function createTimestamp(type) {
-        var deliveryDate = document.getElementById('deliverydate').value
-        var currentUnix = Math.round(+new Date()/1000);
-        var deliveryUnix = (parseInt(deliveryDate, 10) * 24 * 60 * 60) + parseInt(currentUnix, 10)
-        var id = type+'Timestamp';
-        document.getElementById(id).value = deliveryUnix;
-        }
-        </script>
 
 <!-- Uses a transparent header that draws on top of the layout's background -->
 <style>
@@ -57,6 +44,8 @@
     }
 </style>
 
+
+
 <style>
 h1 {
     text-align: center;
@@ -68,9 +57,6 @@ h1 {
   width: 50%;
 }
 </style>
-
-
-
 
 <body class="mdl-demo mdl-color--black mdl-color-text--grey-400 mdl-base">
 <div class="demo-layout-transparent mdl-layout mdl-js-layout">
@@ -96,13 +82,13 @@ h1 {
   <div class="mdl-layout__drawer">
     <span class="mdl-layout-title">Create Derivatives</span>
     <nav class="mdl-navigation">
-      <a class="mdl-navigation__link" href="/">Home </a>
-      <a class="mdl-navigation__link" href="/futureethereum">Create Future </a>
+      <a class="mdl-navigation__link" href="/">Home</a>
+      <a class="mdl-navigation__link" href="/futureethereum">Create Future</a>
+      <a class="mdl-navigation__link" href="/swapethereum">Create Swap</a>
       <a class="mdl-navigation__link" href="/putoptionethereum">Create Put Option</a>
       <a class="mdl-navigation__link" href="/calloptionethereum">Create Call Option</a>
       <a class="mdl-navigation__link" href="/mycontracts">Your Contracts</a>
       <a class="mdl-navigation__link" href="/spotprices">Current Spot Prices</a>
-      <a class="mdl-navigation__link" href="/tutorial">Tutorial</a>
       <a class="mdl-navigation__link" href="/register">Register</a>
       <a class="mdl-navigation__link" href="/login">Log In</a>
       <a class="mdl-navigation__link" href="/calloptionethereum">Log Out</a>
@@ -112,37 +98,56 @@ h1 {
 
                 <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
 <div class="demo-card-wide mdl-card mdl-shadow--2dp">
-        <h1>
-        <span>Swap Contract</span> 
-        </h1>
+
+<!--<head>-->
+<!--    <title>Blockchain Derivative Builder</title>-->
+<!--    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">-->
+<!--    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">-->
+
+        <!--<link rel="shortcut icon" href="/favicon.ico">-->
+<!--</head>-->
+
+<!--<body>-->
+<!--    -->
+<!--        <div class="header">-->
+<!--            <nav>-->
+<!--                <ul class="nav nav-pills pull-right">-->
+<!--                    <li role="presentation"><a href="/">Home</a>-->
+<!--                    </li>-->
+<!--                    <li role="presentation"><a href="/login">Log In</a>-->
+<!--                    </li>-->
+<!--                    <li role="presentation"><a href="/logout">Log Out</a>-->
+<!--                    </li>-->
+<!--                    <li role="presentation"><a href="/register">Register</a>-->
+<!--                    </li>-->
+<!--                    <li role="presentation"><a href="/spotprices">Spot Prices</a>-->
+<!--                    </li>-->
+
+<!--                </ul>-->
+<!--            </nav>-->
+<!--        </div>-->
+<!-- -->
+ <!--<br><br> -->
+<!--        <div class="jumbotron">-->
+            <h1>Ethereum Derivative Builder</h1>
+<!--            <p class="lead"></p>-->
+
+            <h4>Enter The Terms of a Derivatives-Style Contract</h4>
+
+    Our templates allow you and a counterparty to create a smart contract that behaves like a derivative.<br><br>
+    First fill out the details of your contract and compile your Solidity code.
 
 
-	<form>
-        Promisor:<br>
-  	<input type="text" name="promisor"><br>
-        Grants the Promisee:<br>
-  	<input type="text" name="Last trading date"><br>
-        The right to purchase from Promisor<br>
-  	Number of units:<br>
-  	<input type="text" name="number_of_units"><br>
-        </form>
+        <h4>Copy and Paste the Solidity Code into an Ethereum Client</h4>
 
-        <select>
-        <option value="gallons">Gallons</option>
-        <option value="bbls">Barrels</option>
-        </select>
+        Take the resulting code and save it as a .sol file.<br><br>
+    Alternatively, head to
+     <!-- would be useful to send back bytecode to folks -->
+ 
+            <h4><a href="https://chriseth.github.io/browser-solidity/">Solidity Complier</a></h4><br><br>
 
-        <select>
-        <option value="corn">Corn</option>
-        <option value="cocoa">Cocoa</option>
-        </select>
-  	<br>
-        </form>
-        On or before the last trading date:<br>
-  	<input type="text" name="last_trading_date"><br>
-	</form>
 
-      <div class="mdl-card__actions mdl-card--border">
+<div class="mdl-card__actions mdl-card--border">
 
   </div>
   <div class="mdl-card__menu">
@@ -161,7 +166,7 @@ h1 {
         </footer>
 
     </div>
-
 </body>
 
 </html>
+

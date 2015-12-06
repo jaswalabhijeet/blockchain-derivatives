@@ -22,11 +22,11 @@
 
         <script type="text/javascript">
         function createTimestamp(type) { 
-        var deliveryDate = document.getElementById('deliverydate').value
+        var expiryDate = document.getElementById('expirydate').value
         var currentUnix = Math.round(+new Date()/1000);
-        var deliveryUnix = (parseInt(deliveryDate, 10) * 24 * 60 * 60) + parseInt(currentUnix, 10)
+        var expiryUnix = (parseInt(expiryDate, 10) * 24 * 60 * 60) + parseInt(currentUnix, 10)
         var id = type+'Timestamp';
-        document.getElementById(id).value = deliveryUnix;
+        document.getElementById(id).value = expiryUnix;
         }
         </script>
 
@@ -88,7 +88,7 @@ h1 {
         <a class="mdl-navigation__link" href="/register">Register</a>
         <a class="mdl-navigation__link" href="/login">Log In</a>
         <a class="mdl-navigation__link" href="/logout">Log Out</a>
-        <a class="mdl-navigation__link" href="/mycontracts">My Contracts</a>
+        <a class="mdl-navigation__link" href="/mycontracts">Your Contracts</a>
         <a class="mdl-navigation__link" href="/spotprices">Current Spot Prices</a>
       </nav>
     </div>
@@ -96,9 +96,16 @@ h1 {
   <div class="mdl-layout__drawer">
     <span class="mdl-layout-title">Create Derivatives</span>
     <nav class="mdl-navigation">
-      <a class="mdl-navigation__link" href="/futureethereum">Create Ethereum Future</a>
-      <a class="mdl-navigation__link" href="/swapethereum">Create Ethereum Swap</a>
-      <a class="mdl-navigation__link" href="/putoptionethereum">Create Ethereum Put Option</a>
+      <a class="mdl-navigation__link" href="/">Home</a>
+      <a class="mdl-navigation__link" href="/futureethereum">Create Future</a>
+      <a class="mdl-navigation__link" href="/putoptionethereum">Create Put Option</a>
+      <a class="mdl-navigation__link" href="/swapethereum">Create Swap</a>
+      <a class="mdl-navigation__link" href="/mycontracts">Your Contracts</a>
+      <a class="mdl-navigation__link" href="/spotprices">Current Spot Prices</a>
+      <a class="mdl-navigation__link" href="/tutorial">Tutorial</a>
+      <a class="mdl-navigation__link" href="/register">Register</a>
+      <a class="mdl-navigation__link" href="/login">Log In</a>
+      <a class="mdl-navigation__link" href="/calloptionethereum">Log Out</a>
     </nav>
   </div>
   <main class="mdl-layout__content">
@@ -117,26 +124,20 @@ h1 {
     <label class="mdl-textfield__label" for="buyerethereumaddress">Enter the 40 Character Ethereum Address for the Buyer, If Any</label>
   </div>
 
-      <!-- Seller Address Textfield -->
   <div class="mdl-textfield mdl-js-textfield">
     <input class="mdl-textfield__input" type="text" name="sellerethereumaddress"  id="sellerethereumaddress">
     <label class="mdl-textfield__label" for="sellerethereumaddress">Enter the 40 Character Ethereum Address for the Seller</label>
   </div>
 
-    <!-- Number of Units Textfield -->
   <div class="mdl-textfield mdl-js-textfield">
     <input class="mdl-textfield__input" type="text" name="numberofunits" id="numberofunits" pattern="-?[0-9]*(\.[0-9]+)?" step="any">
     <label class="mdl-textfield__label" for="numberofunits">Enter the Number of Units You Desire</label>
     <span class="mdl-textfield__error">Input is not a number!</span>
   </div>
 
-<!--<meta id="my-data" data-spotprices="{{spotpriceslist}}">-->
-
-  <!-- Commodity Select Menu -->
   <div>
-    <select id="commodityname" name="commodityname">
-    <!--<select id="commodityname" name="commodityname" onchange="callApi('commodityname', 'my-data')">-->
-     <option value disabled selected> -- Select A Commodity -- </option>
+    <select id="assetname" name="assetname">
+     <option value disabled selected> -- Select An Asset -- </option>
      <option value="corn">Corn</option>
      <option value="oats">Oats</option>
      <option value="rice">Rice</option>
@@ -190,18 +191,18 @@ h1 {
   </div><br>
 
 <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="callApi({{spotpriceslist}}); return false;">
-Get Current Spot Price of This Commodity
+Get Current Spot Price of This Asset
 </button><br>
         <script>
         function callApi(spotpricesData) {
-        var commodityName = document.getElementById('commodityname').value;
-        var commodityString = commodityName.toString();
-        <!--document.getElementById("apifield").value = commodityString;-->
-        <!--document.getElementById("apifield").value = commodityString;-->
+        var assetName = document.getElementById('assetname').value;
+        var assetString = assetName.toString();
+        <!--document.getElementById("apifield").value = assetString;-->
+        <!--document.getElementById("apifield").value = assetString;-->
         <!--&lt;!&ndash;spotpricesData = $('#my-data').data();&ndash;&gt;-->
         var notFound = true;
         for(var key in spotpricesData) {
-        if(spotpricesData.hasOwnProperty(key)) {if (key == commodityString){document.getElementById("apifield").value = spotpricesData[key]; notFound = false;}
+        if(spotpricesData.hasOwnProperty(key)) {if (key == assetString){document.getElementById("apifield").value = spotpricesData[key]; notFound = false;}
         }
         }
         if (notFound){document.getElementById("apifield").value = "Spot Price Temporarily Unavailable";}
@@ -215,57 +216,55 @@ Get Current Spot Price of This Commodity
 
 
 </div>
-    <br>Set contract execution date:<br>
+    <br>Set contract expiry date:<br>
     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 
                                         <input class="mdl-textfield__input" type="date" pattern="-?[0-9]*(\[0-9]+)?"
-                                               name="deliverydate" id="deliverydate"
-                                               onchange="createTimestamp('deliverydate')"/>
-                                        <label class="mdl-textfield__label" for="deliverydate"></label>
+                                               name="expirydate" id="expirydate"
+                                               onchange="createTimestamp('expirydate')"/>
+                                        <label class="mdl-textfield__label" for="expirydate"></label>
                                     </div>
 
 <div>
                                         Unix timestamp: <input class="mdl-color--white" type="text" value=""
-                                                               id="deliverydateTimestamp" name="deliverydateTimestamp"
+                                                               id="expirydateTimestamp" name="expirydateTimestamp"
                                                                style="border: 0px; font-size:16px">
                                     </div>
 
-    <!-- Future Price Textfield -->
   <div class="mdl-textfield mdl-js-textfield">
-    <input class="mdl-textfield__input" type="text" name="price" id="price" pattern="-?[0-9]*(\.[0-9]+)?" step="any">
-    <label class="mdl-textfield__label" for="price">Enter a Future Price</label>
+    <input class="mdl-textfield__input" type="text" name="strikeprice" id="strikeprice" pattern="-?[0-9]*(\.[0-9]+)?" step="any">
+    <label class="mdl-textfield__label" for="strikeprice">Enter a Strike Price</label>
     <span class="mdl-textfield__error">Input is not a number!</span>
   </div>
 
-    <!-- Margin Textfield -->
   <div class="mdl-textfield mdl-js-textfield">
-    <input class="mdl-textfield__input" type="text" name="margin"  id="margin" pattern="-?[0-9]*(\.[0-9]+)?" step="any">
-    <label class="mdl-textfield__label" for="margin">Enter a Margin For This Contract</label>
+    <input class="mdl-textfield__input" type="text" name="premium"  id="premium" pattern="-?[0-9]*(\.[0-9]+)?" step="any">
+    <label class="mdl-textfield__label" for="premium">Enter a Premium For This Contract</label>
     <span class="mdl-textfield__error">Input is not a number!</span>
   </div>
 
     <br>
                                 <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="add(); return false;">
                                     Compile Your Contract Into Solidity Code
-                                </button>
+                                </button> <br>
       <!--<input type="submit" value="Save" onclick="add()">-->
 
 
 
         <script>
         function add() {
-        var price = document.getElementById('price').value;
+        var strikeprice = document.getElementById('strikeprice').value;
         var numberofunits = document.getElementById('numberofunits').value;
-        var contractValue = parseFloat(price, 10) * parseInt(numberofunits, 10);
+        var contractValue = parseFloat(strikeprice, 10) * parseInt(numberofunits, 10);
         var buyerEthereumAddress = document.getElementById('buyerethereumaddress').value;
         var sellerEthereumAddress = document.getElementById('sellerethereumaddress').value;
-        var commodity2 = document.getElementById('commodityname').value;
+        var asset2 = document.getElementById('assetname').value;
         var numberofunitsString = numberofunits.toString();
-        var assetString = numberofunitsString+commodity2;
-        var deliverydateTimestamp2 = document.getElementById('deliverydateTimestamp').value;
-        var margin2 = document.getElementById('margin').value;
-        document.getElementById("soliditycodeinitial").value = "contract MyFuture{\n\naddress buyer = msg.sender;\naddress seller = "+buyerEthereumAddress+";\nvar contractvalue = "+contractValue+";\nasset= "+assetString+";\nuint constant deliverydate ="+deliverydateTimestamp2+";\nbool cancelled = false;\n"+sellerEthereumAddress+".send("+margin2+");\n\nfunction myDeliveryDate(transactionId, spotPrice){\nif((msg.value>= contractvalue) && (now => deliverydate) && cancelled == false) {\n"+sellerEthereumAddress+".send(msg.value);\nsendareceiptofthetransactiontotheprimisee;}\n\nfunction myCancel(){\n"+sellerEthereumAddress+".send("+margin2+");suicide(buyerEthereumAddress);}\n\n}";
-        document.getElementById("contractfield2").value = "contract MyMaturity{\n\nMyFuture feed;\n\nfunction setFeed(address addr){feed = MyFuture(addr);}\n\nfunction callFeed(){feed.MyDeliveryDate();}\n\ncallFeed(%TRANSACTIONID%,%SPOTPRICE%);\n\n}";
+        var assetString = numberofunitsString+asset2;
+        var expirydateTimestamp2 = document.getElementById('expirydateTimestamp').value;
+        var premium2 = document.getElementById('premium').value;
+        document.getElementById("soliditycodeinitial").value = "contract MyFuture{\n\naddress buyer = msg.sender;\naddress seller = "+buyerEthereumAddress+";\nvar contractvalue = "+contractValue+";\nasset= "+assetString+";\nuint constant expirydate ="+expirydateTimestamp2+";\nbool cancelled = false;\n"+sellerEthereumAddress+".send("+premium2+");\n\nfunction myExpiryDate(transactionId, spotPrice){\nif((msg.value>= contractvalue) && (now => expirydate) && cancelled == false) {\n"+sellerEthereumAddress+".send(msg.value);\nsendareceiptofthetransactiontotheprimisee;}\n\nfunction myCancel(){\n"+sellerEthereumAddress+".send("+premium2+");suicide(buyerEthereumAddress);}\n\n}";
+        document.getElementById("contractfield2").value = "contract MyMaturity{\n\nMyFuture feed;\n\nfunction setFeed(address addr){feed = MyFuture(addr);}\n\nfunction callFeed(){feed.MyExpiryDate();}\n\ncallFeed(%TRANSACTIONID%,%SPOTPRICE%);\n\n}";
         document.getElementById("contractfield3").value = "contract myCancellation{\n\nMyFuture feed;\n\nfunction setFeed(address add){feed = MyFuture(addr);}\n\nfunction callFeed(){feed.myCancel();}\n\ncallFeed();\n\n}";
         }
         </script>
@@ -282,7 +281,7 @@ Initial Code to Create Contract:<br>
                                     <!--</div>-->
 
 <br>
-Code to Send Upon Delivery Date:<br>
+Code to Send Upon Expiry Date:<br>
         <textarea rows="15" cols="80" type="text" id="contractfield2" name="contractfield2">
         </textarea>
 <br>
