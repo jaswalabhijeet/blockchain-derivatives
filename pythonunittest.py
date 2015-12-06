@@ -105,8 +105,7 @@ class AppTestCase(unittest.TestCase):
     # ), follow_redirects=True)
 
     def test_logout(self):
-        rv = self.app.get('/logout', follow_redirects=True)
-        print rv.data
+        reponse = self.app.get('/logout', follow_redirects=True)
 
 if __name__ == '__main__':
     unittest.main()
