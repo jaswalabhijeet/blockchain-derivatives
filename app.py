@@ -254,6 +254,7 @@ def main_future():
     return render_template('futureethereum.html', error=error, spotprices=Spotprice.query.all(), spotpriceslist=json.dumps(spotprice_dictionary))
 
 @app.route('/calloptionethereum', methods=["GET", "POST"])
+@login_required
 def main_call_option():
     error = None
     spotprice_dictionary = {}
@@ -313,7 +314,7 @@ def main_swap():
 
 
 @app.route('/mycontracts')
-# @login_required
+@login_required
 def mycontracts():
     return render_template('mycontracts.html', contracts=Contract.query.all(), calloptions=Calloption.query.all())
 
