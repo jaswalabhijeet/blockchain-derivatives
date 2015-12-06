@@ -49,7 +49,10 @@ class User(db.Model, UserMixin):
         return False
 
     def get_id(self):
-        return unicode(self.id)
+        try:
+            return unicode(self.id)
+        except: 
+            return str(self.id)
 
     def is_authenticated(self):
         return True
