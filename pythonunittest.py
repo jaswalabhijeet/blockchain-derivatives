@@ -112,9 +112,10 @@ class AppTestCase(unittest.TestCase):
         response = self.app.get('/logout', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
 
-    def test_logout(self):
+    def test_logout_without_login(self):
+        self.app.get('/logout', follow_redirects=True)
         response = self.app.get('/logout', follow_redirects=True)
-        print response
+        self.assertEqual(response.status_code, 200)
 
 if __name__ == '__main__':
     unittest.main()

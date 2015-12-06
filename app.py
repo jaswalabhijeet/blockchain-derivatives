@@ -262,8 +262,11 @@ def login():
 @app.route("/logout", methods=["GET"])
 @login_required  
 def logout():
-    logout_user()
-    return redirect(url_for('index'))
+    try:
+        logout_user()
+        return redirect(url_for('index'))
+    except:
+        return redirect(url_for('index'))
 
 # pages of website
 
