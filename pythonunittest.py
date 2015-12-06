@@ -94,10 +94,12 @@ class AppTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 405)
 
     def test_future_post_valid_inputs(self): #, buyerethereumaddress, sellerethereumaddress, deliverydate, blockchainderivativesid, numberofunits, commodityname, price, margin, soliditycodeinitial, transactionid, spotprice, soliditycodedeliverydate, soliditycodecancel):
+        self.app.post('/login', data=dict(username=username, password=password), follow_redirects=True)
         response = self.app.post('/futureethereum', data=dict(
         buyerethereumaddress='d6aaae06717f25095eab8250369a437e549160a4',
         sellerethereumaddress='e6aaae06717f25095eab8250369a437e549160a4', deliverydate=1623492485, blockchainderivativesid='11', numberofunits=22, commodityname='wheat', price=22, margin=2, soliditycodeinitial='', transactionid='', spotprice=1, soliditycodedeliverydate='', soliditycodecancel='', id=1), follow_redirects=True)
         self.assertEqual(response.status_code, 200)
+
     # def test_login(self, username, password):
     #     return self.app.post('/login', data=dict(
     #     username=username,
