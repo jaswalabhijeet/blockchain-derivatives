@@ -34,9 +34,9 @@ class AppTestCase(unittest.TestCase):
         result = self.app.get('/putoptionethereum')
         self.assertEqual(result.status_code, 200)
 
-    def test_swap_ethereum_status_code(self):
-        result = self.app.get('/swapethereum')
-        self.assertEqual(result.status_code, 200)
+    # def test_swap_ethereum_status_code(self):
+    #     result = self.app.get('/swapethereum')
+    #     self.assertEqual(result.status_code, 200)
 
     def test_register_status_code(self):
         result = self.app.get('/register')
