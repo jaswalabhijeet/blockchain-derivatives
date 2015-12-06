@@ -269,13 +269,16 @@ def main_future():
         dict_spotprice = float(dict.get('spotprice'))
         spotprice_dictionary[dict_commodity] = dict_spotprice
     if request.method == 'POST':
-        contract = Contract(str(current_user.id), request.form['buyerethereumaddress'],
+        if ((request.form['buyerethereumaddress'] == '') or (request.form['sellerethereumaddress'] == '') or (request.form['expirydateTimestamp'] is False) or (request.form['numberofunits'] is False) or (request.form['assetname'] == '') or (request.form['strikeprice'] is False) or (request.form['premium'] is False) or (request.form['soliditycodeinitial'] == '') or (request.form['contractfield2'] == '') or (request.form['contractfield3'] == '')):
+            return redirect(url_for("error"))
+        else:
+            contract = Contract(str(current_user.id), request.form['buyerethereumaddress'],
                             request.form['sellerethereumaddress'], request.form['deliverydateTimestamp'],
                             int(request.form['numberofunits']), request.form['commodityname'], request.form['price'],
                             request.form['margin'], request.form['contractfield'], 0, 0, request.form['contractfield2'], request.form['contractfield3'])  #might not need str() #change last one or change deliverydate back 
-        db.session.add(contract)
-        db.session.commit()
-        return redirect(url_for("mycontracts"))
+            db.session.add(contract)
+            db.session.commit()
+            return redirect(url_for("mycontracts"))
         #return render_template('futureethereum.html', spotprices=Spotprice.query.all(), spotpriceslist=json.dumps(spotprice_dictionary))
     return render_template('futureethereum.html', error=error, spotprices=Spotprice.query.all(), spotpriceslist=json.dumps(spotprice_dictionary))
 
@@ -290,13 +293,16 @@ def main_call_option():
         dict_spotprice = float(dict.get('spotprice'))
         spotprice_dictionary[dict_commodity] = dict_spotprice
     if request.method == 'POST':
-        contract = Calloption(str(current_user.id), request.form['buyerethereumaddress'],
+        if ((request.form['buyerethereumaddress'] == '') or (request.form['sellerethereumaddress'] == '') or (request.form['expirydateTimestamp'] is False) or (request.form['numberofunits'] is False) or (request.form['assetname'] == '') or (request.form['strikeprice'] is False) or (request.form['premium'] is False) or (request.form['soliditycodeinitial'] == '') or (request.form['contractfield2'] == '') or (request.form['contractfield3'] == '')):
+            return redirect(url_for("error"))
+        else:
+            contract = Calloption(str(current_user.id), request.form['buyerethereumaddress'],
                             request.form['sellerethereumaddress'], request.form['expirydateTimestamp'],
                             request.form['numberofunits'], request.form['assetname'], request.form['strikeprice'],
                             request.form['premium'], request.form['soliditycodeinitial'], request.form['contractfield2'], request.form['contractfield3'])  #might not need str() #change last one or change deliverydate back
-        db.session.add(contract)
-        db.session.commit()
-        return render_template('calloptionethereum.html', spotprices=Spotprice.query.all(), spotpriceslist=json.dumps(spotprice_dictionary))
+            db.session.add(contract)
+            db.session.commit()
+            return render_template('calloptionethereum.html', spotprices=Spotprice.query.all(), spotpriceslist=json.dumps(spotprice_dictionary))
     return render_template('calloptionethereum.html', error=error, spotprices=Spotprice.query.all(), spotpriceslist=json.dumps(spotprice_dictionary)) #spotpricesjson=json.dumps(Spotprice.query.all()))
 
 @app.route('/putoptionethereum', methods=["GET", "POST"])
@@ -311,7 +317,7 @@ def main_put_option():
         spotprice_dictionary[dict_commodity] = dict_spotprice
     if request.method == 'POST':
         if ((request.form['buyerethereumaddress'] == '') or (request.form['sellerethereumaddress'] == '') or (request.form['expirydateTimestamp'] is False) or (request.form['numberofunits'] is False) or (request.form['assetname'] == '') or (request.form['strikeprice'] is False) or (request.form['premium'] is False) or (request.form['soliditycodeinitial'] == '') or (request.form['contractfield2'] == '') or (request.form['contractfield3'] == '')):
-            return redirect(url_for("mycontracts"))
+            return redirect(url_for("error"))
         else:
             contract = Putoption(str(current_user.id), request.form['buyerethereumaddress'],
                             request.form['sellerethereumaddress'], request.form['expirydateTimestamp'],
