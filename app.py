@@ -51,7 +51,7 @@ class User(db.Model, UserMixin):
     def get_id(self):
         try:
             return unicode(self.id)
-        except: 
+        except:
             return str(self.id)
 
     def is_authenticated(self):
