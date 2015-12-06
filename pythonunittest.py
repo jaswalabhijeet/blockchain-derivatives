@@ -18,18 +18,6 @@ class AppTestCase(unittest.TestCase):
         app.config['TESTING'] = True
         # db.create_all()
 
-    def test_home_status_code(self):
-        result = self.app.get('/')
-        self.assertEqual(result.status_code, 200)
-
-#test functional units on pages & check if necessary forms are
-
-    #def test_future_ethereum_status_code(self):
-        # sends HTTP GET request to the application, on the Ethereum future page
-        #result = self.app.get('/futureethereum') 
-        # assert the status code of the response
-        #self.assertEqual(result.status_code, 200)
-
     def test_index_status_code(self):
         result = self.app.get('/')
         self.assertEqual(result.status_code, 200)
@@ -64,6 +52,10 @@ class AppTestCase(unittest.TestCase):
 
     def test_mycontracts_status_code(self):
         result = self.app.get('/mycontracts')
+        self.assertEqual(result.status_code, 200)
+
+    def test_tutorial_status_code(self):
+        result = self.app.get('/tutorial')
         self.assertEqual(result.status_code, 200)
 
     def test_api_valid_data(self):
@@ -101,29 +93,19 @@ class AppTestCase(unittest.TestCase):
     ), follow_redirects=True)
         self.assertEqual(response.status_code, 405)
 
-    def login(self, username, password):
+    def test_future_post_valid_inputs(self, buyerethereumaddress, sellerethereumaddress, deliverydate, blockchainderivativesid, numberofunits, commodityname, price, margin, soliditycodeinitial, transactionid, spotprice, soliditycodedeliverydate, soliditycodecancel):
+        return self.app.post('/futureethereum', data=dict(
+        buyerethereumaddress='d6aaae06717f25095eab8250369a437e549160a4',
+        sellerethereumaddress='e6aaae06717f25095eab8250369a437e549160a4', deliverydate=1623492485, blockchainderivativesid='11', numberofunits=22, commodityname='wheat', price=22, margin=2, soliditycodeinitial='', transactionid='', spotprice=1, soliditycodedeliverydate='', soliditycodecancel=''), follow_redirects=True)
+
+    def test_login(self, username, password):
         return self.app.post('/login', data=dict(
         username=username,
         password=password
     ), follow_redirects=True)
 
-    def logout(self):
+    def test_logout(self):
         return self.app.get('/logout', follow_redirects=True)
-
-    # def test_login_logout(self):
-    #     result = self.login('username', 'password')
-        #print jsonify(result.headers)
-        #self.assertEqual(result.data, index.html)
-        # self.assertEqual(result.status_code, 200)
-        #session['logged_in']
-        #rv = self.login('username', 'password')
-        #assert 'You were logged in' in rv.data
-        #rv = self.logout()
-        #assert 'You were logged out' in rv.data
-        #rv = self.login('adminx', 'default')
-        #assert 'Invalid username' in rv.data
-        #rv = self.login('admin', 'defaultx')
-        #assert 'Invalid password' in rv.data
 
 if __name__ == '__main__':
     unittest.main()
