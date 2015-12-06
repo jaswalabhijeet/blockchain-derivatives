@@ -96,10 +96,8 @@ class AppTestCase(unittest.TestCase):
     def test_future_post_valid_inputs(self): #, buyerethereumaddress, sellerethereumaddress, deliverydate, blockchainderivativesid, numberofunits, commodityname, price, margin, soliditycodeinitial, transactionid, spotprice, soliditycodedeliverydate, soliditycodecancel):
         self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         self.app.post('/login', data=dict(email='username@email.com', password='password'), follow_redirects=True)
-    #     response = self.app.post('/futureethereum', data=dict(
-    #     buyerethereumaddress='d6aaae06717f25095eab8250369a437e549160a4',
-    #     sellerethereumaddress='e6aaae06717f25095eab8250369a437e549160a4', deliverydate=1623492485, blockchainderivativesid='11', numberofunits=22, commodityname='wheat', price=22, margin=2, soliditycodeinitial='', transactionid='', spotprice=1, soliditycodedeliverydate='', soliditycodecancel=''), follow_redirects=True)
-    #     self.assertEqual(response.status_code, 200)
+        response = self.app.post('/futureethereum', data=dict(buyerethereumaddress='d6aaae06717f25095eab8250369a437e549160a4', sellerethereumaddress='e6aaae06717f25095eab8250369a437e549160a4', deliverydate=1623492485, blockchainderivativesid='11', numberofunits=22, commodityname='wheat', price=22, margin=2, soliditycodeinitial='', transactionid='', spotprice=1, soliditycodedeliverydate='', soliditycodecancel=''), follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
 
     def test_register_then_login(self):
         self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
