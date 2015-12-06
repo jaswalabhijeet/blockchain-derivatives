@@ -52,6 +52,16 @@ h1 {
 }
 </style>
 
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
 <body class="mdl-demo mdl-color--black mdl-color-text--grey-400 mdl-base">
 <div class="demo-layout-transparent mdl-layout mdl-js-layout">
   <header class="mdl-layout__header mdl-layout__header--transparent">
@@ -107,7 +117,7 @@ h1 {
 <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit" value="Save">
     Log In</button><br>
         </form>
-
+<br>
 <!--</body>-->
 
 <div class="mdl-card__actions mdl-card--border">

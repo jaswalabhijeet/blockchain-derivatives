@@ -84,7 +84,7 @@ h1 {
     <nav class="mdl-navigation">
       <a class="mdl-navigation__link" href="/">Home</a>
       <a class="mdl-navigation__link" href="/futureethereum">Create Future</a>
-      <a class="mdl-navigation__link" href="/putoptionethereum">Create Put Option</a>
+      <a class="mdl-navigation__link" href="/calloptionethereum">Create Call Option</a>
       <!--<a class="mdl-navigation__link" href="/swapethereum">Create Swap</a>-->
       <a class="mdl-navigation__link" href="/mycontracts">Your Contracts</a>
       <a class="mdl-navigation__link" href="/spotprices">Current Spot Prices</a>
@@ -98,6 +98,16 @@ h1 {
 
    <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
    <div class="demo-card-wide mdl-card mdl-shadow--2dp">
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
 
         <h1>Put Option Contract for Ethereum</h1>
 

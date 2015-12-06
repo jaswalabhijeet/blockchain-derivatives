@@ -238,13 +238,19 @@ def login():
 
 
 @app.route("/logout", methods=["GET"])
-#@login_required
+@login_required
 def logout():
     try:
         logout_user()
         return redirect(url_for('index'))
     except:
         return redirect(url_for('index'))
+
+@login_manager.unauthorized_handler
+def unauthorized_handler():
+    flash('Must be logged-in for that page.')  #flask.flash?
+    return redirect(url_for('login'))
+
 
 # pages of website
 
@@ -253,6 +259,7 @@ def index():
     return render_template('index.html')
 
 @app.route('/futureethereum', methods=["GET", "POST"])
+@login_required
 def main_future():
     error = None
     spotprice_dictionary = {}
@@ -273,7 +280,7 @@ def main_future():
     return render_template('futureethereum.html', error=error, spotprices=Spotprice.query.all(), spotpriceslist=json.dumps(spotprice_dictionary))
 
 @app.route('/calloptionethereum', methods=["GET", "POST"])
-# @login_required
+@login_required
 def main_call_option():
     error = None
     spotprice_dictionary = {}
@@ -293,6 +300,7 @@ def main_call_option():
     return render_template('calloptionethereum.html', error=error, spotprices=Spotprice.query.all(), spotpriceslist=json.dumps(spotprice_dictionary)) #spotpricesjson=json.dumps(Spotprice.query.all()))
 
 @app.route('/putoptionethereum', methods=["GET", "POST"])
+@login_required
 def main_put_option():
     error = None
     spotprice_dictionary = {}
@@ -302,13 +310,16 @@ def main_put_option():
         dict_spotprice = float(dict.get('spotprice'))
         spotprice_dictionary[dict_commodity] = dict_spotprice
     if request.method == 'POST':
-        contract = Putoption(str(current_user.id), request.form['buyerethereumaddress'],
+        if ((request.form['buyerethereumaddress'] == '') or (request.form['sellerethereumaddress'] == '') or (request.form['expirydateTimestamp'] is False) or (request.form['numberofunits'] is False) or (request.form['assetname'] == '') or (request.form['strikeprice'] is False) or (request.form['premium'] is False) or (request.form['soliditycodeinitial'] == '') or (request.form['contractfield2'] == '') or (request.form['contractfield3'] == '')):
+            return redirect(url_for("mycontracts"))
+        else:
+            contract = Putoption(str(current_user.id), request.form['buyerethereumaddress'],
                             request.form['sellerethereumaddress'], request.form['expirydateTimestamp'],
                             request.form['numberofunits'], request.form['assetname'], request.form['strikeprice'],
                             request.form['premium'], request.form['soliditycodeinitial'], request.form['contractfield2'], request.form['contractfield3'])  #might not need str() #change last one or change deliverydate back
-        db.session.add(contract)
-        db.session.commit()
-        return render_template('putoptionethereum.html', spotprices=Spotprice.query.all(), spotpriceslist=json.dumps(spotprice_dictionary))
+            db.session.add(contract)
+            db.session.commit()
+            return render_template('putoptionethereum.html', spotprices=Spotprice.query.all(), spotpriceslist=json.dumps(spotprice_dictionary))
     return render_template('putoptionethereum.html', error=error, spotprices=Spotprice.query.all(), spotpriceslist=json.dumps(spotprice_dictionary)) #spotpricesjson=json.dumps(Spotprice.query.all()))
 
 
@@ -332,13 +343,17 @@ def main_put_option():
 #     return render_template('swapethereum.html', error=error, spotprices=Spotprice.query.all(), spotpriceslist=json.dumps(spotprice_dictionary)) #spotpricesjson=json.dumps(Spotprice.query.all()))
 
 @app.route('/mycontracts')
-# @login_required
+@login_required
 def mycontracts():
     return render_template('mycontracts.html', contracts=Contract.query.all(), calloptions=Calloption.query.all(), putoptions=Putoption.query.all())
 
 @app.route('/tutorial')
 def tutorial():
     return render_template('tutorial.html')
+
+@app.route('/error')
+def error():
+    return render_template('error.html')
 
 @app.route("/spotprices", methods=["GET", "POST"])   #changed the href here
 def spotprices():
