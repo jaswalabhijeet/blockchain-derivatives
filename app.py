@@ -122,7 +122,7 @@ class Calloption(db.Model):
         self.numberofunits = numberofunits
         self.assetname = assetname
         self.strikeprice = strikeprice
-        self.preumium = premium
+        self.premium = premium
         self.soliditycodeinitial = soliditycodeinitial
         self.soliditycodeexpirydate = soliditycodeexpirydate
         self.soliditycodecancel = soliditycodecancel
@@ -155,7 +155,7 @@ class Putoption(db.Model):
         self.numberofunits = numberofunits
         self.assetname = assetname
         self.strikeprice = strikeprice
-        self.preumium = premium
+        self.premium = premium
         self.soliditycodeinitial = soliditycodeinitial
         self.soliditycodeexpirydate = soliditycodeexpirydate
         self.soliditycodecancel = soliditycodecancel
@@ -296,10 +296,12 @@ def main_call_option():
         if ((request.form['buyerethereumaddress'] == '') or (request.form['sellerethereumaddress'] == '') or (request.form['expirydateTimestamp'] is False) or (request.form['numberofunits'] is False) or (request.form['assetname'] == '') or (request.form['strikeprice'] is False) or (request.form['premium'] is False) or (request.form['soliditycodeinitial'] == '') or (request.form['contractfield2'] == '') or (request.form['contractfield3'] == '')):
             return redirect(url_for("error"))
         else:
+            print request.form['premium']
+            print type(int(request.form['premium']))
             contract = Calloption(str(current_user.id), request.form['buyerethereumaddress'],
                             request.form['sellerethereumaddress'], request.form['expirydateTimestamp'],
                             request.form['numberofunits'], request.form['assetname'], request.form['strikeprice'],
-                            request.form['premium'], request.form['soliditycodeinitial'], request.form['contractfield2'], request.form['contractfield3'])  #might not need str() #change last one or change deliverydate back
+                            int(request.form['premium']), request.form['soliditycodeinitial'], request.form['contractfield2'], request.form['contractfield3'])  #might not need str() #change last one or change deliverydate back
             db.session.add(contract)
             db.session.commit()
             return render_template('calloptionethereum.html', spotprices=Spotprice.query.all(), spotpriceslist=json.dumps(spotprice_dictionary))
@@ -322,7 +324,7 @@ def main_put_option():
             contract = Putoption(str(current_user.id), request.form['buyerethereumaddress'],
                             request.form['sellerethereumaddress'], request.form['expirydateTimestamp'],
                             request.form['numberofunits'], request.form['assetname'], request.form['strikeprice'],
-                            request.form['premium'], request.form['soliditycodeinitial'], request.form['contractfield2'], request.form['contractfield3'])  #might not need str() #change last one or change deliverydate back
+                            int(request.form['premium']), request.form['soliditycodeinitial'], request.form['contractfield2'], request.form['contractfield3'])  #might not need str() #change last one or change deliverydate back
             db.session.add(contract)
             db.session.commit()
             return render_template('putoptionethereum.html', spotprices=Spotprice.query.all(), spotpriceslist=json.dumps(spotprice_dictionary))
