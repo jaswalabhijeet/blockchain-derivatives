@@ -260,7 +260,7 @@ def login():
 
 
 @app.route("/logout", methods=["GET"])
-@login_required  
+#@login_required
 def logout():
     try:
         logout_user()
