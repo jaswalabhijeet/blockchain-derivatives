@@ -124,6 +124,40 @@ class Calloption(db.Model):
         self.soliditycodeexpirydate = soliditycodeexpirydate
         self.soliditycodecancel = soliditycodecancel
 
+class Putoption(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    blockchainderivativesid = db.Column(db.String(64))
+    buyerethereumaddress = db.Column(db.String(64))
+    sellerethereumaddress = db.Column(db.String(64))
+    expirydate = db.Column(db.Integer)
+    numberofunits = db.Column(db.Integer)
+    assetname = db.Column(db.String(64))
+    strikeprice = db.Column(db.Integer)
+    premium = db.Column(db.Integer)
+    soliditycodeinitial = db.Column(db.String(64))
+    soliditycodeexpirydate = db.Column(db.String(64))
+    soliditycodecancel = db.Column(db.String(64))
+
+    def __repr__(self):
+        return '%s  %s  %s  %s  %s  %s  %s  %s  %s  %s  %s' % (
+        self.blockchainderivativesid, self.buyerethereumaddress, self.sellerethereumaddress, self.expirydate,
+        self.numberofunits, self.assetname, self.strikeprice, self.premium, self.soliditycodeinitial, self.soliditycodeexpirydate, self.soliditycodecancel)
+
+    def __init__(self, blockchainderivativesid, buyerethereumaddress, sellerethereumaddress, expirydate,
+                 numberofunits, assetname, strikeprice, premium, soliditycodeinitial, soliditycodeexpirydate, soliditycodecancel):
+        self.blockchainderivativesid = blockchainderivativesid
+        self.buyerethereumaddress = buyerethereumaddress
+        self.sellerethereumaddress = sellerethereumaddress
+        self.expirydate = expirydate
+        self.numberofunits = numberofunits
+        self.assetname = assetname
+        self.strikeprice = strikeprice
+        self.preumium = premium
+        self.soliditycodeinitial = soliditycodeinitial
+        self.soliditycodeexpirydate = soliditycodeexpirydate
+        self.soliditycodecancel = soliditycodecancel
+
+
 class Spotprice(db.Model):
     #__tablename__ = 'spotprice'
     commodity = db.Column(db.String(64), primary_key=True)
@@ -283,10 +317,10 @@ def main_put_option():
         dict_spotprice = float(dict.get('spotprice'))
         spotprice_dictionary[dict_commodity] = dict_spotprice
     if request.method == 'POST':
-        contract = Contract(str(current_user.id), request.form['buyerethereumaddress'],
-                            request.form['sellerethereumaddress'], request.form['deliverydateTimestamp'],
-                            request.form['numberofunits'], request.form['commodityname'], request.form['price'],
-                            request.form['margin'], request.form['soliditycodeinitial'], 0, 0, request.form['contractfield2'], request.form['contractfield3'])  #might not need str() #change last one or change deliverydate back
+        contract = Putoption(str(current_user.id), request.form['buyerethereumaddress'],
+                            request.form['sellerethereumaddress'], request.form['expirydateTimestamp'],
+                            request.form['numberofunits'], request.form['assetname'], request.form['strikeprice'],
+                            request.form['premium'], request.form['soliditycodeinitial'], request.form['contractfield2'], request.form['contractfield3'])  #might not need str() #change last one or change deliverydate back
         db.session.add(contract)
         db.session.commit()
         return render_template('putoptionethereum.html', spotprices=Spotprice.query.all(), spotpriceslist=json.dumps(spotprice_dictionary))
@@ -316,7 +350,7 @@ def main_swap():
 @app.route('/mycontracts')
 # @login_required
 def mycontracts():
-    return render_template('mycontracts.html', contracts=Contract.query.all(), calloptions=Calloption.query.all())
+    return render_template('mycontracts.html', contracts=Contract.query.all(), calloptions=Calloption.query.all(), putoptions=Putoption.query.all())
 
 @app.route('/tutorial')
 def tutorial():

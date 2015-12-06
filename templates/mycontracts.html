@@ -144,11 +144,11 @@ h1 {
 
               <h3>Futures</h3>
 
-    {% set futures_count = 0 %}
+    {% set futures_count = [0] %}
 {% for c in contracts %}
 
 {% if c.blockchainderivativesid|int == current_user.id|int %}
-  {% set futures_count = futures_count + 1 %}
+  {% set _ = futures_count.append(futures_count.pop() + 1) %}
                     <div class="android-card-container mdl-grid">
                     <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp">
 {{ c.deliverydate }}
@@ -161,129 +161,57 @@ h1 {
                         <br>
 {% endif %}
 {% endfor %}
-    {% if futures_count == 0 %}
-                  <a href="/futureethereum">You Have No Futures. Click Here to Create One.</a><br><br>
+    {% if futures_count.pop() == 0 %}
+                  <a href="/futureethereum">You Have No Futures. Click Here to Create One.</a><br>
     {% endif %}
 
               <h3>Call Options</h3>
 
-    {% set calloptions_count = 0 %}
+    {% set calloptions_count = [0] %}
 {% for x in calloptions %}
 
 {% if x.blockchainderivativesid|int == current_user.id|int %}
-  {% set calloptions_count = calloptions_count + 1 %}
+  {% set _ = calloptions_count.append(calloptions_count.pop() + 1) %}
                     <div class="android-card-container mdl-grid">
                     <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp">
 {{ x.expirydate }}
                                <h5>Details:</h5> Buyer: {{ x.buyerethereumaddress }} <br>Seller: {{ x.sellerethereumaddress }} <br> Terms: {{ x.numberofunits }} of {{ x.assetname }} at {{ x.strikeprice }} each with a margin of {{ x.premium }} <br><br>
       <h5>Initialization Code:</h5> {{ x.soliditycodeinitial }} <br>
-              <h5>Expiry Date Code:</h5> {{ x.soliditycodedeliverydate }} <br><br>
+              <h5>Expiry Date Code:</h5> {{ x.soliditycodeexpirydate }} <br><br>
               <h5>Cancellation Code:</h5> {{ x.soliditycodecancel }}
                                                     </div>
                                                                             </div>
                         <br>
 {% endif %}
 {% endfor %}
-    {% if calloptions_count == 0 %}
-                  <a href="/calloptionethereum">You Have No Call Options. Click Here to Create One.</a><br><br>
+    {% if calloptions_count.pop()  == 0 %}
+    <a href="/calloptionethereum">You Have No Call Options. Click Here to Create One.</a><br>
     {% endif %}
 
-                        <br>                        <br>                        <br>                        <br>
+              <h3>Put Options</h3>
 
+    {% set putoptions_count = [0] %}
+{% for y in putoptions %}
 
-        <!--<table class="mdl-data-table mdl-js-data-table mdl-shadow&#45;&#45;2dp" table align="center">-->
-  <!--<thead>-->
-    <!--<tr>-->
-      <!--<th class="mdl-data-table__cell&#45;&#45;non-numeric">Details</th>-->
-      <!--<th>Initialization Code</th>-->
-              <!--<th>Delivery Date Code</th>-->
-              <!--<th>Cancellation Code</th>-->
-    <!--</tr>-->
-  <!--</thead>-->
-  <!--<tbody>-->
-<!--{% for c in contracts %}-->
-<!--{% if c.blockchainderivativesid|int == current_user.id|int %}-->
-    <!--<tr>-->
-      <!--<td class="mdl-data-table__cell">Buyer: {{ c.buyerethereumaddress }} Seller: {{ c.sellerethereumaddress }} <br> Contract for {{ c.numberofunits }} of {{ c.commodityname }} at {{ c.price }} each with a margin of {{ c.margin }}</td>-->
-      <!--<td>{{ c.soliditycodeinitial }} </td>-->
-              <!--<td>{{ c.soliditycodedeliverydate }} </td>-->
-              <!--<td>{{ c.soliditycodecancel }} </td>-->
-    <!--</tr>-->
-<!--{% endif %}-->
-<!--{% endfor %}-->
-  <!--</tbody>-->
-<!--</table>-->
-<!--<br>-->
+{% if y.blockchainderivativesid|int == current_user.id|int %}
+  {% set _ = putoptions_count.append(putoptions_count.pop() + 1) %}
+                    <div class="android-card-container mdl-grid">
+                    <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp">
+{{ y.expirydate }}
+                               <h5>Details:</h5> Buyer: {{ y.buyerethereumaddress }} <br>Seller: {{ y.sellerethereumaddress }} <br> Terms: {{ y.numberofunits }} of {{ y.assetname }} at {{ y.strikeprice }} each with a margin of {{ y.premium }} <br><br>
+      <h5>Initialization Code:</h5> {{ y.soliditycodeinitial }} <br>
+              <h5>Expiry Date Code:</h5> {{ y.soliditycodeexpirydate }} <br><br>
+              <h5>Cancellation Code:</h5> {{ y.soliditycodecancel }}
+      </div>
+      </div>
+                        <br>
+{% endif %}
+{% endfor %}
+    {% if putoptions_count.pop() == 0 %}
+    <a href="/putoptionethereum">You Have No Put Options. Click Here to Create One.</a><br>
+    {% endif %}
 
-
-<!--<table cellspacing='0'>-->
-
-<!--<thead>-->
-		<!--<tr>-->
-			<!--<th>Details</th>-->
-			<!--<th>Initialization Code</th>-->
-			<!--<th>Delivery Date Code</th>-->
-			<!--<th>Cancellation Code</th>-->
-		<!--</tr>-->
-	<!--</thead>-->
-<!--<tbody>-->
-
-
-<!--{% for c in contracts %}-->
-
-<!--{% if c.blockchainderivativesid|int == current_user.id|int %}-->
-
-<!--<tr>-->
-			<!--<td> Buyer: {{ c.buyerethereumaddress }} Seller: {{ c.sellerethereumaddress }} <br> Contract for {{ c.numberofunits }} of {{ c.commodityname }} at {{ c.price }} each with a margin of {{ c.margin }}</td>-->
-			<!--<td> {{ c.soliditycodeinitial }} </td>-->
-			<!--<td> {{ c.soliditycodedeliverydate }}</td>-->
-			<!--<td> {{ c.soliditycodecancel }}</td>-->
-		<!--</tr>-->
-
-<!--{% endif %}-->
-
-<!--{% endfor %}-->
-	<!--</tbody>-->
-<!--</table>-->
-
-
-
-        <!--<br><br>-->
-        <!--<p><b>Using Alethzero (Ethereum’s C++ GUI), send an unaddressed transaction with this code in its data field. Be sure to endow your contract (via amount field) with an amount of ethere greater than the sum of your margin and contract value. Sending that transaction will inject your contract onto the blockchain.-->
-        <!--<br><br>-->
-        <!--Once you have injected the contract on the blockchain, a transaction address will be assigned to it. If the delivery date arrives and you wish to execute your contract, plug in a transaction address and spot price below. Then, put the code generated here into the data field of a new message —this time, addressed to the transaction address— and watch your contract execute:<br><br></b></p>-->
-  	<!-- -->
-
-        <!--<p><b>The Transaction ID Is:</b></p>-->
-        <!--<input type="text" name="transactionid" id="transactionid">(A 60 character string. E.g., g6aaae06717f25095eab8250369a437e549160a4g6aaae06717f25095eab)<br><br><br>-->
-
-        <!--<p><b>The Spot Price —I.e., the Current Price of The Commodity— Is:</b></p>-->
-        <!--<input type="number" name="spotprice" id="spotprice" step="any">(enter the spot price here)<br><br><br>-->
-
- <!--<br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br>        <br/><br> <br/><br><br/><br><br/><br><br/><br><br/><br><br/><br><br/><br><br/><br><br/><br><br/><br>-->
-
-
-        <!--<input type="button" value="Create Code to Send Transaction on Delivery Date" onclick="add2()"/><br><br>-->
-
-        <!--<script>-->
-        <!--function add2() {-->
-        <!--var transactionId = document.getElementById('transactionid').value;-->
-        <!--var spotPrice = document.getElementById('spotprice').value;-->
-        <!--document.getElementById("contractfield2").value = "contract MyMaturity{\n\nMyFuture feed;\n\nfunction setFeed(address addr){feed = MyFuture(addr);}\n\nfunction callFeed(){feed.MyDeliveryDate();}\n\ncallFeed("+transactionId+","+spotPrice+");\n\n}";-->
-        <!--document.getElementById("contractfield3").value = "contract myCancellation{\n\nMyFuture feed;\n\nfunction setFeed(address add){feed = MyFuture(addr);}\n\nfunction callFeed(){feed.myCancel();}\n\ncallFeed();\n\n}";-->
-        <!--}-->
-        <!--</script>-->
-
-        <!--<textarea rows="15" cols="80" type="text" id="contractfield2" name="contractfield2">-->
-        <!--</textarea>-->
-
-        <!--<br><br>-->
-        <!--<p><b>Lastly, if you wish to cancel your futures contract, send a transaction, addressed to the transaction ID and with this code in the data field:</b></p><br> -->
-        <!--<textarea rows="10" cols="80" type="text" id="contractfield3" name="contractfield3">-->
-        <!--</textarea>-->
-
-
-
+                        <br>                        <br>
 
 <div class="mdl-card__actions mdl-card--border">
 
