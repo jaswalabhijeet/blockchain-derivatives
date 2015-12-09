@@ -52,7 +52,7 @@ class AppTestCase(unittest.TestCase):
 
     def test_putoption_ethereum_status_code_loggedin(self):
         result = self.app.get('/putoptionethereum')
-        print result
+        print result.data
 
 
     # def test_swap_ethereum_status_code(self):
