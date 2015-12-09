@@ -155,7 +155,7 @@ class AppTestCase(unittest.TestCase):
     def test_register_then_login_redirect(self):
         self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         response = self.app.post('/login', data=dict(email='username@email.com', password='password'), follow_redirects=True)
-        print response.data
+        self.assertIn('To Create and Manage Derivatives Here', response.data)
         #self.assertEqual(response.request.path, url_for('index'))
         #self.assertEqual(response.location, url_for('index', _external=True))
         # self.assertRedirects(response, '/')
