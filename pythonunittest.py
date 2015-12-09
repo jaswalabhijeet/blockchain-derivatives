@@ -23,7 +23,7 @@ class AppTestCase(unittest.TestCase):
         result = self.app.get('/')
         self.assertEqual(result.status_code, 200)
 
-    def test_future_ethereum_status_code(self):
+    def test_future_ethereum_status_code_loggedin(self):
         self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         self.app.post('/login', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         result = self.app.get('/futureethereum')
@@ -32,7 +32,7 @@ class AppTestCase(unittest.TestCase):
         except:
             self.assertEqual(result.status_code, 302)
 
-    def test_calloption_ethereum_status_code(self):
+    def test_calloption_ethereum_status_code_loggedin(self):
         self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         self.app.post('/login', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         result = self.app.get('/calloptionethereum')
@@ -41,7 +41,7 @@ class AppTestCase(unittest.TestCase):
         except:
             self.assertEqual(result.status_code, 302)
 
-    def test_putoption_ethereum_status_code(self):
+    def test_putoption_ethereum_status_code_loggedin(self):
         self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         self.app.post('/login', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         result = self.app.get('/putoptionethereum')
@@ -74,7 +74,7 @@ class AppTestCase(unittest.TestCase):
 
     def test_mycontracts_status_code_not_loggedin(self):
         result = self.app.get('/mycontracts')
-        print result.data
+        self.assertIn('You should be redirected automatically to target URL: <a href="/login">/login</a>.', result.data)
 
     def test_tutorial_status_code(self):
         result = self.app.get('/tutorial')
