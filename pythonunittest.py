@@ -6,6 +6,7 @@ from app import app
 import unittest
 import tempfile
 from flask import jsonify
+from flask import url_for
 
 class AppTestCase(unittest.TestCase):
 
@@ -150,12 +151,15 @@ class AppTestCase(unittest.TestCase):
         self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         response = self.app.post('/login', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.request.path, url_for('index')
+        # self.assertEqual(response.location, url_for('index', _external=True))
 
     def test_register_then_login_then_logout(self):
         self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         self.app.post('/login', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         response = self.app.get('/logout', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
+
 
     def test_logout_without_login(self):
         self.app.get('/logout', follow_redirects=True)
