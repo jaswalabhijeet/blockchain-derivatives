@@ -173,7 +173,7 @@ class AppTestCase(unittest.TestCase):
         self.app.get('/logout', follow_redirects=True)
         response = self.app.get('/logout', follow_redirects=True)
         # self.assertEqual(response.status_code, 200)
-        print response.data
+        self.assertIn('Must be logged-in for that page', response.data)
 
 if __name__ == '__main__':
     unittest.main()
