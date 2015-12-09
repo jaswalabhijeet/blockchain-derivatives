@@ -50,6 +50,11 @@ class AppTestCase(unittest.TestCase):
         except:
             self.assertEqual(result.status_code, 302)
 
+    def test_putoption_ethereum_status_code_loggedin(self):
+        result = self.app.get('/putoptionethereum')
+        print result
+
+
     # def test_swap_ethereum_status_code(self):
     #     result = self.app.get('/swapethereum')
     #     self.assertEqual(result.status_code, 200)
