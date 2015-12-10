@@ -52,7 +52,7 @@ class AppTestCase(unittest.TestCase):
 
     def test_putoption_ethereum_status_code_loggedin(self):
         result = self.app.get('/putoptionethereum')
-        print result.data
+        assertIn('You should be redirected automatically to target URL', result.data)
 
 
     # def test_swap_ethereum_status_code(self):
