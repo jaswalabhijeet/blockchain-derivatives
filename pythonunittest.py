@@ -133,11 +133,7 @@ class AppTestCase(unittest.TestCase):
         self.assertEqual(result.status_code, 405)
 
     def test_unexisting_page(self):
-        #result = self.app.get('/SomePage', status=404)
         result = self.app.get('/SomePage')
-        # print result.data
-        # result = self.testapp.get('/SomePage')
-        #self.assertTrue(b'Not Found' in result.body)
         self.assertIn('Method Not Allowed', result.data)
 
     def test_api_valid_data(self):
@@ -216,49 +212,43 @@ class AppTestCase(unittest.TestCase):
         self.app.post('/login', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         response = self.app.post('/calloptionethereum', data=dict(buyerethereumaddress='d6aaae06717f25095eab8250369a437e549160a4', sellerethereumaddress='e6aaae06717f25095eab8250369a437e549160a4', expirydateTimestamp=1623492485, blockchainderivativesid='11', numberofunits=22, assetname='wheat', strikeprice=22, premium=2, soliditycodeinitial='a', contractfield2='a', contractfield3='a'), follow_redirects=True)
         self.assertIn('Put Options', response.data)
-        #print response.data
 
     def test_calloption_post_valid_inputs_redirect(self):
         self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         self.app.post('/login', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         response = self.app.post('/calloptionethereum', data=dict(buyerethereumaddress='d6aaae06717f25095eab8250369a437e549160a4', sellerethereumaddress='e6aaae06717f25095eab8250369a437e549160a4', expirydateTimestamp=1623492485, blockchainderivativesid='11', numberofunits=22, assetname='wheat', strikeprice=22, premium=2, soliditycodeinitial='samplesoliditycodeishere', contractfield2='a', contractfield3='a'), follow_redirects=True)
         self.assertIn('samplesoliditycodeishere', response.data)
-        #print response.data
 
     def test_calloption_post_missing_inputs_status(self):
         self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         self.app.post('/login', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         response = self.app.post('/calloptionethereum', data=dict(buyerethereumaddress='d6aaae06717f25095eab8250369a437e549160a4', sellerethereumaddress='e6aaae06717f25095eab8250369a437e549160a4', expirydateTimestamp=1623492485, blockchainderivativesid='11', numberofunits=22, assetname='wheat', strikeprice=22, premium=2, soliditycodeinitial='a', contractfield2='a'), follow_redirects=True)
         self.assertEqual(response.status_code, 400)
-        # print response.data
 
     def test_calloption_post_missing_inputs_redirect(self):
         self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         self.app.post('/login', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         response = self.app.post('/calloptionethereum', data=dict(buyerethereumaddress='d6aaae06717f25095eab8250369a437e549160a4', sellerethereumaddress='e6aaae06717f25095eab8250369a437e549160a4', expirydateTimestamp=1623492485, blockchainderivativesid='11', numberofunits=22, assetname='wheat', strikeprice=22, premium=2, soliditycodeinitial='a', contractfield2='a'), follow_redirects=True)
         # self.assertIn('Error', response.data)
-        # print response.data
+        print response.data
 
     def test_putoption_post_valid_inputs_status(self):
         self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         self.app.post('/login', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         response = self.app.post('/putoptionethereum', data=dict(buyerethereumaddress='d6aaae06717f25095eab8250369a437e549160a4', sellerethereumaddress='e6aaae06717f25095eab8250369a437e549160a4', expirydateTimestamp=1623492485, blockchainderivativesid='11', numberofunits=22, assetname='wheat', strikeprice=22, premium=2, soliditycodeinitial='a', contractfield2='a', contractfield3='a'), follow_redirects=True)
         self.assertEqual(response.status_code, 200)
-        # print response.data
 
     def test_putoption_post_valid_inputs_redirect(self):
         self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         self.app.post('/login', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         response = self.app.post('/putoptionethereum', data=dict(buyerethereumaddress='d6aaae06717f25095eab8250369a437e549160a4', sellerethereumaddress='e6aaae06717f25095eab8250369a437e549160a4', expirydateTimestamp=1623492485, blockchainderivativesid='11', numberofunits=22, assetname='wheat', strikeprice=22, premium=2, soliditycodeinitial='a', contractfield2='a', contractfield3='a'), follow_redirects=True)
         self.assertIn('Call Options', response.data)
-        # print response.data
 
     def test_putoption_post_valid_inputs_contract_created(self):
         self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         self.app.post('/login', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         response = self.app.post('/putoptionethereum', data=dict(buyerethereumaddress='d6aaae06717f25095eab8250369a437e549160a4', sellerethereumaddress='e6aaae06717f25095eab8250369a437e549160a4', expirydateTimestamp=1623492485, blockchainderivativesid='11', numberofunits=22, assetname='wheat', strikeprice=22, premium=2, soliditycodeinitial='samplesoliditycodeishere', contractfield2='a', contractfield3='a'), follow_redirects=True)
         self.assertIn('samplesoliditycodeishere', response.data)
-        # print response.data
 
     def test_putoption_post_missing_inputs_status(self):
         self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
@@ -270,7 +260,6 @@ class AppTestCase(unittest.TestCase):
         self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         self.app.post('/login', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         response = self.app.post('/putoptionethereum', data=dict(buyerethereumaddress='d6aaae06717f25095eab8250369a437e549160a4', sellerethereumaddress='e6aaae06717f25095eab8250369a437e549160a4', expirydateTimestamp=1623492485, blockchainderivativesid='11', numberofunits=22, assetname='wheat', strikeprice=22, premium=2, soliditycodeinitial='', contractfield2=''), follow_redirects=True)
-        self.assertEqual(response.status_code, 200)
         #print response.data
         #probably best to repeat this with a test of what page you wind up on. I think this giving 200 but on error page
 
