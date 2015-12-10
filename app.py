@@ -270,13 +270,13 @@ def main_future():
         dict_spotprice = float(dict.get('spotprice'))
         spotprice_dictionary[dict_commodity] = dict_spotprice
     if request.method == 'POST':
-        print current_user.id
-        print request.form['buyerethereumaddress']
-        print request.form['sellerethereumaddress']
-        print request.form['numberofunits']
-        print request.form['commodityname']
-        print request.form['price']
-        print request.form['soliditycodeinitial']
+        # print current_user.id
+        # print request.form['buyerethereumaddress']
+        # print request.form['sellerethereumaddress']
+        # print request.form['numberofunits']
+        # print request.form['commodityname']
+        # print request.form['price']
+        # print request.form['soliditycodeinitial']
         if ((request.form['buyerethereumaddress'] == '') or (request.form['sellerethereumaddress'] == '') or (request.form['deliverydateTimestamp'] is False) or (request.form['numberofunits'] is False) or (request.form['commodityname'] == '') or (request.form['price'] is False) or (request.form['margin'] is False) or (request.form['soliditycodeinitial'] == '') or (request.form['contractfield2'] == '') or (request.form['contractfield3'] == '')):
             return redirect(url_for("error"))
         else:
