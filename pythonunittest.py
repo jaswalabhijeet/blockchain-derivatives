@@ -61,7 +61,7 @@ class AppTestCase(unittest.TestCase):
 
     def test_calloption_ethereum_status_code_loggedout_message(self):
         result = self.app.get('/calloptionethereum')
-        assertIn('You should be redirected automatically to target URL:', result.data)
+        self.assertIn('You should be redirected automatically to target URL:', result.data)
 
     def test_calloption_ethereum_status_code_loggedout_redirect(self):
         result = self.app.get('/calloptionethereum')
@@ -219,8 +219,8 @@ class AppTestCase(unittest.TestCase):
         self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         self.app.post('/login', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         response = self.app.post('/calloptionethereum', data=dict(buyerethereumaddress='d6aaae06717f25095eab8250369a437e549160a4', sellerethereumaddress='e6aaae06717f25095eab8250369a437e549160a4', expirydateTimestamp=1623492485, blockchainderivativesid='11', numberofunits=22, assetname='wheat', strikeprice=22, premium=2, soliditycodeinitial='samplesoliditycodeishere', contractfield2='a', contractfield3='a'), follow_redirects=True)
-        # self.assertIn('samplesoliditycodeishere', response.data)
-        print response.data
+        self.assertIn('samplesoliditycodeishere', response.data)
+        #print response.data
 
     def test_calloption_post_missing_inputs_status(self):
         self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
@@ -247,7 +247,7 @@ class AppTestCase(unittest.TestCase):
         self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         self.app.post('/login', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         response = self.app.post('/putoptionethereum', data=dict(buyerethereumaddress='d6aaae06717f25095eab8250369a437e549160a4', sellerethereumaddress='e6aaae06717f25095eab8250369a437e549160a4', expirydateTimestamp=1623492485, blockchainderivativesid='11', numberofunits=22, assetname='wheat', strikeprice=22, premium=2, soliditycodeinitial='a', contractfield2='a', contractfield3='a'), follow_redirects=True)
-        #self.assertIn('Call Options', response.data)
+        self.assertIn('Call Options', response.data)
         # print response.data
 
     def test_putoption_post_valid_inputs_contract_created(self):

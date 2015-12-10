@@ -310,7 +310,8 @@ def main_call_option():
                             int(request.form['premium']), request.form['soliditycodeinitial'], request.form['contractfield2'], request.form['contractfield3'])  #might not need str() #change last one or change deliverydate back
             db.session.add(contract)
             db.session.commit()
-            return render_template('calloptionethereum.html', spotprices=Spotprice.query.all(), spotpriceslist=json.dumps(spotprice_dictionary))
+            return redirect(url_for("mycontracts"))
+            # return render_template('calloptionethereum.html', spotprices=Spotprice.query.all(), spotpriceslist=json.dumps(spotprice_dictionary))
     return render_template('calloptionethereum.html', error=error, spotprices=Spotprice.query.all(), spotpriceslist=json.dumps(spotprice_dictionary)) #spotpricesjson=json.dumps(Spotprice.query.all()))
 
 @app.route('/putoptionethereum', methods=["GET", "POST"])
@@ -333,7 +334,8 @@ def main_put_option():
                             int(request.form['premium']), request.form['soliditycodeinitial'], request.form['contractfield2'], request.form['contractfield3'])  #might not need str() #change last one or change deliverydate back
             db.session.add(contract)
             db.session.commit()
-            return render_template('putoptionethereum.html', spotprices=Spotprice.query.all(), spotpriceslist=json.dumps(spotprice_dictionary))
+            return redirect(url_for("mycontracts"))
+            #return render_template('putoptionethereum.html', spotprices=Spotprice.query.all(), spotpriceslist=json.dumps(spotprice_dictionary))
     return render_template('putoptionethereum.html', error=error, spotprices=Spotprice.query.all(), spotpriceslist=json.dumps(spotprice_dictionary)) #spotpricesjson=json.dumps(Spotprice.query.all()))
 
 
