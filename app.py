@@ -300,7 +300,9 @@ def main_call_option():
         spotprice_dictionary[dict_commodity] = dict_spotprice
     if request.method == 'POST':
         if ((request.form['buyerethereumaddress'] == '') or (request.form['sellerethereumaddress'] == '') or (request.form['expirydateTimestamp'] is False) or (request.form['numberofunits'] is False) or (request.form['assetname'] == '') or (request.form['strikeprice'] is False) or (request.form['premium'] is False) or (request.form['soliditycodeinitial'] == '') or (request.form['contractfield2'] == '') or (request.form['contractfield3'] == '')):
-            return redirect(url_for("error"))
+            #return redirect(url_for("error"))
+            flash('You left a field empty. Please try again.')
+            return redirect(url_for('main_call_option'))
         else:
             print request.form['premium']
             print type(int(request.form['premium']))
