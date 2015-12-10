@@ -18,6 +18,8 @@ except ImportError:
 from flask_restful import Resource, Api
 from decimal import Decimal
 from werkzeug.datastructures import ImmutableMultiDict
+#pip install mibian, scipy
+#import mibian, scipy
 
 # configuration
 
@@ -207,7 +209,6 @@ def register():
         else:
             flash('There is already a user with that name.')
             return redirect(url_for('login'))
-    # return render_template('register.html', form=form)
     return render_template('register.html')
 
 @login_manager.user_loader
@@ -234,9 +235,7 @@ def login():
         else:
             return "NO USER WITH THAT NAME"
             return redirect(url_for("register"))
-    # return render_template("login.html", form=form)
     return render_template("login.html")
-
 
 @app.route("/logout", methods=["GET"])
 @login_required
@@ -251,7 +250,6 @@ def logout():
 def unauthorized_handler():
     flash('Must be logged-in for that page.')
     return redirect(url_for('login'))
-
 
 # pages of website
 

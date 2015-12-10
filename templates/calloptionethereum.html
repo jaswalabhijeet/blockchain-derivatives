@@ -39,7 +39,6 @@
 }
 </style>
 
-<!-- Square card -->
 <style>
 .demo-card-wide.mdl-card {
   width:100%;
@@ -206,17 +205,17 @@ Get Current Spot Price of This Asset
     <br>Set contract expiry date:<br>
     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 
-                                        <input class="mdl-textfield__input" type="date" pattern="-?[0-9]*(\[0-9]+)?"
-                                               name="expirydate" id="expirydate"
-                                               onchange="createTimestamp('expirydate')"/>
-                                        <label class="mdl-textfield__label" for="expirydate"></label>
-                                    </div>
+    <input class="mdl-textfield__input" type="date" pattern="-?[0-9]*(\[0-9]+)?"
+     name="expirydate" id="expirydate"
+     onchange="createTimestamp('expirydate')"/>
+      <label class="mdl-textfield__label" for="expirydate"></label>
+    </div>
 
 <div>
-                                        Unix timestamp: <input class="mdl-color--white" type="text" value=""
-                                                               id="expirydateTimestamp" name="expirydateTimestamp"
-                                                               style="border: 0px; font-size:16px">
-                                    </div>
+     Unix timestamp: <input class="mdl-color--white" type="text" value=""
+       id="expirydateTimestamp" name="expirydateTimestamp"
+       style="border: 0px; font-size:16px">
+</div>
 
   <div class="mdl-textfield mdl-js-textfield">
     <input class="mdl-textfield__input" type="text" name="strikeprice" id="strikeprice" pattern="-?[0-9]*(\.[0-9]+)?" step="any">
@@ -231,9 +230,9 @@ Get Current Spot Price of This Asset
   </div>
 
     <br>
-                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="add(); return false;">
-                                    Compile Your Contract Into Solidity Code
-                                </button> <br>
+     <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick="add(); return false;">
+       Compile Your Contract Into Solidity Code
+     </button> <br>
 
         <script>
         function add() {
@@ -269,7 +268,7 @@ Code to Cancel Contract:<br>
 
 <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit" value="Save">
     Save This Contract</button>
-        </form>
+  </form>
 
   <div class="mdl-card__actions mdl-card--border">
     
@@ -280,7 +279,7 @@ Code to Cancel Contract:<br>
     </button>
   </div>
 </div>
-                </section>
+</section>
 
   </main>
 </div>
