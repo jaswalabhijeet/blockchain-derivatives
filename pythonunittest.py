@@ -83,7 +83,7 @@ class AppTestCase(unittest.TestCase):
 
     def test_mycontracts_status_code_not_loggedin(self):
         result = self.app.get('/mycontracts')
-        self.assertIn('You should be redirected automatically to target URL: <a href="/login">/login</a>.', result.data)
+        self.assertIn('You should be redirected automatically to target URL:', result.data)
 
     def test_tutorial_status_code(self):
         result = self.app.get('/tutorial')
@@ -169,6 +169,11 @@ class AppTestCase(unittest.TestCase):
         self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         response = self.app.post('/login', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         self.assertIn('To Create and Manage Derivatives Here', response.data)
+
+    def test_register_existing_user(self):
+        self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
+        response = self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
+        print response.data
 
     def test_register_then_login_then_logout(self):
         self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
