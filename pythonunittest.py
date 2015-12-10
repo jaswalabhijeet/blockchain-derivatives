@@ -124,11 +124,12 @@ class AppTestCase(unittest.TestCase):
     ), follow_redirects=True)
         self.assertEqual(response.status_code, 405)
 
-    # def test_future_post_valid_inputs(self):
-    #     self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
-    #     self.app.post('/login', data=dict(email='username@email.com', password='password'), follow_redirects=True)
-    #     response = self.app.post('/futureethereum', data=dict(buyerethereumaddress='d6aaae06717f25095eab8250369a437e549160a4', sellerethereumaddress='e6aaae06717f25095eab8250369a437e549160a4', deliverydateTimestamp=1623492485, blockchainderivativesid='11', numberofunits=22, commodityname='wheat', price=22, margin=2, contractfield='', transactionid='', spotprice=1, contractfield2='', contractfield3=''), follow_redirects=True)
-    #     self.assertEqual(response.status_code, 200)
+    def test_future_post_valid_inputs(self):
+        self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
+        self.app.post('/login', data=dict(email='username@email.com', password='password'), follow_redirects=True)
+        response = self.app.post('/futureethereum', data=dict(buyerethereumaddress='d6aaae06717f25095eab8250369a437e549160a4', sellerethereumaddress='e6aaae06717f25095eab8250369a437e549160a4', deliverydateTimestamp=1623492485, blockchainderivativesid='11', numberofunits=22, commodityname='wheat', price=22, margin=2, contractfield='', transactionid='', spotprice=1, contractfield2='', contractfield3=''), follow_redirects=True)
+        print response.data
+        # self.assertEqual(response.status_code, 200)
     #
     # def test_future_post_missing_inputs(self):
     #     self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
@@ -162,7 +163,7 @@ class AppTestCase(unittest.TestCase):
 
     def test_login_no_existing_user(self):
         response = self.app.post('/login', data=dict(email='username2@email.com', password='password'), follow_redirects=True)
-        print response.data
+        self.assertIn('NO USER WITH THAT NAME', response.data)
 
     def test_register_then_login(self):
         self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
