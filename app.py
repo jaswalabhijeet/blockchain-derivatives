@@ -270,13 +270,20 @@ def main_future():
         dict_spotprice = float(dict.get('spotprice'))
         spotprice_dictionary[dict_commodity] = dict_spotprice
     if request.method == 'POST':
-        if ((request.form['buyerethereumaddress'] == '') or (request.form['sellerethereumaddress'] == '') or (request.form['deliverydateTimestamp'] is False) or (request.form['numberofunits'] is False) or (request.form['commodityname'] == '') or (request.form['price'] is False) or (request.form['margin'] is False) or (request.form['contractfield'] == '') or (request.form['contractfield2'] == '') or (request.form['contractfield3'] == '')):
+        print current_user.id
+        print request.form['buyerethereumaddress']
+        print request.form['sellerethereumaddress']
+        print request.form['numberofunits']
+        print request.form['commodityname']
+        print request.form['price']
+        print request.form['soliditycodeinitial']
+        if ((request.form['buyerethereumaddress'] == '') or (request.form['sellerethereumaddress'] == '') or (request.form['deliverydateTimestamp'] is False) or (request.form['numberofunits'] is False) or (request.form['commodityname'] == '') or (request.form['price'] is False) or (request.form['margin'] is False) or (request.form['soliditycodeinitial'] == '') or (request.form['contractfield2'] == '') or (request.form['contractfield3'] == '')):
             return redirect(url_for("error"))
         else:
             contract = Contract(str(current_user.id), request.form['buyerethereumaddress'],
                             request.form['sellerethereumaddress'], request.form['deliverydateTimestamp'],
                             int(request.form['numberofunits']), request.form['commodityname'], request.form['price'],
-                            request.form['margin'], request.form['contractfield'], 0, 0, request.form['contractfield2'], request.form['contractfield3'])  #might not need str() #change last one or change deliverydate back 
+                            request.form['margin'], request.form['soliditycodeinitial'], 0, 0, request.form['contractfield2'], request.form['contractfield3'])  #might not need str() #change last one or change deliverydate back
             db.session.add(contract)
             db.session.commit()
             return redirect(url_for("mycontracts"))
