@@ -162,7 +162,7 @@ class AppTestCase(unittest.TestCase):
 
     def test_login_no_existing_user(self):
         response = self.app.post('/login', data=dict(email='username2@email.com', password='password'), follow_redirects=True)
-        print response
+        print response.data
 
     def test_register_then_login(self):
         self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)

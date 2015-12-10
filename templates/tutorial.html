@@ -94,17 +94,25 @@ h1 {
 
             <h4>Enter The Terms of a Derivatives-Style Contract</h4>
 
-    Our templates allow you and a counterparty to create a smart contract that behaves like a derivative.<br><br>
+    Our templates allow you and a counterparty to create a smart contract that behaves like a derivative.<br>
     First fill out the details of your contract and compile your Solidity code.
 
+    <h4>Cut and Paste Your Solidity Code Into the Online Solidity Compiler:</h4>
 
-        <h4>Copy and Paste the Solidity Code into an Ethereum Client</h4>
+    <a href="https://chriseth.github.io/browser-solidity/">Copy and paste the code into this online Solidity Complier.</a>
+    Hit enter. It will convert your Solidity code into, among other things, Web3 Code. Copy that code.
 
-        Take the resulting code and save it as a .sol file.<br><br>
-    Using an Ethereum client such as Geth, you will be able to deliver this to the blockchain.
-     <!-- would be useful to send back bytecode to folks -->
+        <h4>Copy and Paste the Web3 Code into a .js File</h4>
+
+        Take the resulting code and save it as a .js file in the same directory that you run Geth from.
  
-            <h4><a href="https://chriseth.github.io/browser-solidity/">Solidity Complier</a></h4><br><br>
+            <h4>Open the Javascript Console in Geth</h4>
+    Log into Geth's Javascript Console using: <pre>
+  <code>console</code>
+</pre>
+    Now enter this command, inserting your file name: <pre>
+  <code>loadScript('NameOfFile.js');  </code>
+</pre>As soon as someone mines a block (it may take a few seconds), your contract will exist on the blockchain!<br><br>
 
 <div class="mdl-card__actions mdl-card--border">
 
