@@ -43,6 +43,10 @@ class AppTestCase(unittest.TestCase):
         result = self.app.get('/futureethereum')
         self.assertIn('You should be redirected automatically to target URL', result.data)
 
+    def test_future_ethereum_status_code_loggedout_message(self):
+        result = self.app.get('/futureethereum', follow_redirects=True)
+        self.assertIn('Must be logged-in for that page.', result.data)
+
     def test_calloption_ethereum_status_code_loggedin(self):
         self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         self.app.post('/login', data=dict(email='username@email.com', password='password'), follow_redirects=True)
