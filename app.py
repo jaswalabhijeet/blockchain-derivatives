@@ -205,6 +205,7 @@ def register():
             login_user(user)
             return redirect(url_for('index'))
         else:
+            flash('There is already a user with that name.')
             return redirect(url_for('login'))
     # return render_template('register.html', form=form)
     return render_template('register.html')
@@ -248,7 +249,7 @@ def logout():
 
 @login_manager.unauthorized_handler
 def unauthorized_handler():
-    flash('Must be logged-in for that page.')  #flask.flash?
+    flash('Must be logged-in for that page.')
     return redirect(url_for('login'))
 
 
