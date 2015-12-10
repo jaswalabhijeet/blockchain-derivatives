@@ -65,8 +65,7 @@ class AppTestCase(unittest.TestCase):
 
     def test_calloption_ethereum_status_code_loggedout_redirect(self):
         result = self.app.get('/calloptionethereum', follow_redirects=True)
-        print result.data
-        #self.assertIn('You should be redirected automatically to target URL', result.data)
+        self.assertIn('Must be logged-in for that page.', result.data)
 
     def test_putoption_ethereum_status_code_loggedin(self):
         self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
@@ -87,6 +86,10 @@ class AppTestCase(unittest.TestCase):
     def test_putoption_ethereum_status_code_loggedout_redirect(self):
         result = self.app.get('/putoptionethereum')
         self.assertIn('You should be redirected automatically to target URL', result.data)
+
+    def test_putoption_ethereum_status_code_loggedout_message(self):
+        result = self.app.get('/putoptionethereum', follow_redirects=True)
+        self.assertIn('Must be logged-in for that page.', result.data)
 
     # def test_swap_ethereum_status_code(self):
     #     result = self.app.get('/swapethereum')
