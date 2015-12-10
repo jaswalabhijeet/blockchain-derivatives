@@ -173,7 +173,7 @@ class AppTestCase(unittest.TestCase):
     def test_register_existing_user(self):
         self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         response = self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
-        print response.data
+        self.assertIn('There is already a user with that name.', response.data)
 
     def test_register_then_login_then_logout(self):
         self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
