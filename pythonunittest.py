@@ -128,7 +128,7 @@ class AppTestCase(unittest.TestCase):
         self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         self.app.post('/login', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         response = self.app.post('/futureethereum', data=dict(buyerethereumaddress='d6aaae06717f25095eab8250369a437e549160a4', sellerethereumaddress='e6aaae06717f25095eab8250369a437e549160a4', deliverydateTimestamp=1623492485, blockchainderivativesid='11', numberofunits=22, commodityname='wheat', price=22, margin=2, soliditycodeinitial='a', transactionid='', spotprice=1, contractfield2='a', contractfield3='a'), follow_redirects=True)
-        print response.data
+        self.assertIn('Call Options', response.data)
         # self.assertEqual(response.status_code, 200)
     #
     # def test_future_post_missing_inputs(self):
@@ -142,24 +142,29 @@ class AppTestCase(unittest.TestCase):
         self.app.post('/login', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         response = self.app.post('/calloptionethereum', data=dict(buyerethereumaddress='d6aaae06717f25095eab8250369a437e549160a4', sellerethereumaddress='e6aaae06717f25095eab8250369a437e549160a4', expirydateTimestamp=1623492485, blockchainderivativesid='11', numberofunits=22, assetname='wheat', strikeprice=22, premium=2, soliditycodeinitial='a', contractfield2='a', contractfield3='a'), follow_redirects=True)
         self.assertEqual(response.status_code, 200)
+        # print response.data
 
     def test_calloption_post_missing_inputs(self):
         self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         self.app.post('/login', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         response = self.app.post('/calloptionethereum', data=dict(buyerethereumaddress='d6aaae06717f25095eab8250369a437e549160a4', sellerethereumaddress='e6aaae06717f25095eab8250369a437e549160a4', expirydateTimestamp=1623492485, blockchainderivativesid='11', numberofunits=22, assetname='wheat', strikeprice=22, premium=2, soliditycodeinitial='a', contractfield2='a'), follow_redirects=True)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 400)
+        # print response.data
 
     def test_putoption_post_valid_inputs(self):
         self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         self.app.post('/login', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         response = self.app.post('/putoptionethereum', data=dict(buyerethereumaddress='d6aaae06717f25095eab8250369a437e549160a4', sellerethereumaddress='e6aaae06717f25095eab8250369a437e549160a4', expirydateTimestamp=1623492485, blockchainderivativesid='11', numberofunits=22, assetname='wheat', strikeprice=22, premium=2, soliditycodeinitial='', contractfield2='', contractfield3=''), follow_redirects=True)
         self.assertEqual(response.status_code, 200)
+        # print response.data
 
     def test_putoption_post_missing_inputs(self):
         self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         self.app.post('/login', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         response = self.app.post('/putoptionethereum', data=dict(buyerethereumaddress='d6aaae06717f25095eab8250369a437e549160a4', sellerethereumaddress='e6aaae06717f25095eab8250369a437e549160a4', expirydateTimestamp=1623492485, blockchainderivativesid='11', numberofunits=22, assetname='wheat', strikeprice=22, premium=2, soliditycodeinitial='', contractfield2=''), follow_redirects=True)
         self.assertEqual(response.status_code, 200)
+        # print response.data
+        #probably best to repeat this with a test of what page you wind up on. I think this giving 200 but on error page
 
     def test_login_no_existing_user(self):
         response = self.app.post('/login', data=dict(email='username2@email.com', password='password'), follow_redirects=True)
