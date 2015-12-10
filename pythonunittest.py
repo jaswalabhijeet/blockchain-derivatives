@@ -32,6 +32,10 @@ class AppTestCase(unittest.TestCase):
         except:
             self.assertEqual(result.status_code, 302)
 
+    def test_future_ethereum_status_code_loggedout(self):
+        result = self.app.get('/futureethereum')
+        self.assertIn('You should be redirected automatically to target URL', result.data)
+
     def test_calloption_ethereum_status_code_loggedin(self):
         self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         self.app.post('/login', data=dict(email='username@email.com', password='password'), follow_redirects=True)
@@ -50,9 +54,9 @@ class AppTestCase(unittest.TestCase):
         except:
             self.assertEqual(result.status_code, 302)
 
-    def test_putoption_ethereum_status_code_loggedin(self):
+    def test_putoption_ethereum_status_code_loggedout(self):
         result = self.app.get('/putoptionethereum')
-        assertIn('You should be redirected automatically to target URL', result.data)
+        self.assertIn('You should be redirected automatically to target URL', result.data)
 
 
     # def test_swap_ethereum_status_code(self):
