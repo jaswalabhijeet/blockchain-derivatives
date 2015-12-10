@@ -230,8 +230,8 @@ class AppTestCase(unittest.TestCase):
         self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         self.app.post('/login', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         response = self.app.post('/calloptionethereum', data=dict(buyerethereumaddress='d6aaae06717f25095eab8250369a437e549160a4', sellerethereumaddress='e6aaae06717f25095eab8250369a437e549160a4', expirydateTimestamp=1623492485, blockchainderivativesid='11', numberofunits=22, assetname='wheat', strikeprice=22, premium=2, soliditycodeinitial='a', contractfield2='a'), follow_redirects=True)
-        # self.assertIn('Error', response.data)
-        print response.data
+        self.assertIn('400 Bad Request', response.data)
+        #print response.data
 
     def test_putoption_post_valid_inputs_status(self):
         self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
@@ -261,7 +261,7 @@ class AppTestCase(unittest.TestCase):
         self.app.post('/register', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         self.app.post('/login', data=dict(email='username@email.com', password='password'), follow_redirects=True)
         response = self.app.post('/putoptionethereum', data=dict(buyerethereumaddress='d6aaae06717f25095eab8250369a437e549160a4', sellerethereumaddress='e6aaae06717f25095eab8250369a437e549160a4', expirydateTimestamp=1623492485, blockchainderivativesid='11', numberofunits=22, assetname='wheat', strikeprice=22, premium=2, soliditycodeinitial='', contractfield2=''), follow_redirects=True)
-        self.assertIn("Bad Request", response.data)
+        self.assertIn("If you reached this page, it means you have filled out a form incorrectly.", response.data)
         #print response.data
         #probably best to repeat this with a test of what page you wind up on. I think this giving 200 but on error page
 
