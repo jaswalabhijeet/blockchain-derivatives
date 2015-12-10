@@ -276,7 +276,9 @@ def main_future():
         # print request.form['price']
         # print request.form['soliditycodeinitial']
         if ((request.form['buyerethereumaddress'] == '') or (request.form['sellerethereumaddress'] == '') or (request.form['deliverydateTimestamp'] is False) or (request.form['numberofunits'] is False) or (request.form['commodityname'] == '') or (request.form['price'] is False) or (request.form['margin'] is False) or (request.form['soliditycodeinitial'] == '') or (request.form['contractfield2'] == '') or (request.form['contractfield3'] == '')):
-            return redirect(url_for("error"))
+            # return redirect(url_for("error"))
+            flash('You left a field empty. Please try again.')
+            return redirect(url_for('main_future'))
         else:
             contract = Contract(str(current_user.id), request.form['buyerethereumaddress'],
                             request.form['sellerethereumaddress'], request.form['deliverydateTimestamp'],
